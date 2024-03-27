@@ -23,7 +23,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cd /var/www/b-rpg/
+            cd /var/www/book-rpg-site/
             git pull origin main
             git status
             docker container stop book-rpg-site
