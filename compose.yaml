@@ -2,7 +2,6 @@ version: '3.1'
 
 services:
   web:
-    image: book-rpg-site
     container_name: book-rpg-site
     build:
       context: ./

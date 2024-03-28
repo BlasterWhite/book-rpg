@@ -1,8 +1,15 @@
 import './HomeView.scss';
 import newIcon from '@/assets/icons/newIcon.svg';
 import stonksIcon from '@/assets/icons/StonksIcon.svg';
+import { useNavigate } from 'react-router-dom';
 
 export function Home() {
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate('/book');
+  }
+
   return (
     <div className={'home-view'}>
       <h1 className={'company'}>Book RPG</h1>
@@ -12,7 +19,9 @@ export function Home() {
             <h2>
               Create your own <span className={'text-gradient'}>Adventure</span>
             </h2>
-            <button className={'btn'}>Discover our library</button>
+            <button className={'btn'} onClick={handleClick}>
+              Discover our library
+            </button>
           </div>
           <div className={'right'}>
             <img src="/test.png" alt={'Home page'} className={'home-image'} />
