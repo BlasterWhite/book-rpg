@@ -1,13 +1,12 @@
 import './App.css';
-import {
-  createBrowserRouter,
-  NavLink,
-  Outlet,
-  RouterProvider,
-  useRouteError
-} from 'react-router-dom';
-import { SingleBook } from './pages/SingleBook.jsx';
+import { createBrowserRouter, Outlet, RouterProvider, useRouteError } from 'react-router-dom';
+import { SingleBook } from './pages/Book/SingleBook.jsx';
 import { Books } from './pages/Books.jsx';
+import { Home } from './pages/Home.jsx';
+import { CharacterSelection } from './pages/Book/CharacterSelection.jsx';
+import { LoginView } from './pages/Account/LoginView.jsx';
+import { RegisterView } from './pages/Account/RegisterView.jsx';
+import { Navbar } from './composants/Navbar.jsx';
 
 const router = createBrowserRouter([
   {
@@ -16,8 +15,8 @@ const router = createBrowserRouter([
     errorElement: <PageError />,
     children: [
       {
-        path: 'blog',
-        element: <div>Blog</div>
+        path: '',
+        element: <Home />
       },
       {
         path: 'book',
@@ -28,10 +27,38 @@ const router = createBrowserRouter([
             element: <Books />
           },
           {
-            path: ':id',
-            element: <SingleBook />
+            path: ':bookId',
+            element: <Outlet />,
+            children: [
+              {
+                path: '',
+                element: <CharacterSelection />
+              },
+              {
+                path: ':characterId',
+                element: <Outlet />,
+                children: [
+                  {
+                    path: '',
+                    element: <h1>TODO: Error no section precise</h1>
+                  },
+                  {
+                    path: ':sectionId',
+                    element: <SingleBook />
+                  }
+                ]
+              }
+            ]
           }
         ]
+      },
+      {
+        path: 'login',
+        element: <LoginView />
+      },
+      {
+        path: 'register',
+        element: <RegisterView />
       }
     ]
   }
@@ -51,11 +78,7 @@ function Root() {
   return (
     <>
       <header>
-        <nav>
-          <NavLink to={'/'}>Home</NavLink>
-          <NavLink to={'/blog'}>Blog</NavLink>
-          <NavLink to={'/book'}>Books</NavLink>
-        </nav>
+        <Navbar />
       </header>
       <main>
         <Outlet />
