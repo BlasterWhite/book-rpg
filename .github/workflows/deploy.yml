@@ -26,8 +26,6 @@ jobs:
             cd /var/www/book-rpg/
             git pull origin main
             git status
-            docker container stop book-rpg-site
-            docker container rm book-rpg-site
-            docker image rm book-rpg-site
-            docker build -t book-rpg-site .
-            docker run -d --name book-rpg-site -p 8081:80 book-rpg-site
+            export WEB_PORT=${{ secrets.WEB_PORT }}
+            docker-compose down
+            docker-compose up -d
