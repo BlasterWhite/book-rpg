@@ -1,0 +1,47 @@
+@import '@/assets/scss/variables.scss';
+
+nav.nav-header {
+  max-width: 1140px;
+  margin: 0 auto;
+  background-color: $background-color;
+  color: $text-color;
+    padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+
+
+  a {
+    color: $text-color;
+    text-decoration: none;
+
+    &.active {
+        color: $primary-color;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background-color: $primary-color;
+      transition: width 0.3s;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+
+
+  .nav {
+    &-item-left {
+      display: flex;
+      gap: 1rem;
+    }
+
+    &-item-right {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+}

@@ -1,17 +1,12 @@
 import './App.css';
-import {
-  createBrowserRouter,
-  NavLink,
-  Outlet,
-  RouterProvider,
-  useRouteError
-} from 'react-router-dom';
+import { createBrowserRouter, Outlet, RouterProvider, useRouteError } from 'react-router-dom';
 import { SingleBook } from './pages/Book/SingleBook.jsx';
 import { Books } from './pages/Books.jsx';
 import { Home } from './pages/Home.jsx';
 import { CharacterSelection } from './pages/Book/CharacterSelection.jsx';
 import { LoginView } from './pages/Account/LoginView.jsx';
 import { RegisterView } from './pages/Account/RegisterView.jsx';
+import { Navbar } from './composants/Navbar.jsx';
 
 const router = createBrowserRouter([
   {
@@ -83,10 +78,7 @@ function Root() {
   return (
     <>
       <header>
-        <nav>
-          <NavLink to={'/'}>Home</NavLink>
-          <NavLink to={'/book'}>Books</NavLink>
-        </nav>
+        <Navbar />
       </header>
       <main>
         <Outlet />
