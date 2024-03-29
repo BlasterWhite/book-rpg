@@ -1,0 +1,34 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "The Great Gatsby",
+      "img": "https://media.discordapp.net/attachments/1222109631849959424/1222109735390806086/pixlr-image-generator-1ee481f0-1e51-42a5-b4d8-4d4a82b84827.png?ex=66150562&is=66029062&hm=227bdf70a6d1e4085b2912962cce3b55e03f6a494561340bb87d5f1c0e0771c1&=&format=webp&quality=lossless&width=555&height=555",
+      "fav": true
+    },
+    {
+      "id": 2,
+      "title": "The Catcher in the Rye",
+      "img": "https://media.discordapp.net/attachments/1222109631849959424/1222109734254153738/pixlr-image-generator-d0d42a33-e496-499d-ba4e-8515fb114dfc.png?ex=66150562&is=66029062&hm=5ef0c630cfd17cd8ac8fd1c8ded63068b0667cc7a820423ca4b614ca079bc1f5&=&format=webp&quality=lossless&width=555&height=555",
+      "fav": false
+    },
+    {
+      "id": 3,
+      "title": "To Kill a Mockingbird",
+      "img": "https://media.discordapp.net/attachments/1222109631849959424/1222109758354620499/pixlr-image-generator-0df55ff0-400a-4c45-9c6f-54fe667e6f65.png?ex=66150568&is=66029068&hm=988b55a9ce729f2ca3b16a0fd880600474641cb47672d630e47b385b226cc13f&=&format=webp&quality=lossless&width=971&height=555",
+      "fav": false
+    },
+    {
+      "id": 4,
+      "title": "1984",
+      "img": "https://media.discordapp.net/attachments/1222109631849959424/1222109734820253716/pixlr-image-generator-38467e8d-4773-432c-aaa0-aab205d87918.png?ex=66150562&is=66029062&hm=2ef01c59cebdb8c176ff390f888e03d51f0020404943a8e5ad0ab9a3fb655712&=&format=webp&quality=lossless&width=555&height=555",
+      "fav": false
+    },
+    {
+      "id": 5,
+      "title": "Lord of the Flies",
+      "img": "https://media.discordapp.net/attachments/1222109631849959424/1222109733759094844/pixlr-image-generator-53f62efa-197f-4814-b2ef-e0b6d61b33cc.png?ex=66150562&is=66029062&hm=273b9589a5ef1c161afb7d9cb98e5f509b53fa2dab8ab7b9304c0bd08dd74826&=&format=webp&quality=lossless&width=555&height=555",
+      "fav": true
+    }
+  ]
+}

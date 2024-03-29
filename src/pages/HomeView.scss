@@ -1,4 +1,4 @@
-@import "@/assets/scss/variables";
+@import '@/assets/scss/variables';
 
 .home-view {
   text-align: center;
@@ -90,21 +90,39 @@
         margin: 2rem 0;
 
         img {
-          filter: invert(55%) sepia(53%) saturate(5167%) hue-rotate(210deg) brightness(99%) contrast(106%);
+          filter: invert(55%) sepia(53%) saturate(5167%) hue-rotate(210deg) brightness(99%)
+            contrast(106%);
         }
+      }
+
+      .popular-books {
+        gap: 1rem;
+        display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
       }
     }
 
-    .home-new-books{.new-title {
-      font-size: 2rem;
-      margin: 2rem 0;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+    .home-new-books {
+      .new-title {
+        font-size: 2rem;
+        margin: 2rem 0;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
 
-      img {
-        filter: invert(85%) sepia(96%) saturate(2629%) hue-rotate(332deg) brightness(105%) contrast(103%);
+        img {
+          filter: invert(85%) sepia(96%) saturate(2629%) hue-rotate(332deg) brightness(105%)
+            contrast(103%);
+        }
       }
-    }}
+
+        .new-books {
+            gap: 1rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+        }
+    }
   }
 }

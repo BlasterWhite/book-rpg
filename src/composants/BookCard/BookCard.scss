@@ -1,0 +1,51 @@
+div.book-card {
+  width: 300px;
+  height: 500px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
+
+  .book-card-favourite-overlay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0.4rem;
+    border-radius: 0 1rem 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(0, 0, 0);
+    background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.25) 100%);
+
+    img {
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(207deg) brightness(102%) contrast(103%);
+      &:hover {
+        cursor: pointer;
+      }
+
+      &.favourite {
+        filter: invert(99%) sepia(59%) saturate(5699%) hue-rotate(357deg) brightness(107%)
+          contrast(101%);
+      }
+    }
+  }
+
+  img {
+    width: 100%;
+    height: calc(100% - 3rem);
+    object-fit: cover;
+  }
+
+  h3 {
+    text-align: center;
+    font-size: 18px;
+    line-height: 2rem;
+    font-weight: 500;
+    padding: 0.5rem;
+    margin: 0;
+    z-index: 5;
+  }
+}
