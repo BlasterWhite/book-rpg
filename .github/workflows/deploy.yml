@@ -26,4 +26,5 @@ jobs:
             git status
             export WEB_PORT=${{ secrets.WEB_PORT }}
             docker compose down
+            docker image rm book-rpg-site-web
             docker compose up -d
