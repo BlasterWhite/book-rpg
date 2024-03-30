@@ -1,9 +1,19 @@
 :root {
-  --background-color: #FFFFFF;
-    --text-color: #333;
-    --primary-color: #007bff;
+  --background-color: #ffffff;
+  --text-color: #333;
+  --primary-color: #20adfd;
+  --secondary-color: #1a41cd;
+  --accent-color: #ff833d;
+  --danger-color: #fc2a2a;
+  --success-color: #1cf95a;
+  --warning-color: #ffe600;
 }
 
 $background-color: var(--background-color);
 $text-color: var(--text-color);
 $primary-color: var(--primary-color);
+$secondary-color: var(--secondary-color);
+$accent-color: var(--accent-color);
+$danger-color: var(--danger-color);
+$success-color: var(--success-color);
+$warning-color: var(--warning-color);
