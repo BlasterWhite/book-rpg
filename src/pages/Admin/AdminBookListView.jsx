@@ -5,7 +5,7 @@ import Mock from '@/assets/mock.json';
 import { useState } from 'react';
 
 export function AdminBookListView() {
-  const [search, setSearch] = useState('');
+  const [_, setSearch] = useState('');
   const [books, setBooks] = useState(Mock.books);
 
   function handleSearch(e) {
