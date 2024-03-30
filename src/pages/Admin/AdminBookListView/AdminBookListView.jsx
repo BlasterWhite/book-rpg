@@ -3,6 +3,7 @@ import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import Mock from '@/assets/mock.json';
 import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 export function AdminBookListView() {
   const [_, setSearch] = useState('');
@@ -26,6 +27,11 @@ export function AdminBookListView() {
     }
   }
 
+  function handleEditClick(id) {
+    const navigate = useNavigate();
+    navigate(`/admin/${id}`);
+  }
+
   return (
     <div className={'admin-book-list-view'}>
       <h1 className={'title'}>Admin</h1>
@@ -43,7 +49,9 @@ export function AdminBookListView() {
               <div className={'book-id'}>ID: {book.id}</div>
             </div>
             <div className={'book-actions'}>
-              <img className={'icon edit'} src={EditIcon} alt="Edit" />
+              <NavLink to={`/admin/${book.id}`}>
+                <img className={'icon edit'} src={EditIcon} alt="Edit" />
+              </NavLink>
               <img className={'icon delete'} src={DeleteIcon} alt="Delete" />
             </div>
           </div>

@@ -7,7 +7,8 @@ import { CharacterSelection } from './pages/Book/CharacterSelection.jsx';
 import { LoginView } from './pages/Account/LoginView.jsx';
 import { RegisterView } from './pages/Account/RegisterView.jsx';
 import { Navbar } from './composants/Navbar.jsx';
-import { AdminBookListView } from '@/pages/Admin/AdminBookListView.jsx';
+import { AdminBookListView } from '@/pages/Admin/AdminBookListView/AdminBookListView.jsx';
+import { AdminBookEditView } from '@/pages/Admin/AdminBookEditView/AdminBookEditView.jsx';
 
 const router = createBrowserRouter([
   {
@@ -63,7 +64,17 @@ const router = createBrowserRouter([
       },
       {
         path: 'admin',
-        element: <AdminBookListView />
+        element: <Outlet />,
+        children: [
+          {
+            path: '',
+            element: <AdminBookListView />
+          },
+          {
+            path: ':id',
+            element: <AdminBookEditView />
+          }
+        ]
       }
     ]
   }
