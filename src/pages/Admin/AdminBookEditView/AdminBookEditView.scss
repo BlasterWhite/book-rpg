@@ -99,15 +99,30 @@
       }
     }
 
-    button[type='submit'] {
-      padding: 10px;
-      border: none;
-      max-width: 200px;
-      background-color: $primary-color;
-      color: white;
-      font-weight: bold;
-      border-radius: 16px;
-      cursor: pointer;
+    .actions {
+      display: flex;
+      gap: 8px;
+
+      button {
+        padding: 8px 16px;
+        border: none;
+        background-color: $primary-color;
+        color: white;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+          box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        &.cancel {
+          background-color: white;
+          color: $primary-color;
+          border: 1px solid $primary-color;
+        }
+      }
     }
   }
 }

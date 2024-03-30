@@ -8,6 +8,7 @@ export function AdminBookEditView() {
   let book = Mock.books?.find((book) => book.id === id);
   if (!book) {
     book = {
+      id: '',
       title: '',
       resume: '',
       image: '',
@@ -86,7 +87,14 @@ export function AdminBookEditView() {
             </div>
           </div>
         </div>
-        <button type="submit">Save</button>
+        <div className={'actions'}>
+          <NavLink to={'/admin'} className={'btn cancel'}>
+            <button className={'btn cancel'}>Cancel</button>
+          </NavLink>
+          <button className={'btn save'} type="submit">
+            Save
+          </button>
+        </div>
       </form>
     </div>
   );

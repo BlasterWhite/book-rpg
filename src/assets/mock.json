@@ -16,7 +16,7 @@
       "fav": false,
       "resume": "This is the resume",
       "releaseDate": "2024-03-30",
-      "tags":  "Tag1;Tag2;Tag3"
+      "tags": "Tag1;Tag2;Tag3"
     },
     {
       "id": "3",
@@ -25,7 +25,7 @@
       "fav": false,
       "resume": "This is the resume",
       "releaseDate": "2024-02-27",
-      "tags":  "Tag1;Tag2;Tag4"
+      "tags": "Tag1;Tag2;Tag4"
     },
     {
       "id": "4",
@@ -34,7 +34,7 @@
       "fav": false,
       "resume": "This is the resume",
       "releaseDate": "2024-03-30",
-      "tags":  "Tag1;Tag2;Tag3"
+      "tags": "Tag1;Tag2;Tag3"
     },
     {
       "id": "5",
@@ -43,7 +43,7 @@
       "fav": true,
       "resume": "This is the resume",
       "releaseDate": "2024-03-30",
-      "tags":  "Tag1;Tag2;Tag3"
+      "tags": "Tag1;Tag2;Tag3"
     }
   ]
 }

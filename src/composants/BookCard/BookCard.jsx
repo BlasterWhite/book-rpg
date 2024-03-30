@@ -1,8 +1,7 @@
 import './BookCard.scss';
-
 import fullStar from '@/assets/icons/FullStarIcon.svg';
 import emptyStar from '@/assets/icons/EmptyStarIcon.svg';
-import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 export function BookCard({ book, handleFavourite }) {
   const { title, img, fav } = book;
@@ -27,3 +26,13 @@ export function BookCard({ book, handleFavourite }) {
     </div>
   );
 }
+
+BookCard.propTypes = {
+  book: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    img: PropTypes.string.isRequired,
+    fav: PropTypes.bool.isRequired
+  }).isRequired,
+  handleFavourite: PropTypes.func.isRequired
+};

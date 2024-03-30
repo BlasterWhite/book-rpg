@@ -3,10 +3,10 @@ import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import Mock from '@/assets/mock.json';
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export function AdminBookListView() {
-  const [_, setSearch] = useState('');
+  const [, setSearch] = useState('');
   const [books, setBooks] = useState(Mock.books);
 
   function handleSearch(e) {
@@ -25,11 +25,6 @@ export function AdminBookListView() {
     if (!e.target.value) {
       setBooks(Mock.books);
     }
-  }
-
-  function handleEditClick(id) {
-    const navigate = useNavigate();
-    navigate(`/admin/${id}`);
   }
 
   return (
