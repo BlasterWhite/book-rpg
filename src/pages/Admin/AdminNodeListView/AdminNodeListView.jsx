@@ -4,6 +4,7 @@ import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import Mock from '@/assets/mock.json';
 import { useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
+import AddIcon from '@/assets/icons/AddIcon.svg';
 
 export function AdminNodeListView() {
   const { bookId } = useParams();
@@ -30,15 +31,23 @@ export function AdminNodeListView() {
 
   return (
     <div className={'admin-section-list-view'}>
-      <h1 className={'title'}>Admin {bookId}</h1>
+      <h1 className={'title'}>
+        Admin | Section list <span className={'id'}>ID : {bookId}</span>{' '}
+      </h1>
       <div className={'section-header'}>
         <NavLink to={`/admin/`}>← Back to Books</NavLink>
-        <input
-          type="text"
-          placeholder="Search on title or ID"
-          className={'search'}
-          onChange={handleSearch}
-        />
+        <div className={'actions'}>
+          <input
+            type="text"
+            placeholder="Search on title or ID"
+            className={'search'}
+            onChange={handleSearch}
+          />
+          <button className={'btn add-section'}>
+            <img className={'icon'} src={AddIcon} alt="Add icon" />
+            Add Section
+          </button>
+        </div>
       </div>
       <div className={'section-list'}>
         {books.map((section, index) => (

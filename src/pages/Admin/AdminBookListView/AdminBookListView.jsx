@@ -4,9 +4,12 @@ import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import NodeIcon from '@/assets/icons/BookIcon.svg';
 import Mock from '@/assets/mock.json';
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import AddIcon from '@/assets/icons/AddIcon.svg';
+import { v4 as uuid } from 'uuid';
 
 export function AdminBookListView() {
+  const navigate = useNavigate();
   const [, setSearch] = useState('');
   const [books, setBooks] = useState(Mock.books);
 
@@ -28,15 +31,43 @@ export function AdminBookListView() {
     }
   }
 
+  function handleCreateBook() {
+    console.log('Create a book');
+    // let book = {
+    //   title: 'New book',
+    //   img: '',
+    //   resume: '',
+    //   releaseDate: new Date().toISOString(),
+    //   tags: 'Book'
+    // };
+
+    // TODO: Implement the API call to create a new book
+    // Post the new book to the server
+    // const response = await fetch('http://localhost:3000/books', ...);
+    // const book = await response.json();
+
+    // Add the new book to the list
+    // setBooks([...books, book]);
+
+    // Redirect to the new book
+    // navigate(`/admin/${book.id}`);
+  }
+
   return (
     <div className={'admin-book-list-view'}>
-      <h1 className={'title'}>Admin</h1>
-      <input
-        type="text"
-        placeholder="Search on title or ID"
-        className={'search'}
-        onChange={handleSearch}
-      />
+      <h1 className={'title'}>Admin | Book list</h1>
+      <div className={'actions'}>
+        <input
+          type="text"
+          placeholder="Search on title or ID"
+          className={'search'}
+          onChange={handleSearch}
+        />
+        <button className={'btn add-section'} onClick={handleCreateBook}>
+          <img className={'icon'} src={AddIcon} alt="Add icon" />
+          Create a book
+        </button>
+      </div>
       <div className={'book-list'}>
         {books.map((book, index) => (
           <div key={index} className={'book'}>

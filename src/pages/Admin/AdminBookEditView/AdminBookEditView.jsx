@@ -4,8 +4,8 @@ import { NavLink, useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 export function AdminBookEditView() {
-  const { id } = useParams();
-  let book = Mock.books?.find((book) => book.id === id);
+  const { bookId } = useParams();
+  let book = Mock.books?.find((book) => book.id === bookId);
   if (!book) {
     book = {
       id: '',

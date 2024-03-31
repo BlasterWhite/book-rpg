@@ -7,12 +7,48 @@
 
   h1.title {
     font-size: 24px;
+
+    span.id {
+      font-size: 12px;
+      opacity: 0.5;
+    }
   }
 
   .section-header {
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    .actions {
+      display: flex;
+      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
+
+      button.add-section {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 16px;
+        background-color: $primary-color;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+
+        img {
+          width: 20px;
+          height: 20px;
+          margin-right: 8px;
+          filter: invert(100%) sepia(0%) saturate(7475%) hue-rotate(187deg) brightness(110%) contrast(100%);
+        }
+
+        &:hover {
+          background: $secondary-color;
+        }
+      }
+    }
   }
 
   input[type='text'] {
@@ -41,18 +77,18 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
 
-      .book-info {
-        .book-title {
+      .section-info {
+        .section-title {
           font-size: 16px;
         }
 
-        .book-id {
+        .section-id {
           font-size: 10px;
           color: rgba(0, 0, 0, 0.5);
         }
       }
 
-      .book-actions {
+      .section-actions {
         display: flex;
         gap: 8px;
 

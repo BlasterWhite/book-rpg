@@ -73,11 +73,11 @@ const router = createBrowserRouter([
             element: <AdminBookListView />
           },
           {
-            path: ':id',
+            path: ':bookId',
             element: <AdminBookEditView />
           },
           {
-            path: ':id/section',
+            path: ':bookId/section',
             element: <Outlet />,
             children: [
               {
