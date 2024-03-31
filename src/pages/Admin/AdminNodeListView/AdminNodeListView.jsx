@@ -1,12 +1,12 @@
-import './AdminBookListView.scss';
+import './AdminNodeListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
-import NodeIcon from '@/assets/icons/BookIcon.svg';
 import Mock from '@/assets/mock.json';
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
-export function AdminBookListView() {
+export function AdminNodeListView() {
+  const { bookId } = useParams();
   const [, setSearch] = useState('');
   const [books, setBooks] = useState(Mock.books);
 
@@ -29,26 +29,26 @@ export function AdminBookListView() {
   }
 
   return (
-    <div className={'admin-book-list-view'}>
-      <h1 className={'title'}>Admin</h1>
-      <input
-        type="text"
-        placeholder="Search on title or ID"
-        className={'search'}
-        onChange={handleSearch}
-      />
-      <div className={'book-list'}>
-        {books.map((book, index) => (
-          <div key={index} className={'book'}>
-            <div className={'book-info'}>
-              <div className={'book-title'}>{book.title}</div>
-              <div className={'book-id'}>ID: {book.id}</div>
+    <div className={'admin-section-list-view'}>
+      <h1 className={'title'}>Admin {bookId}</h1>
+      <div className={'section-header'}>
+        <NavLink to={`/admin/`}>← Back to Books</NavLink>
+        <input
+          type="text"
+          placeholder="Search on title or ID"
+          className={'search'}
+          onChange={handleSearch}
+        />
+      </div>
+      <div className={'section-list'}>
+        {books.map((section, index) => (
+          <div key={index} className={'section'}>
+            <div className={'section-info'}>
+              <div className={'section-title'}>{section.title}</div>
+              <div className={'section-id'}>ID: {section.id}</div>
             </div>
-            <div className={'book-actions'}>
-              <NavLink to={`/admin/${book.id}/section`}>
-                <img className={'icon edit'} src={NodeIcon} alt="Edit" />
-              </NavLink>{' '}
-              <NavLink to={`/admin/${book.id}`}>
+            <div className={'section-actions'}>
+              <NavLink to={`/admin/${section.id}/section/${section.id}`}>
                 <img className={'icon edit'} src={EditIcon} alt="Edit" />
               </NavLink>
               <img className={'icon delete'} src={DeleteIcon} alt="Delete" />

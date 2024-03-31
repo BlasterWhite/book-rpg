@@ -1,5 +1,5 @@
 import './App.css';
-import { createBrowserRouter, Outlet, RouterProvider, useRouteError } from 'react-router-dom';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { SingleBook } from './pages/Book/SingleBook.jsx';
 import { Books } from './pages/Books.jsx';
 import { Home } from './pages/Home.jsx';
@@ -9,12 +9,14 @@ import { RegisterView } from './pages/Account/RegisterView.jsx';
 import { Navbar } from './composants/Navbar.jsx';
 import { AdminBookListView } from '@/pages/Admin/AdminBookListView/AdminBookListView.jsx';
 import { AdminBookEditView } from '@/pages/Admin/AdminBookEditView/AdminBookEditView.jsx';
+import { ErrorView } from '@/pages/Errors/ErrorView.jsx';
+import { AdminNodeListView } from '@/pages/Admin/AdminNodeListView/AdminNodeListView.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    errorElement: <PageError />,
+    errorElement: <ErrorView />,
     children: [
       {
         path: '',
@@ -73,22 +75,26 @@ const router = createBrowserRouter([
           {
             path: ':id',
             element: <AdminBookEditView />
+          },
+          {
+            path: ':id/section',
+            element: <Outlet />,
+            children: [
+              {
+                path: '',
+                element: <AdminNodeListView />
+              },
+              {
+                path: ':sectionId',
+                element: <h1>TODO: Section</h1>
+              }
+            ]
           }
         ]
       }
     ]
   }
 ]);
-
-function PageError() {
-  const error = useRouteError();
-  return (
-    <>
-      <h1>Error {error.status}</h1>
-      <h3>{error.statusText}</h3>
-    </>
-  );
-}
 
 function Root() {
   return (

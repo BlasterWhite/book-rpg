@@ -1,0 +1,81 @@
+@import '@/assets/scss/variables';
+
+.admin-section-list-view {
+  max-width: 1140px;
+  margin: 0 auto;
+  width: 100%;
+
+  h1.title {
+    font-size: 24px;
+  }
+
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  input[type='text'] {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+  }
+
+  .section-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .section {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      transition: 0.3s;
+
+      &:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .book-info {
+        .book-title {
+          font-size: 16px;
+        }
+
+        .book-id {
+          font-size: 10px;
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      .book-actions {
+        display: flex;
+        gap: 8px;
+
+        & img {
+          width: 28px;
+          height: 28px;
+          cursor: pointer;
+          opacity: 0.5;
+          transition: 0.3s;
+        }
+
+        .edit:hover {
+          opacity: 1;
+          filter: invert(58%) sepia(35%) saturate(3488%) hue-rotate(174deg) brightness(100%)
+            contrast(101%);
+        }
+
+        .delete:hover {
+          opacity: 1;
+          filter: invert(27%) sepia(50%) saturate(6661%) hue-rotate(348deg) brightness(105%)
+            contrast(97%);
+        }
+      }
+    }
+  }
+}
