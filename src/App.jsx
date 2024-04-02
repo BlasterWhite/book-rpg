@@ -60,10 +60,6 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <RegisterView />
-      },
-      {
-        path: 'admin',
-        element: <BookCreationView />
       }
     ]
   }
