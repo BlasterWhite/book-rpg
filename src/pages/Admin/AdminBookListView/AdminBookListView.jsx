@@ -2,13 +2,11 @@ import './AdminBookListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import NodeIcon from '@/assets/icons/BookIcon.svg';
-import Mock from '@/assets/mock.json';
 import { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
 
 export function AdminBookListView() {
-  const navigate = useNavigate();
   const [, setSearch] = useState('');
   const [books, setBooks] = useState([]);
 

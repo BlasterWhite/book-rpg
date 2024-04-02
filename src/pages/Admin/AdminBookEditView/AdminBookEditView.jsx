@@ -1,46 +1,63 @@
 import './AdminBookEditView.scss';
-import Mock from '@/assets/mock.json';
-import { NavLink, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export function AdminBookEditView() {
   const { bookId } = useParams();
-  let book = Mock.books?.find((book) => book.id === bookId);
-  if (!book) {
-    book = {
-      id: '',
-      title: '',
-      resume: '',
-      image: '',
-      releaseDate: '',
-      tags: []
-    };
-  }
+
+  const [EditBook, setEditBook] = useState({});
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/livres/${bookId}`).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          setEditBook(data);
+        });
+      } else {
+        console.error('Error fetching books');
+      }
+    });
+  }, [bookId]);
 
   function editBook(e) {
+    console.log(e.target.name, e.target.value);
     setEditBook((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  const [EditBook, setEditBook] = useState(book);
-
   const [newTag, setNewTag] = useState('');
 
-  function handleAddTag() {
-    const tags = EditBook.tags.split(';');
+  function handleAddTag(e) {
+    e.preventDefault();
+    const tags = EditBook.tag.split(';');
     tags.push(newTag);
-    setEditBook((prev) => ({ ...prev, tags: tags.join(';') }));
+    setEditBook((prev) => ({ ...prev, tag: tags.join(';') }));
     setNewTag('');
   }
 
   function handleRemoveTag(tag) {
-    const tags = EditBook.tags.split(';');
+    const tags = EditBook.tag.split(';');
     const newTags = tags.filter((t) => t !== tag);
-    setEditBook((prev) => ({ ...prev, tags: newTags.join(';') }));
+    setEditBook((prev) => ({ ...prev, tag: newTags.join(';') }));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(EditBook);
+
+    fetch(`${import.meta.env.VITE_API_URL}/livres/${bookId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(EditBook)
+    }).then((response) => {
+      if (response.ok) {
+        console.log('Book updated');
+        navigate('/admin');
+      } else {
+        console.error('Error updating book');
+      }
+    });
   }
 
   return (
@@ -48,8 +65,8 @@ export function AdminBookEditView() {
       <h1 className={'title'}>Admin</h1>
       <NavLink to={'/admin'}>← Back</NavLink>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title:</label>
-        <input type="text" id="title" name="title" value={EditBook.title} onChange={editBook} />
+        <label htmlFor="titre">Title:</label>
+        <input type="text" id="titre" name="titre" value={EditBook.titre} onChange={editBook} />
         <label htmlFor="resume">Resume:</label>
         <textarea id="resume" name="resume" value={EditBook.resume} onChange={editBook} />
         <label htmlFor="image">Image:</label>
@@ -61,7 +78,7 @@ export function AdminBookEditView() {
               type="date"
               id="releaseDate"
               name="releaseDate"
-              value={EditBook.releaseDate}
+              value={EditBook.date_sortie}
               onChange={editBook}
             />
           </div>
@@ -79,7 +96,7 @@ export function AdminBookEditView() {
               <button onClick={handleAddTag}>Add</button>
             </div>
             <div className={'tags-list'}>
-              {EditBook.tags?.split(';')?.map((tag, index) => (
+              {EditBook.tag?.split(';')?.map((tag, index) => (
                 <div key={index} className={'tag'} onClick={() => handleRemoveTag(tag)}>
                   {tag}
                 </div>

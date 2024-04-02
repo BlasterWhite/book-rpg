@@ -1,7 +1,6 @@
 import './AdminSectionListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
-import Mock from '@/assets/mock.json';
 import { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
@@ -35,7 +34,7 @@ export function AdminSectionListView() {
         console.error('Error fetching sections');
       }
     });
-  }, []);
+  }, [bookId]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
