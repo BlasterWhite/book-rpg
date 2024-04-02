@@ -4,8 +4,6 @@ name: Deploy
 on:
   push:
     branches: ['main']
-  pull_request:
-    branches: ['main']
 
 jobs:
   # This workflow contains a single job called "build"
@@ -23,9 +21,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cd /var/www/book-rpg/
+            cd /var/www/book-rpg-site/
             git pull origin main
             git status
             export WEB_PORT=${{ secrets.WEB_PORT }}
-            docker-compose down
-            docker-compose up -d
+            docker compose down
+            docker image rm book-rpg-site-web
+            docker compose up -d

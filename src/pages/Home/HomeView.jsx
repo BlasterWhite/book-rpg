@@ -1,8 +1,30 @@
 import './HomeView.scss';
 import newIcon from '@/assets/icons/newIcon.svg';
 import stonksIcon from '@/assets/icons/StonksIcon.svg';
+import { useNavigate } from 'react-router-dom';
+import MockJSON from '@/assets/mock.json';
+import { BookCard } from '@/composants/BookCard/BookCard.jsx';
+import { useState } from 'react';
 
-export function Home() {
+export function HomeView() {
+  const navigate = useNavigate();
+
+  const [books, setBooks] = useState(MockJSON.books);
+
+  function handleClick() {
+    navigate('/book');
+  }
+
+  const handleFavourite = (id) => {
+    const newBooks = books.map((book) => {
+      if (book.id === id) {
+        book.fav = !book.fav;
+      }
+      return book;
+    });
+    setBooks(newBooks);
+  };
+
   return (
     <div className={'home-view'}>
       <h1 className={'company'}>Book RPG</h1>
@@ -12,7 +34,9 @@ export function Home() {
             <h2>
               Create your own <span className={'text-gradient'}>Adventure</span>
             </h2>
-            <button className={'btn'}>Discover our library</button>
+            <button className={'btn'} onClick={handleClick}>
+              Discover our library
+            </button>
           </div>
           <div className={'right'}>
             <img src="/test.png" alt={'Home page'} className={'home-image'} />
@@ -27,18 +51,35 @@ export function Home() {
           your favorite reading spot. With Book RPG, the power to shape your own destiny is at your
           fingertips. Join us and let your imagination soar as you become the hero of your own tale!
         </p>
-
         <div className={'home-popular-books'}>
           <h3 className={'popular-title'}>
             <img src={stonksIcon} alt="Popular icon" />
             Popular adventures
           </h3>
+          <div className={'popular-books'}>
+            {books.map((book) => (
+              <BookCard
+                key={book.id}
+                book={book}
+                handleFavourite={() => handleFavourite(book.id)}
+              />
+            ))}
+          </div>
         </div>
         <div className={'home-new-books'}>
           <h3 className={'new-title'}>
             <img src={newIcon} alt="New icon" />
             New adventures
           </h3>
+          <div className={'new-books'}>
+            {books.map((book) => (
+              <BookCard
+                key={book.id}
+                book={book}
+                handleFavourite={() => handleFavourite(book.id)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
