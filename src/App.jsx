@@ -7,6 +7,7 @@ import { CharacterSelection } from './pages/Book/CharacterSelection.jsx';
 import { LoginView } from './pages/Account/LoginView.jsx';
 import { RegisterView } from './pages/Account/RegisterView.jsx';
 import { Navbar } from './composants/Navbar.jsx';
+import { Footer } from "./composants/Footer.jsx";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,9 @@ function Root() {
       <main>
         <Outlet />
       </main>
+      <footer>
+        <Footer />
+      </footer>
     </>
   );
 }
