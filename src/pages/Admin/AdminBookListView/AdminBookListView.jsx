@@ -29,9 +29,9 @@ export function AdminBookListView() {
     setSearch(e.target.value);
 
     // Filter books by title or ID
-    const filteredBooks = Mock.books.filter(
+    const filteredBooks = books.filter(
       (book) =>
-        book.title.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        book.titre.toLowerCase().includes(e.target.value.toLowerCase()) ||
         book.id.toString().includes(e.target.value)
     );
 
@@ -39,7 +39,16 @@ export function AdminBookListView() {
 
     // If search is empty, show all books
     if (!e.target.value) {
-      setBooks(Mock.books);
+      // Fetch books from the server
+      fetch(`${import.meta.env.VITE_API_URL}/livres`).then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            setBooks(data);
+          });
+        } else {
+          console.error('Error fetching books');
+        }
+      });
     }
   }
 

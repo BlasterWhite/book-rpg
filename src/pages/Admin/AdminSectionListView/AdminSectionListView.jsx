@@ -41,17 +41,17 @@ export function AdminSectionListView() {
     setSearch(e.target.value);
 
     // Filter sections by title or ID
-    const filteredBooks = Mock.sections.filter(
-      (book) =>
-        book.title.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        book.id.toString().includes(e.target.value)
+    const filteredBooks = sections.filter(
+      (section) =>
+        section.texte.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        section.numero_section.toString().includes(e.target.value)
     );
 
     setSections(filteredBooks);
 
     // If search is empty, show all sections
     if (!e.target.value) {
-      setSections();
+      getSections(bookId);
     }
   }
 
@@ -83,7 +83,7 @@ export function AdminSectionListView() {
               <p className={'section-id'}>ID: {section.numero_section}</p>
             </div>
             <div className={'section-actions'}>
-              <NavLink to={`/admin/${section.id}/section/${section.id}`}>
+              <NavLink to={`/admin/${bookId}/section/${section.numero_section}`}>
                 <img className={'icon edit'} src={EditIcon} alt="Edit" />
               </NavLink>
               <img className={'icon delete'} src={DeleteIcon} alt="Delete" />
