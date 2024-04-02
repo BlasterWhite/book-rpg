@@ -52,23 +52,31 @@ export function AdminBookListView() {
     }
   }
 
-  function handleCreateBook() {
+  async function handleCreateBook() {
     console.log('Create a book');
-    // let book = {
-    //   title: 'New book',
-    //   img: '',
-    //   resume: '',
-    //   releaseDate: new Date().toISOString(),
-    //   tags: 'Book'
-    // };
+    let book = {
+      titre: 'New book',
+      id_image: 1,
+      resume: '',
+      date_sortie: new Date().toISOString().split('T')[0],
+      tag: 'Book'
+    };
 
     // TODO: Implement the API call to create a new book
     // Post the new book to the server
-    // const response = await fetch('http://localhost:3000/books', ...);
-    // const book = await response.json();
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/livres`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(book)
+    });
+    const resData = await response.json();
+
+    console.log('New book created', resData);
 
     // Add the new book to the list
-    // setBooks([...books, book]);
+    setBooks([...books, resData]);
 
     // Redirect to the new book
     // navigate(`/admin/${book.id}`);
