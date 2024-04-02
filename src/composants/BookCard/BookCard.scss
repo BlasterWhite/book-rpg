@@ -1,5 +1,6 @@
 div.book-card {
-  width: 300px;
+  max-width: 270px;
+  min-width: 270px;
   height: 500px;
   display: flex;
   position: relative;

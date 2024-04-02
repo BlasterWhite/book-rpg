@@ -1,13 +1,12 @@
 import './App.css';
 import { createBrowserRouter, Outlet, RouterProvider, useRouteError } from 'react-router-dom';
 import { SingleBook } from './pages/Book/SingleBook.jsx';
-import { Books } from './pages/Books.jsx';
-import { Home } from './pages/Home.jsx';
+import { LibraryView } from './pages/Library/LibraryView.jsx';
+import { HomeView } from './pages/Home/HomeView.jsx';
 import { CharacterSelection } from './pages/Book/CharacterSelection.jsx';
 import { LoginView } from './pages/Account/LoginView.jsx';
 import { RegisterView } from './pages/Account/RegisterView.jsx';
-import { Navbar } from './composants/Navbar.jsx';
-import { BookCreationView } from '@/pages/Admin/BookCreationView.jsx';
+import { Navbar } from './composants/NavBar/Navbar.jsx';
 
 const router = createBrowserRouter([
   {
@@ -17,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <Home />
+        element: <HomeView />
       },
       {
         path: 'book',
@@ -25,7 +24,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <Books />
+            element: <LibraryView />
           },
           {
             path: ':bookId',
