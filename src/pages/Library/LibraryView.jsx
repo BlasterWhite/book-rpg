@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-export function Books() {
+export function LibraryView() {
   return (
     <div>
       <h1>Books</h1>
