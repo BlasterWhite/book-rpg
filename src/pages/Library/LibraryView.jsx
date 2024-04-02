@@ -1,6 +1,7 @@
 import './LibraryView.scss';
 import { useEffect, useState } from 'react';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
+import { NavLink } from 'react-router-dom';
 
 export function LibraryView() {
   const [, setSearch] = useState('');
@@ -59,7 +60,9 @@ export function LibraryView() {
         </header>
         <div className={'library-view-books'}>
           {books.map((book, index) => (
-            <BookCard book={book} handleFavourite={() => {}} key={index} />
+            <NavLink to={`/book/${book.id}`} key={index}>
+              <BookCard book={book} handleFavourite={() => {}} key={index} />
+            </NavLink>
           ))}
         </div>
       </div>
