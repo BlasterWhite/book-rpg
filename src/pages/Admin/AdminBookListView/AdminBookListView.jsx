@@ -50,6 +50,20 @@ export function AdminBookListView() {
     }
   }
 
+  async function handleDeleteBook(id) {
+    console.log('Delete book', id);
+    await fetch(`${import.meta.env.VITE_API_URL}/livres/${id}`, {
+      method: 'DELETE'
+    }).then((response) => {
+      if (response.ok) {
+        // Remove the book from the list
+        setBooks(books.filter((book) => book.id !== id));
+      } else {
+        console.error('Error deleting book');
+      }
+    });
+  }
+
   async function handleCreateBook() {
     console.log('Create a book');
     let book = {
@@ -71,13 +85,8 @@ export function AdminBookListView() {
     });
     const resData = await response.json();
 
-    console.log('New book created', resData);
-
     // Add the new book to the list
     setBooks([...books, resData]);
-
-    // Redirect to the new book
-    // navigate(`/admin/${book.id}`);
   }
 
   return (
@@ -109,7 +118,9 @@ export function AdminBookListView() {
               <NavLink to={`/admin/${book.id}`}>
                 <img className={'icon edit'} src={EditIcon} alt="Edit" />
               </NavLink>
-              <img className={'icon delete'} src={DeleteIcon} alt="Delete" />
+              <a onClick={() => handleDeleteBook(book.id)}>
+                <img className={'icon delete'} src={DeleteIcon} alt="Delete" />
+              </a>
             </div>
           </div>
         ))}
