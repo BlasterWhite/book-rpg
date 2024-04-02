@@ -10,7 +10,7 @@ import { Navbar } from './composants/Navbar.jsx';
 import { AdminBookListView } from '@/pages/Admin/AdminBookListView/AdminBookListView.jsx';
 import { AdminBookEditView } from '@/pages/Admin/AdminBookEditView/AdminBookEditView.jsx';
 import { ErrorView } from '@/pages/Errors/ErrorView.jsx';
-import { AdminNodeListView } from '@/pages/Admin/AdminNodeListView/AdminNodeListView.jsx';
+import { AdminSectionListView } from '@/pages/Admin/AdminSectionListView/AdminSectionListView.jsx';
 
 const router = createBrowserRouter([
   {
@@ -82,7 +82,7 @@ const router = createBrowserRouter([
             children: [
               {
                 path: '',
-                element: <AdminNodeListView />
+                element: <AdminSectionListView />
               },
               {
                 path: ':sectionId',

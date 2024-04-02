@@ -1,31 +1,57 @@
-import './AdminNodeListView.scss';
+import './AdminSectionListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import Mock from '@/assets/mock.json';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
 
-export function AdminNodeListView() {
+export function AdminSectionListView() {
   const { bookId } = useParams();
   const [, setSearch] = useState('');
-  const [books, setBooks] = useState(Mock.books);
+  const [sections, setSections] = useState([]);
+
+  async function getSections(bookId) {
+    return await fetch(`${import.meta.env.VITE_API_URL}/livres/${bookId}/sections`).then(
+      (response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            setSections(data);
+          });
+        } else {
+          console.error('Error fetching sections');
+        }
+      }
+    );
+  }
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/livres/${bookId}/sections`).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          setSections(data);
+        });
+      } else {
+        console.error('Error fetching sections');
+      }
+    });
+  }, []);
 
   function handleSearch(e) {
     setSearch(e.target.value);
 
-    // Filter books by title or ID
-    const filteredBooks = Mock.books.filter(
+    // Filter sections by title or ID
+    const filteredBooks = Mock.sections.filter(
       (book) =>
         book.title.toLowerCase().includes(e.target.value.toLowerCase()) ||
         book.id.toString().includes(e.target.value)
     );
 
-    setBooks(filteredBooks);
+    setSections(filteredBooks);
 
-    // If search is empty, show all books
+    // If search is empty, show all sections
     if (!e.target.value) {
-      setBooks(Mock.books);
+      setSections();
     }
   }
 
@@ -50,11 +76,11 @@ export function AdminNodeListView() {
         </div>
       </div>
       <div className={'section-list'}>
-        {books.map((section, index) => (
+        {sections.map((section, index) => (
           <div key={index} className={'section'}>
             <div className={'section-info'}>
-              <div className={'section-title'}>{section.title}</div>
-              <div className={'section-id'}>ID: {section.id}</div>
+              <p className={'section-title'}>{section.texte}</p>
+              <p className={'section-id'}>ID: {section.numero_section}</p>
             </div>
             <div className={'section-actions'}>
               <NavLink to={`/admin/${section.id}/section/${section.id}`}>

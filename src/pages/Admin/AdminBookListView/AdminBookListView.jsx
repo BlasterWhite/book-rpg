@@ -3,15 +3,27 @@ import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import NodeIcon from '@/assets/icons/BookIcon.svg';
 import Mock from '@/assets/mock.json';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
-import { v4 as uuid } from 'uuid';
 
 export function AdminBookListView() {
   const navigate = useNavigate();
   const [, setSearch] = useState('');
-  const [books, setBooks] = useState(Mock.books);
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    // Fetch books from the server
+    fetch(`${import.meta.env.VITE_API_URL}/livres`).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          setBooks(data);
+        });
+      } else {
+        console.error('Error fetching books');
+      }
+    });
+  }, []);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -72,7 +84,7 @@ export function AdminBookListView() {
         {books.map((book, index) => (
           <div key={index} className={'book'}>
             <div className={'book-info'}>
-              <div className={'book-title'}>{book.title}</div>
+              <div className={'book-title'}>{book.titre}</div>
               <div className={'book-id'}>ID: {book.id}</div>
             </div>
             <div className={'book-actions'}>
