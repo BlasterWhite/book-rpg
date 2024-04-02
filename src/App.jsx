@@ -6,6 +6,7 @@ import { HomeView } from './pages/Home/HomeView.jsx';
 import { CharacterSelection } from './pages/Book/CharacterSelection.jsx';
 import { LoginView } from './pages/Account/LoginView.jsx';
 import { RegisterView } from './pages/Account/RegisterView.jsx';
+import { Footer } from './composants/Footer/Footer.jsx';
 import { Navbar } from './composants/NavBar/Navbar.jsx';
 
 const router = createBrowserRouter([
@@ -83,6 +84,9 @@ function Root() {
       <main>
         <Outlet />
       </main>
+      <footer>
+        <Footer />
+      </footer>
     </>
   );
 }
