@@ -1,5 +1,6 @@
 import './Footer.scss';
 import arrowOutIcon from "@/assets/icons/ArrowOutIcon.svg";
+import {NavLink} from "react-router-dom";
 
 export function Footer() {
     return (
@@ -11,13 +12,13 @@ export function Footer() {
                 <div className={'footer-item center'}>
                     <ul>
                         {/*TODO: Remplir le lien*/}
-                        <li><a href={''}>Legal concept <img src={arrowOutIcon} alt="Arrow Out Icon" /></a></li>
+                        <li><NavLink to={''}>Legal concept <img src={arrowOutIcon} alt="Arrow Out Icon" /></NavLink></li>
                         {/*TODO: Remplir le lien*/}
-                        <li><a href={''}>Privacy <img src={arrowOutIcon} alt="Arrow Out Icon" /></a></li>
+                        <li><NavLink to={''}>Privacy <img src={arrowOutIcon} alt="Arrow Out Icon" /></NavLink></li>
                         {/*TODO: Remplir le lien*/}
-                        <li><a href={''}>FAQs <img src={arrowOutIcon} alt="Arrow Out Icon" /></a></li>
+                        <li><NavLink to={''}>FAQs <img src={arrowOutIcon} alt="Arrow Out Icon" /></NavLink></li>
                         {/*TODO: Remplir le lien*/}
-                        <li><a href={''}>Career <img src={arrowOutIcon} alt="Arrow Out Icon" /></a></li>
+                        <li><NavLink to={''}>Career <img src={arrowOutIcon} alt="Arrow Out Icon" /></NavLink></li>
                     </ul>
                 </div>
                 <div className={'footer-item right'}>
@@ -27,7 +28,7 @@ export function Footer() {
                         and special offers delivered straight to your inbox!
                     </p>
                     <div className={'footer-send-mail'}>
-                        <textarea placeholder={'john.doe@gmail.com'}></textarea>
+                        <input type={'text'} placeholder={'john.doe@gmail.com'}></input>
                         <button>Subscribe</button>
                     </div>
 
