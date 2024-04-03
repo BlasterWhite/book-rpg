@@ -1,11 +1,13 @@
 import './App.css';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { SingleBook } from './pages/Book/SingleBook.jsx';
-import { Books } from './pages/Books.jsx';
-import { Home } from './pages/Home.jsx';
+import { LibraryView } from './pages/Library/LibraryView.jsx';
+import { HomeView } from './pages/Home/HomeView.jsx';
 import { CharacterSelection } from './pages/Book/CharacterSelection.jsx';
 import { LoginView } from './pages/Account/LoginView.jsx';
 import { RegisterView } from './pages/Account/RegisterView.jsx';
+import { Footer } from './composants/Footer/Footer.jsx';
+import { Navbar } from './composants/NavBar/Navbar.jsx';
 import { Navbar } from './composants/Navbar.jsx';
 import { AdminBookListView } from '@/pages/Admin/AdminBookListView/AdminBookListView.jsx';
 import { AdminBookEditView } from '@/pages/Admin/AdminBookEditView/AdminBookEditView.jsx';
@@ -20,7 +22,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <Home />
+        element: <HomeView />
       },
       {
         path: 'book',
@@ -28,7 +30,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <Books />
+            element: <LibraryView />
           },
           {
             path: ':bookId',
@@ -105,6 +107,9 @@ function Root() {
       <main>
         <Outlet />
       </main>
+      <footer>
+        <Footer />
+      </footer>
     </>
   );
 }

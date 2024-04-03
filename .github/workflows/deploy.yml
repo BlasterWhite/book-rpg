@@ -25,6 +25,7 @@ jobs:
             git pull origin main
             git status
             export WEB_PORT=${{ secrets.WEB_PORT }}
+            export VITE_API_URL=${{ secrets.VITE_API_URL }}
             docker compose down
             docker image rm book-rpg-site-web
             docker compose up -d

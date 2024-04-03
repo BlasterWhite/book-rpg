@@ -1,7 +1,12 @@
 :root {
   --background-color: #ffffff;
+  --footer-text-color: #ffffff;
+  --footer-top-background-color: #333333;
+  --footer-bottom-background-color: #1d1d1d;
   --text-color: #333;
-  --primary-color: #20adfd;
+  --primary-color: #007bff;
+  --mail-submit-background-color: #9747ff;
+  --text-color: #333;
   --secondary-color: #1a41cd;
   --accent-color: #ff833d;
   --danger-color: #fc2a2a;
@@ -10,8 +15,13 @@
 }
 
 $background-color: var(--background-color);
+$footer-top-background-color: var(--footer-top-background-color);
+$footer-bottom-background-color: var(--footer-bottom-background-color);
+$footer-text-color: var(--footer-text-color);
 $text-color: var(--text-color);
 $primary-color: var(--primary-color);
+$mail-submit-background-color: var(--mail-submit-background-color);
+
 $secondary-color: var(--secondary-color);
 $accent-color: var(--accent-color);
 $danger-color: var(--danger-color);

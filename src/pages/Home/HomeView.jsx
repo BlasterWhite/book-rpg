@@ -6,7 +6,7 @@ import MockJSON from '@/assets/mock.json';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
 import { useState } from 'react';
 
-export function Home() {
+export function HomeView() {
   const navigate = useNavigate();
 
   const [books, setBooks] = useState(MockJSON.books);

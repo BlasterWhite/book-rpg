@@ -4,7 +4,7 @@ import emptyStar from '@/assets/icons/EmptyStarIcon.svg';
 import PropTypes from 'prop-types';
 
 export function BookCard({ book, handleFavourite }) {
-  const { title, img, fav } = book;
+  const { titre, img, fav } = book;
   const handleClick = () => {
     handleFavourite(book.id);
   };
@@ -19,9 +19,9 @@ export function BookCard({ book, handleFavourite }) {
           onClick={() => handleClick()}
         />
       </div>
-      <img src={img} alt={'Book cover'} />
+      <img src={img || 'https://placehold.co/270x500.png'} alt={'Book cover'} />
       <div className={'book-card-content'}>
-        <h3>{title}</h3>
+        <h3>{titre}</h3>
       </div>
     </div>
   );
@@ -30,9 +30,9 @@ export function BookCard({ book, handleFavourite }) {
 BookCard.propTypes = {
   book: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    img: PropTypes.string.isRequired,
-    fav: PropTypes.bool.isRequired
+    titre: PropTypes.string.isRequired,
+    img: PropTypes.string,
+    fav: PropTypes.bool
   }).isRequired,
-  handleFavourite: PropTypes.func.isRequired
+  handleFavourite: PropTypes.func
 };
