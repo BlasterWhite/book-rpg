@@ -1,0 +1,21 @@
+@import '@/assets/scss/variables';
+
+button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  width: fit-content;
+  font-size: 1.25rem;
+  background: transparent;
+  color: $text-color;
+  border: 2px solid $primary-color;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+input[type='text'] {
+  width: 300px;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  margin-bottom: 0.75rem;
+}
