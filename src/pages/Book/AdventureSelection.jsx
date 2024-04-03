@@ -120,7 +120,7 @@ export function AdventureSelection() {
               </div>
             ))}
           </div>
-          <h3> Or create a new adventure </h3>
+          <h3> Or create a new adventure! </h3>
           <button onClick={createAdventure}>Create a new adventure</button>
         </div>
       );
