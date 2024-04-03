@@ -70,14 +70,17 @@ export function AdminSectionListView() {
     });
   }
 
-  async function handleCreateSection() {
+  function getHighestNumeroSection() {
     let highestNumeroSection = 1;
     if (sections.length > 0) {
       highestNumeroSection = Math.max(...sections.map((section) => section.numero_section)) + 1;
     }
+    return highestNumeroSection;
+  }
 
+  async function handleCreateSection() {
     let section = {
-      numero_section: highestNumeroSection,
+      numero_section: getHighestNumeroSection(),
       texte: 'New section',
       id_image: '1',
       type: 'none',
@@ -103,7 +106,7 @@ export function AdminSectionListView() {
       console.log('sections', sections);
       console.log(section.length);
       setSections([resData]);
-    } else setSections([...sections, resData]);
+    } else setSections([...sections, section]);
   }
 
   return (

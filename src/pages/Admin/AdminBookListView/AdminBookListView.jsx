@@ -53,7 +53,6 @@ export function AdminBookListView() {
   }
 
   async function handleDeleteBook(id) {
-    console.log('Delete book', id);
     await fetch(`${apiURL}/livres/${id}`, {
       method: 'DELETE'
     }).then((response) => {
