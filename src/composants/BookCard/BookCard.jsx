@@ -31,7 +31,7 @@ BookCard.propTypes = {
   book: PropTypes.shape({
     id: PropTypes.number.isRequired,
     titre: PropTypes.string.isRequired,
-    img: PropTypes.string,
+    image: PropTypes.string,
     fav: PropTypes.bool
   }).isRequired,
   handleFavourite: PropTypes.func
