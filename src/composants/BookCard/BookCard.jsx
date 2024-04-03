@@ -1,5 +1,4 @@
 import './BookCard.scss';
-
 import fullStar from '@/assets/icons/FullStarIcon.svg';
 import emptyStar from '@/assets/icons/EmptyStarIcon.svg';
 import PropTypes from 'prop-types';

@@ -6,9 +6,12 @@
   --text-color: #333;
   --primary-color: #007bff;
   --mail-submit-background-color: #9747ff;
-  --background-color: #ffffff;
   --text-color: #333;
-  --primary-color: #007bff;
+  --secondary-color: #1a41cd;
+  --accent-color: #ff833d;
+  --danger-color: #fc2a2a;
+  --success-color: #1cf95a;
+  --warning-color: #ffe600;
 }
 
 $background-color: var(--background-color);
@@ -18,3 +21,9 @@ $footer-text-color: var(--footer-text-color);
 $text-color: var(--text-color);
 $primary-color: var(--primary-color);
 $mail-submit-background-color: var(--mail-submit-background-color);
+
+$secondary-color: var(--secondary-color);
+$accent-color: var(--accent-color);
+$danger-color: var(--danger-color);
+$success-color: var(--success-color);
+$warning-color: var(--warning-color);

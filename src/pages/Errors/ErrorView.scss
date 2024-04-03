@@ -1,0 +1,13 @@
+.error-view {
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}

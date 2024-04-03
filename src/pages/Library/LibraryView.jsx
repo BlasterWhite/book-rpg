@@ -21,7 +21,7 @@ export function LibraryView() {
         console.error('Error fetching books');
       }
     });
-  }, []);
+  }, [apiURL]);
 
   function handleSearch(e) {
     setSearch(e.target.value);

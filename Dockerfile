@@ -7,6 +7,8 @@ COPY package*.json ./
 
 RUN npm install
 
+ENV VITE_API_URL=http://193.168.146.103:3000
+
 COPY . .
 
 RUN npm run build
