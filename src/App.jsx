@@ -12,6 +12,7 @@ import { AdminBookListView } from '@/pages/Admin/AdminBookListView/AdminBookList
 import { AdminBookEditView } from '@/pages/Admin/AdminBookEditView/AdminBookEditView.jsx';
 import { ErrorView } from '@/pages/Errors/ErrorView.jsx';
 import { AdminSectionListView } from '@/pages/Admin/AdminSectionListView/AdminSectionListView.jsx';
+import { AdminSectionEditView } from '@/pages/Admin/AdminSectionEditView/AdminSectionEditView.jsx';
 
 const router = createBrowserRouter([
   {
@@ -87,7 +88,7 @@ const router = createBrowserRouter([
               },
               {
                 path: ':sectionId',
-                element: <h1>TODO: Section</h1>
+                element: <AdminSectionEditView />
               }
             ]
           }
