@@ -7,7 +7,7 @@ export function LibraryView() {
   const [, setSearch] = useState('');
   const [books, setBooks] = useState([]);
 
-  const apiURL = import.meta.env.VITE_API_URL || null;
+  const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000/';
 
   useEffect(() => {
     // Fetch books from the server
