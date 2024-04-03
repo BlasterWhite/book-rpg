@@ -45,30 +45,25 @@ export function AdminBookEditView() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    console.log('Submit', EditBook, image, imageAi);
+
     if (image) {
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = async () => {
-        // CORS
-        await fetch(`${apiURL}/images/b64image`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST',
-            'Access-Control-Allow-Headers': 'Content-Type'
-          },
-          body: JSON.stringify({ image: reader.result })
-        }).then((response) => {
-          if (response.ok) {
-            response.json().then((data) => {
-              setEditBook((prev) => ({ ...prev, id_image: data.id }));
-            });
-          } else {
-            console.error('Error uploading image');
-          }
-        });
-      };
+      console.log('Uploading image');
+      await fetch(`${apiURL}/images/url`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url: image })
+      }).then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            setEditBook((prev) => ({ ...prev, id_image: parseInt(data.id) }));
+          });
+        } else {
+          console.error('Error uploading image');
+        }
+      });
     } else if (imageAi) {
       await fetch(`${apiURL}/images`, {
         method: 'POST',
@@ -87,7 +82,7 @@ export function AdminBookEditView() {
       });
     }
 
-    fetch(`${apiURL}/livres/${bookId}`, {
+    await fetch(`${apiURL}/livres/${bookId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -95,14 +90,14 @@ export function AdminBookEditView() {
       body: JSON.stringify(EditBook)
     }).then((response) => {
       if (response.ok) {
-        navigate('/admin');
+        // navigate('/admin');
       } else {
         console.error('Error updating book');
       }
     });
   }
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState('');
   const [imageAi, setImageAi] = useState(false);
 
   return (
@@ -115,7 +110,13 @@ export function AdminBookEditView() {
         <label htmlFor="resume">Resume:</label>
         <textarea id="resume" name="resume" value={EditBook.resume} onChange={editBook} />
         <label htmlFor="image">Image:</label>
-        <input type="file" id="image" name="image" onChange={(e) => setImage(e.target.files[0])} />
+        <input
+          type="text"
+          id="image"
+          name="image"
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+        />
         <div>
           <label htmlFor="ai">AI:</label>
           <input
