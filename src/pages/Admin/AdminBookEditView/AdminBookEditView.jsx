@@ -23,7 +23,6 @@ export function AdminBookEditView() {
   }, [bookId, apiURL]);
 
   function editBook(e) {
-    console.log(e.target.name, e.target.value);
     setEditBook((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
@@ -54,7 +53,6 @@ export function AdminBookEditView() {
       body: JSON.stringify(EditBook)
     }).then((response) => {
       if (response.ok) {
-        console.log('Book updated');
         navigate('/admin');
       } else {
         console.error('Error updating book');
