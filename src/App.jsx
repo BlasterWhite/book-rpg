@@ -8,6 +8,10 @@ import { LoginView } from './pages/Account/LoginView.jsx';
 import { RegisterView } from './pages/Account/RegisterView.jsx';
 import { Footer } from './composants/Footer/Footer.jsx';
 import { Navbar } from './composants/NavBar/Navbar.jsx';
+import { AdminBookListView } from '@/pages/Admin/AdminBookListView/AdminBookListView.jsx';
+import { AdminBookEditView } from '@/pages/Admin/AdminBookEditView/AdminBookEditView.jsx';
+import { ErrorView } from '@/pages/Errors/ErrorView.jsx';
+import { AdminSectionListView } from '@/pages/Admin/AdminSectionListView/AdminSectionListView.jsx';
 
 const router = createBrowserRouter([
   {
