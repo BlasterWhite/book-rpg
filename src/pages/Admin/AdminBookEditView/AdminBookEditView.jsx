@@ -8,8 +8,10 @@ export function AdminBookEditView() {
   const [EditBook, setEditBook] = useState({});
   const navigate = useNavigate();
 
+  const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/livres/${bookId}`).then((response) => {
+    fetch(`${apiURL}/livres/${bookId}`).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setEditBook(data);
@@ -18,7 +20,7 @@ export function AdminBookEditView() {
         console.error('Error fetching books');
       }
     });
-  }, [bookId]);
+  }, [bookId, apiURL]);
 
   function editBook(e) {
     console.log(e.target.name, e.target.value);
@@ -44,7 +46,7 @@ export function AdminBookEditView() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    fetch(`${import.meta.env.VITE_API_URL}/livres/${bookId}`, {
+    fetch(`${apiURL}/livres/${bookId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

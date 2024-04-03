@@ -10,22 +10,10 @@ export function AdminSectionListView() {
   const [, setSearch] = useState('');
   const [sections, setSections] = useState([]);
 
-  async function getSections(bookId) {
-    return await fetch(`${import.meta.env.VITE_API_URL}/livres/${bookId}/sections`).then(
-      (response) => {
-        if (response.ok) {
-          response.json().then((data) => {
-            setSections(data);
-          });
-        } else {
-          console.error('Error fetching sections');
-        }
-      }
-    );
-  }
+  const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/livres/${bookId}/sections`).then((response) => {
+  async function getSections(bookId) {
+    return await fetch(`${apiURL}/livres/${bookId}/sections`).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setSections(data);
@@ -34,7 +22,19 @@ export function AdminSectionListView() {
         console.error('Error fetching sections');
       }
     });
-  }, [bookId]);
+  }
+
+  useEffect(() => {
+    fetch(`${apiURL}/livres/${bookId}/sections`).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          setSections(data);
+        });
+      } else {
+        console.error('Error fetching sections');
+      }
+    });
+  }, [bookId, apiURL]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -56,7 +56,7 @@ export function AdminSectionListView() {
 
   async function handleDeleteBook(id) {
     console.log('Delete book', id);
-    await fetch(`${import.meta.env.VITE_API_URL}/livres/${bookId}/sections/${id}`, {
+    await fetch(`${apiURL}/livres/${bookId}/sections/${id}`, {
       method: 'DELETE'
     }).then((response) => {
       if (response.ok) {
@@ -87,7 +87,7 @@ export function AdminSectionListView() {
 
     // TODO: Implement the API call to create a new book
     // Post the new book to the server
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/livres/${bookId}/sections`, {
+    const response = await fetch(`${apiURL}/livres/${bookId}/sections`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

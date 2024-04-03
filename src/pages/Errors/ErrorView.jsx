@@ -1,6 +1,6 @@
 import './ErrorView.scss';
 import { useRouteError } from 'react-router-dom';
-import { Navbar } from '@/composants/Navbar.jsx';
+import { Navbar } from '@/composants/NavBar/Navbar.jsx';
 
 export function ErrorView() {
   const error = useRouteError();

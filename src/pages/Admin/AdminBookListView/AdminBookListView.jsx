@@ -10,9 +10,11 @@ export function AdminBookListView() {
   const [, setSearch] = useState('');
   const [books, setBooks] = useState([]);
 
+  const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+
   useEffect(() => {
     // Fetch books from the server
-    fetch(`${import.meta.env.VITE_API_URL}/livres`).then((response) => {
+    fetch(`${apiURL}/livres`).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setBooks(data);
@@ -21,7 +23,7 @@ export function AdminBookListView() {
         console.error('Error fetching books');
       }
     });
-  }, []);
+  }, [apiURL]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -38,7 +40,7 @@ export function AdminBookListView() {
     // If search is empty, show all books
     if (!e.target.value) {
       // Fetch books from the server
-      fetch(`${import.meta.env.VITE_API_URL}/livres`).then((response) => {
+      fetch(`${apiURL}/livres`).then((response) => {
         if (response.ok) {
           response.json().then((data) => {
             setBooks(data);
@@ -52,7 +54,7 @@ export function AdminBookListView() {
 
   async function handleDeleteBook(id) {
     console.log('Delete book', id);
-    await fetch(`${import.meta.env.VITE_API_URL}/livres/${id}`, {
+    await fetch(`${apiURL}/livres/${id}`, {
       method: 'DELETE'
     }).then((response) => {
       if (response.ok) {
@@ -76,7 +78,7 @@ export function AdminBookListView() {
 
     // TODO: Implement the API call to create a new book
     // Post the new book to the server
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/livres`, {
+    const response = await fetch(`${apiURL}/livres`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
