@@ -1,6 +1,6 @@
 @import '@/assets/scss/variables';
 
-.admin-book-edit-view {
+.admin-section-edit-view {
   max-width: 1140px;
   margin: 0 auto;
   width: 100%;
@@ -27,74 +27,25 @@
       font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     }
 
-    .dual-input {
-      display: flex;
-      gap: 16px;
-      margin-top: 16px;
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+      font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    }
 
-      .left {
-        width: 45%;
-      }
+    .interactivity-section {
+      width: 100%;
 
-      .separator {
-        width: 10%;
+      .dice-content {
         display: flex;
-        justify-content: center;
-        align-items: center;
-
-        &::before {
-          content: '';
-          display: block;
-          width: 1px;
-          height: 80%;
-          background-color: rgba(0, 0, 0, 0.2);
-        }
-      }
-
-      .right {
-        width: 45%;
-        display: flex;
+        gap: 16px;
         flex-direction: column;
-        gap: 10px;
 
-        .add-tag {
+        .dices {
           display: flex;
           gap: 8px;
-          align-items: center;
-
-          input[type='text'] {
-            flex-grow: 1;
-          }
-
-          button {
-            padding: 8px;
-            border: none;
-            background-color: $primary-color;
-            color: white;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-          }
-        }
-
-        .tags-list {
-          display: flex;
-          gap: 8px;
-          flex-wrap: wrap;
-
-          & > div {
-            padding: 4px 8px;
-            background-color: rgba(0, 0, 0, 0.1);
-            border-radius: 16px;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-
-            &:hover {
-              cursor: not-allowed;
-              background-color: rgba(0, 0, 0, 0.2);
-            }
-          }
         }
       }
     }
