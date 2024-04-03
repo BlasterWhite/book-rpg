@@ -98,13 +98,12 @@ export function AdminSectionListView() {
       body: JSON.stringify(section)
     });
     const resData = await response.json();
+    section.id = resData.message.id;
+
+    console.log('section', section);
 
     // Add the new book to the list
     if (section.length === 0) {
-      console.log('section is empty');
-      console.log('resData', resData);
-      console.log('sections', sections);
-      console.log(section.length);
       setSections([resData]);
     } else setSections([...sections, section]);
   }
@@ -130,22 +129,24 @@ export function AdminSectionListView() {
         </div>
       </div>
       <div className={'section-list'}>
-        {sections.map((section, index) => (
-          <div key={index} className={'section'}>
-            <div className={'section-info'}>
-              <p className={'section-title'}>{section.texte}</p>
-              <p className={'section-id'}>ID: {section.id}</p>
+        {sections
+          ?.sort((a, b) => a.id > b.id)
+          .map((section, index) => (
+            <div key={index} className={'section'}>
+              <div className={'section-info'}>
+                <p className={'section-title'}>{section.texte}</p>
+                <p className={'section-id'}>ID: {section.id}</p>
+              </div>
+              <div className={'section-actions'}>
+                <NavLink to={`/admin/${bookId}/section/${section.id}`}>
+                  <img className={'icon edit'} src={EditIcon} alt="Edit" />
+                </NavLink>
+                <a onClick={() => handleDeleteBook(section.id)}>
+                  <img className={'icon delete'} src={DeleteIcon} alt="Delete" />
+                </a>
+              </div>
             </div>
-            <div className={'section-actions'}>
-              <NavLink to={`/admin/${bookId}/section/${section.id}`}>
-                <img className={'icon edit'} src={EditIcon} alt="Edit" />
-              </NavLink>
-              <a onClick={() => handleDeleteBook(section.id)}>
-                <img className={'icon delete'} src={DeleteIcon} alt="Delete" />
-              </a>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
