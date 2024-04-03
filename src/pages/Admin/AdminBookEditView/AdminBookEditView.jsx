@@ -45,7 +45,7 @@ export function AdminBookEditView() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log('Submit', EditBook, image, imageAi);
+    let id_image = 0;
 
     if (image) {
       console.log('Uploading image');
@@ -58,7 +58,19 @@ export function AdminBookEditView() {
       }).then((response) => {
         if (response.ok) {
           response.json().then((data) => {
-            setEditBook((prev) => ({ ...prev, id_image: parseInt(data.id) }));
+            fetch(`${apiURL}/livres/${bookId}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ ...EditBook, id_image: data.id })
+            }).then((response) => {
+              if (response.ok) {
+                // navigate('/admin');
+              } else {
+                console.error('Error updating book');
+              }
+            });
           });
         } else {
           console.error('Error uploading image');
@@ -74,27 +86,39 @@ export function AdminBookEditView() {
       }).then((response) => {
         if (response.ok) {
           response.json().then((data) => {
-            setEditBook((prev) => ({ ...prev, id_image: data.id }));
+            fetch(`${apiURL}/livres/${bookId}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ ...EditBook, id_image: data.id })
+            }).then((response) => {
+              if (response.ok) {
+                // navigate('/admin');
+              } else {
+                console.error('Error updating book');
+              }
+            });
           });
         } else {
           console.error('Error uploading image');
         }
       });
+    } else {
+      await fetch(`${apiURL}/livres/${bookId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ...EditBook, id_image })
+      }).then((response) => {
+        if (response.ok) {
+          // navigate('/admin');
+        } else {
+          console.error('Error updating book');
+        }
+      });
     }
-
-    await fetch(`${apiURL}/livres/${bookId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(EditBook)
-    }).then((response) => {
-      if (response.ok) {
-        // navigate('/admin');
-      } else {
-        console.error('Error updating book');
-      }
-    });
   }
 
   const [image, setImage] = useState('');
