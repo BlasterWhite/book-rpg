@@ -12,7 +12,7 @@ export function LibraryView() {
   useEffect(() => {
     // Fetch books from the server
     if (!apiURL) return console.error('No API URL provided', apiURL);
-    fetch(`${import.meta.env.VITE_API_URL}/livres`).then((response) => {
+    fetch(`${apiURL}/livres`).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setBooks(data);
@@ -39,7 +39,7 @@ export function LibraryView() {
     if (!e.target.value) {
       // Fetch books from the server
       console.log('fetching books for the search');
-      fetch(`${import.meta.env.VITE_API_URL}/livres`).then((response) => {
+      fetch(`${apiURL}/livres`).then((response) => {
         if (response.ok) {
           response.json().then((data) => {
             setBooks(data);
