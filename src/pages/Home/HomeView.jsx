@@ -4,12 +4,31 @@ import stonksIcon from '@/assets/icons/StonksIcon.svg';
 import { useNavigate } from 'react-router-dom';
 import MockJSON from '@/assets/mock.json';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function HomeView() {
   const navigate = useNavigate();
 
   const [books, setBooks] = useState(MockJSON.books);
+
+  const [newBooks, setNewBooks] = useState([]);
+
+  const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+
+  useEffect(() => {
+    // Fetch books from the server
+    if (!apiURL) return console.error('No API URL provided', apiURL);
+    fetch(`${apiURL}/livres`).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          // Set the first 4 books as new books
+          setNewBooks(data.slice(0, 4));
+        });
+      } else {
+        console.error('Error fetching books');
+      }
+    });
+  }, [apiURL]);
 
   function handleClick() {
     navigate('/book');
@@ -57,7 +76,7 @@ export function HomeView() {
             Popular adventures
           </h3>
           <div className={'popular-books'}>
-            {books.map((book) => (
+            {newBooks.map((book) => (
               <BookCard
                 key={book.id}
                 book={book}
@@ -72,7 +91,7 @@ export function HomeView() {
             New adventures
           </h3>
           <div className={'new-books'}>
-            {books.map((book) => (
+            {newBooks.map((book) => (
               <BookCard
                 key={book.id}
                 book={book}

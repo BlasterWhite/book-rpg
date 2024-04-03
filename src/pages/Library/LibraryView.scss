@@ -1,0 +1,32 @@
+@import '@/assets/scss/variables';
+
+.library-view {
+  width: 100%;
+
+  &-content {
+    max-width: 1140px;
+    margin: 0 auto;
+
+    header {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 16px;
+
+      form {
+        input[type='text'] {
+          width: 300px;
+          padding: 10px;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          border-radius: 16px;
+        }
+      }
+    }
+
+    .library-view-books {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+  }
+}

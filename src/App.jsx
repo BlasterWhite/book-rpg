@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    errorElement: <PageError />,
+    errorElement: <ErrorView />,
     children: [
       {
         path: '',
@@ -60,20 +60,38 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <RegisterView />
+      },
+      {
+        path: 'admin',
+        element: <Outlet />,
+        children: [
+          {
+            path: '',
+            element: <AdminBookListView />
+          },
+          {
+            path: ':bookId',
+            element: <AdminBookEditView />
+          },
+          {
+            path: ':bookId/section',
+            element: <Outlet />,
+            children: [
+              {
+                path: '',
+                element: <AdminSectionListView />
+              },
+              {
+                path: ':sectionId',
+                element: <h1>TODO: Section</h1>
+              }
+            ]
+          }
+        ]
       }
     ]
   }
 ]);
-
-function PageError() {
-  const error = useRouteError();
-  return (
-    <>
-      <h1>Error {error.status}</h1>
-      <h3>{error.statusText}</h3>
-    </>
-  );
-}
 
 function Root() {
   return (
