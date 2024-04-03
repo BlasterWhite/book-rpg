@@ -80,7 +80,7 @@ export function AdminSectionListView() {
       numero_section: highestNumeroSection,
       texte: 'New section',
       id_image: '1',
-      type: '',
+      type: 'none',
       resultat: null,
       destinations: []
     };
