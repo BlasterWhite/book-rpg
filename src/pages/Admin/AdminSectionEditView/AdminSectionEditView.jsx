@@ -19,7 +19,7 @@ export function AdminSectionEditView() {
         console.error('Error fetching sections');
       }
     });
-  }, [bookId, apiURL]);
+  }, [bookId, apiURL, sectionId]);
 
   const [EditSection, setEditSection] = useState({});
 
@@ -28,10 +28,23 @@ export function AdminSectionEditView() {
       if (response.ok) {
         response.json().then((data) => {
           setEditSection(data);
-          setSolution(data.resultat.condition);
-          if (data.type === 'enigme' || data.type === 'combat') {
+          if (data.type === 'enigme' || data.type === 'combat' || data.type === 'des') {
             setWin(data.resultat.gagne);
             setLose(data.resultat.perd);
+          }
+
+          if (data.type === 'enigme') {
+            setSolution(data.resultat.condition);
+          }
+
+          if (data.type === 'des') {
+            setWinDice(data.resultat.condition?.['1']);
+            setLoseDice(data.resultat.condition?.['2']);
+          }
+
+          if (data.type === 'combat') {
+            setCombatLevel(parseInt(data.resultat.type_condition));
+            setCombatType(data.resultat.condition);
           }
         });
       } else {
@@ -57,28 +70,15 @@ export function AdminSectionEditView() {
   }
 
   const [winDice, setWinDice] = useState([]);
-  const [loseDice, setLoseDice] = useState([
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12'
-  ]);
+  const [loseDice, setLoseDice] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
 
   function handleDiceChange(e) {
     if (e.target.checked) {
-      setWinDice([...winDice, e.target.name]);
-      setLoseDice(loseDice.filter((dice) => dice !== e.target.name));
+      setWinDice([...winDice, parseInt(e.target.name)]);
+      setLoseDice(loseDice.filter((dice) => dice !== parseInt(e.target.name)));
     } else {
-      setWinDice(winDice.filter((dice) => dice !== e.target.name));
-      setLoseDice([...loseDice, e.target.name]);
+      setWinDice(winDice.filter((dice) => dice !== parseInt(e.target.name)));
+      setLoseDice([...loseDice, parseInt(e.target.name)]);
     }
   }
 
@@ -88,7 +88,12 @@ export function AdminSectionEditView() {
       inputs.push(
         <div key={i}>
           <label htmlFor={`dice-${i}`}>{i}: </label>
-          <input type="checkbox" name={i} onChange={handleDiceChange} />
+          <input
+            type="checkbox"
+            name={i}
+            onChange={handleDiceChange}
+            checked={winDice.includes(i)}
+          />
         </div>
       );
     }
@@ -98,6 +103,8 @@ export function AdminSectionEditView() {
   const [solution, setSolution] = useState('');
   const [win, setWin] = useState('');
   const [lose, setLose] = useState('');
+  const [combat_level, setCombatLevel] = useState(0);
+  const [combat_type, setCombatType] = useState('force');
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -136,6 +143,59 @@ export function AdminSectionEditView() {
         perd: parseInt(lose)
       };
 
+      updateSection(section);
+    }
+
+    if (EditSection.type === 'des') {
+      section.resultat = EditSection.resultat;
+      section.destinations = [parseInt(win), parseInt(lose)];
+      section.numero_section = EditSection.numero_section;
+      section.texte = EditSection.texte;
+      section.type = EditSection.type;
+      section.id_image = EditSection.id_image;
+      section.resultat = {
+        condition: {
+          1: winDice,
+          2: loseDice
+        },
+        type_condition: 'JSON',
+        gagne: parseInt(win),
+        perd: parseInt(lose)
+      };
+
+      updateSection(section);
+    }
+
+    if (EditSection.type === 'none') {
+      section.numero_section = EditSection.numero_section;
+      section.texte = EditSection.texte;
+      section.type = EditSection.type;
+      section.id_image = EditSection.id_image;
+      updateSection(section);
+    }
+
+    if (EditSection.type === 'combat') {
+      section.resultat = EditSection.resultat;
+      section.destinations = [parseInt(win), parseInt(lose)];
+      section.numero_section = EditSection.numero_section;
+      section.texte = EditSection.texte;
+      section.type = EditSection.type;
+      section.id_image = EditSection.id_image;
+      section.resultat = {
+        condition: combat_type,
+        type_condition: combat_level,
+        gagne: parseInt(win),
+        perd: parseInt(lose)
+      };
+
+      updateSection(section);
+    }
+
+    if (EditSection.type === 'termine') {
+      section.numero_section = EditSection.numero_section;
+      section.texte = EditSection.texte;
+      section.type = EditSection.type;
+      section.id_image = EditSection.id_image;
       updateSection(section);
     }
   }
@@ -227,9 +287,10 @@ export function AdminSectionEditView() {
               Lose dices: {loseDice.join(', ')}
               <div>
                 <label htmlFor={'destination'}>Win destination: </label>
-                <select name="destination">
+                <select name="destination" value={win} onChange={(e) => setWin(e.target.value)}>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
+                      {section.numero_section + ' | '}
                       {section.texte.length > 20
                         ? section.texte.slice(0, 20) + '...'
                         : section.texte}
@@ -239,9 +300,10 @@ export function AdminSectionEditView() {
               </div>
               <div>
                 <label htmlFor={'destination'}>Lose destination: </label>
-                <select name="destination">
+                <select name="destination" value={lose} onChange={(e) => setLose(e.target.value)}>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
+                      {section.numero_section + ' | '}
                       {section.texte.length > 20
                         ? section.texte.slice(0, 20) + '...'
                         : section.texte}
@@ -327,7 +389,10 @@ export function AdminSectionEditView() {
             <div className={'fight-content'}>
               <div>
                 <label htmlFor={'skill'}>Skill: </label>
-                <select name="skill">
+                <select
+                  name="skill"
+                  value={combat_type}
+                  onChange={(e) => setCombatType(e.target.value)}>
                   <option value="force">Force</option>
                   <option value="dexerite">Dexerite</option>
                   <option value="endurance">Endurance</option>
@@ -337,11 +402,16 @@ export function AdminSectionEditView() {
               </div>
               <div>
                 <label htmlFor={'difficulty'}>Level: </label>
-                <input type="number" name="difficulty" />
+                <input
+                  type="number"
+                  name="level"
+                  value={combat_level}
+                  onChange={(e) => setCombatLevel(parseInt(e.target.value))}
+                />
               </div>
               <div>
                 <label htmlFor={'win'}>Win destination: </label>
-                <select name="win">
+                <select name="win" value={win} onChange={(e) => setWin(e.target.value)}>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
                       {section.numero_section + ' | '}
@@ -354,7 +424,7 @@ export function AdminSectionEditView() {
               </div>
               <div>
                 <label htmlFor={'lose'}>Lose destination: </label>
-                <select name="lose">
+                <select name="lose" value={lose} onChange={(e) => setLose(e.target.value)}>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
                       {section.numero_section + ' | '}
@@ -382,7 +452,6 @@ export function AdminSectionEditView() {
           </button>
         </div>
       </form>
-      <pre>{JSON.stringify(EditSection, null, 2)}</pre>
     </div>
   );
 }

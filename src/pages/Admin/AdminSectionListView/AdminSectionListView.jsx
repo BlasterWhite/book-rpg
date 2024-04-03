@@ -55,15 +55,12 @@ export function AdminSectionListView() {
   }
 
   async function handleDeleteBook(id) {
-    console.log('Delete book', id);
     await fetch(`${apiURL}/livres/${bookId}/sections/${id}`, {
       method: 'DELETE'
     }).then((response) => {
       if (response.ok) {
         // Remove the book from the list
-        console.log('List of sections before delete', sections);
         setSections(sections.filter((section) => section.id !== id));
-        console.log('List of sections after delete', sections);
       } else {
         console.error('Error deleting book');
       }
