@@ -7,9 +7,11 @@ export function LibraryView() {
   const [, setSearch] = useState('');
   const [books, setBooks] = useState([]);
 
+  const apiURL = import.meta.env.VITE_API_URL || null;
+
   useEffect(() => {
     // Fetch books from the server
-    console.log('fetching books');
+    if (!apiURL) return console.error('No API URL provided', apiURL);
     fetch(`${import.meta.env.VITE_API_URL}/livres`).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
