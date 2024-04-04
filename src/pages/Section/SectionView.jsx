@@ -22,14 +22,16 @@ export function SectionView({ section, handleSectionClicked }) {
     }
   }
 
+  let imageSrc = image.image;
+  if (image && image.image && image.image.startsWith('Pas')) {
+    imageSrc = 'https://placehold.co/500x500.png';
+  }
+
   return (
     <div className={'section-view'}>
       <div className={'scenario'}>
         <p className={'text-scenario'}>{texte}</p>
-        <img
-          src={image?.image ? image.image : '/src/assets/images/placeholder.png'}
-          alt={'Section image'}
-        />
+        <img src={imageSrc} alt={'Section image'} />
       </div>
       {interracivity()}
     </div>
