@@ -1,19 +1,29 @@
 import './AdminSectionListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
 
 export function AdminSectionListView() {
   const { bookId } = useParams();
   const [, setSearch] = useState('');
   const [sections, setSections] = useState([]);
 
+  const { user } = useContext(AuthContext);
+
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
   async function getSections(bookId) {
-    return await fetch(`${apiURL}/livres/${bookId}/sections`).then((response) => {
+    return await fetch(`${apiURL}/livres/${bookId}/sections`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setSections(data);
@@ -25,7 +35,14 @@ export function AdminSectionListView() {
   }
 
   useEffect(() => {
-    fetch(`${apiURL}/livres/${bookId}/sections`).then((response) => {
+    if (!user) return;
+    fetch(`${apiURL}/livres/${bookId}/sections`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setSections(data);
@@ -34,7 +51,7 @@ export function AdminSectionListView() {
         console.error('Error fetching sections');
       }
     });
-  }, [bookId, apiURL]);
+  }, [bookId, apiURL, user]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -55,8 +72,13 @@ export function AdminSectionListView() {
   }
 
   async function handleDeleteBook(id) {
+    if (!user) return;
     await fetch(`${apiURL}/livres/${bookId}/sections/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
     }).then((response) => {
       if (response.ok) {
         // Remove the book from the list
@@ -87,17 +109,17 @@ export function AdminSectionListView() {
 
     // TODO: Implement the API call to create a new book
     // Post the new book to the server
+    if (!user) return;
     const response = await fetch(`${apiURL}/livres/${bookId}/sections`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: user.token
       },
       body: JSON.stringify(section)
     });
     const resData = await response.json();
     section.id = resData.message.id;
-
-    console.log('section', section);
 
     // Add the new book to the list
     if (section.length === 0) {
@@ -119,10 +141,7 @@ export function AdminSectionListView() {
             className={'search'}
             onChange={handleSearch}
           />
-          <button className={'btn add-section'} onClick={handleCreateSection}>
-            <img className={'icon'} src={AddIcon} alt="Add icon" />
-            Add Section
-          </button>
+          <BaseButton text={'Create a book'} icon={AddIcon} onClick={handleCreateSection} />
         </div>
       </div>
       <div className={'section-list'}>

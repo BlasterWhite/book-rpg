@@ -1,6 +1,8 @@
 import './AdminBookEditView.scss';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
 
 export function AdminBookEditView() {
   const { bookId } = useParams();
@@ -9,9 +11,17 @@ export function AdminBookEditView() {
   const navigate = useNavigate();
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    fetch(`${apiURL}/livres/${bookId}`).then((response) => {
+    if (!user) return;
+    fetch(`${apiURL}/livres/${bookId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setEditBook(data);
@@ -20,7 +30,7 @@ export function AdminBookEditView() {
         console.error('Error fetching books');
       }
     });
-  }, [bookId, apiURL]);
+  }, [bookId, apiURL, user]);
 
   function editBook(e) {
     setEditBook((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -44,6 +54,7 @@ export function AdminBookEditView() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!user) return;
 
     let id_image = 0;
 
@@ -52,7 +63,8 @@ export function AdminBookEditView() {
       await fetch(`${apiURL}/images/url`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: user.token
         },
         body: JSON.stringify({ url: image })
       }).then((response) => {
@@ -61,7 +73,8 @@ export function AdminBookEditView() {
             fetch(`${apiURL}/livres/${bookId}`, {
               method: 'PUT',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: user.token
               },
               body: JSON.stringify({ ...EditBook, id_image: data.id })
             }).then((response) => {
@@ -80,7 +93,8 @@ export function AdminBookEditView() {
       await fetch(`${apiURL}/images`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: user.token
         },
         body: JSON.stringify({ prompt: EditBook.resume })
       }).then((response) => {
@@ -89,7 +103,8 @@ export function AdminBookEditView() {
             fetch(`${apiURL}/livres/${bookId}`, {
               method: 'PUT',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: user.token
               },
               body: JSON.stringify({ ...EditBook, id_image: data.id })
             }).then((response) => {
@@ -108,12 +123,13 @@ export function AdminBookEditView() {
       await fetch(`${apiURL}/livres/${bookId}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: user.token
         },
         body: JSON.stringify({ ...EditBook, id_image })
       }).then((response) => {
         if (response.ok) {
-          // navigate('/admin');
+          navigate('/admin');
         } else {
           console.error('Error updating book');
         }
@@ -173,7 +189,7 @@ export function AdminBookEditView() {
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}
               />
-              <button onClick={handleAddTag}>Add</button>
+              <BaseButton text={'Add'} onClick={handleAddTag} />
             </div>
             <div className={'tags-list'}>
               {EditBook.tag?.split(';')?.map((tag, index) => (
@@ -186,11 +202,9 @@ export function AdminBookEditView() {
         </div>
         <div className={'actions'}>
           <NavLink to={'/admin'} className={'btn cancel'}>
-            <button className={'btn cancel'}>Cancel</button>
+            <BaseButton text={'Cancel'} outlined={true} />
           </NavLink>
-          <button className={'btn save'} type="submit">
-            Save
-          </button>
+          <BaseButton text={'Save'} type={'submit'} />
         </div>
       </form>
     </div>

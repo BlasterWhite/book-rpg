@@ -1,16 +1,26 @@
 import './AdminSectionEditView.scss';
 import { NavLink, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
 
 export function AdminSectionEditView() {
   const { bookId, sectionId } = useParams();
 
   const [sections, setSections] = useState([]);
+  const { user } = useContext(AuthContext);
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
   useEffect(() => {
-    fetch(`${apiURL}/livres/${bookId}/sections`).then((response) => {
+    if (!user) return;
+    fetch(`${apiURL}/livres/${bookId}/sections`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setSections(data.filter((section) => section.id !== sectionId));
@@ -19,12 +29,19 @@ export function AdminSectionEditView() {
         console.error('Error fetching sections');
       }
     });
-  }, [bookId, apiURL, sectionId]);
+  }, [bookId, apiURL, sectionId, user]);
 
   const [EditSection, setEditSection] = useState({});
 
   useEffect(() => {
-    fetch(`${apiURL}/livres/${bookId}/sections/${sectionId}`).then((response) => {
+    if (!user) return;
+    fetch(`${apiURL}/livres/${bookId}/sections/${sectionId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setEditSection(data);
@@ -51,14 +68,13 @@ export function AdminSectionEditView() {
         console.error('Error fetching sections');
       }
     });
-  }, [bookId, sectionId, apiURL]);
+  }, [bookId, sectionId, apiURL, user]);
 
   function editSection(e) {
     setEditSection((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   function editSectionInSections(e) {
-    console.log(e.target.name, e.target.value);
     setEditSection((prev) => ({
       ...prev,
       sections: [
@@ -125,7 +141,6 @@ export function AdminSectionEditView() {
       section.texte = EditSection.texte;
       section.type = EditSection.type;
       section.id_image = EditSection.id_image;
-      console.log(section);
       updateSection(section);
     }
 
@@ -201,10 +216,12 @@ export function AdminSectionEditView() {
   }
 
   function updateSection(section) {
+    if (!user) return;
     fetch(`${apiURL}/livres/${bookId}/sections/${sectionId}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: user.token
       },
       body: JSON.stringify(section)
     }).then((response) => {
@@ -445,11 +462,9 @@ export function AdminSectionEditView() {
         </div>
         <div className={'actions'}>
           <NavLink to={'/admin'} className={'btn cancel'}>
-            <button className={'btn cancel'}>Cancel</button>
+            <BaseButton text={'Cancel'} outlined={true} />
           </NavLink>
-          <button className={'btn save'} type="submit">
-            Save
-          </button>
+          <BaseButton text={'Save'} type={'submit'} />
         </div>
       </form>
     </div>

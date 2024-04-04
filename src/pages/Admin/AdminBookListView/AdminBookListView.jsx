@@ -5,6 +5,7 @@ import NodeIcon from '@/assets/icons/BookIcon.svg';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
+import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
 
 export function AdminBookListView() {
   const [, setSearch] = useState('');
@@ -112,10 +113,7 @@ export function AdminBookListView() {
           className={'search'}
           onChange={handleSearch}
         />
-        <button className={'btn add-section'} onClick={handleCreateBook}>
-          <img className={'icon'} src={AddIcon} alt="Add icon" />
-          Create a book
-        </button>
+        <BaseButton text={'Create a book'} icon={AddIcon} onClick={handleCreateBook} />
       </div>
       <div className={'book-list'}>
         {books.map((book, index) => (

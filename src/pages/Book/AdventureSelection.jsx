@@ -32,7 +32,7 @@ export function AdventureSelection() {
         console.error('Error fetching adventures');
       }
     });
-  }, []);
+  }, [token]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
