@@ -1,16 +1,25 @@
 import './AdminSectionEditView.scss';
 import { NavLink, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 
 export function AdminSectionEditView() {
   const { bookId, sectionId } = useParams();
 
   const [sections, setSections] = useState([]);
+  const { user } = useContext(AuthContext);
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
   useEffect(() => {
-    fetch(`${apiURL}/livres/${bookId}/sections`).then((response) => {
+    if (!user) return;
+    fetch(`${apiURL}/livres/${bookId}/sections`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setSections(data.filter((section) => section.id !== sectionId));
@@ -19,12 +28,19 @@ export function AdminSectionEditView() {
         console.error('Error fetching sections');
       }
     });
-  }, [bookId, apiURL, sectionId]);
+  }, [bookId, apiURL, sectionId, user]);
 
   const [EditSection, setEditSection] = useState({});
 
   useEffect(() => {
-    fetch(`${apiURL}/livres/${bookId}/sections/${sectionId}`).then((response) => {
+    if (!user) return;
+    fetch(`${apiURL}/livres/${bookId}/sections/${sectionId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setEditSection(data);
@@ -51,7 +67,7 @@ export function AdminSectionEditView() {
         console.error('Error fetching sections');
       }
     });
-  }, [bookId, sectionId, apiURL]);
+  }, [bookId, sectionId, apiURL, user]);
 
   function editSection(e) {
     setEditSection((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -320,7 +336,8 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-1"
                   value={EditSection.sections?.[0] ? EditSection.sections?.[0].id : 'none'}
-                  onChange={editSectionInSections}>
+                  onChange={editSectionInSections}
+                >
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -337,7 +354,8 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-2"
                   value={EditSection.sections?.[1] ? EditSection.sections?.[1].id : 'none'}
-                  onChange={editSectionInSections}>
+                  onChange={editSectionInSections}
+                >
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -354,7 +372,8 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-3"
                   value={EditSection.sections?.[2] ? EditSection.sections?.[2].id : 'none'}
-                  onChange={editSectionInSections}>
+                  onChange={editSectionInSections}
+                >
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -371,7 +390,8 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-4"
                   value={EditSection.sections?.[3] ? EditSection.sections?.[3].id : 'none'}
-                  onChange={editSectionInSections}>
+                  onChange={editSectionInSections}
+                >
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -392,7 +412,8 @@ export function AdminSectionEditView() {
                 <select
                   name="skill"
                   value={combat_type}
-                  onChange={(e) => setCombatType(e.target.value)}>
+                  onChange={(e) => setCombatType(e.target.value)}
+                >
                   <option value="force">Force</option>
                   <option value="dexerite">Dexerite</option>
                   <option value="endurance">Endurance</option>

@@ -1,19 +1,29 @@
 import './AdminSectionListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 
 export function AdminSectionListView() {
   const { bookId } = useParams();
   const [, setSearch] = useState('');
   const [sections, setSections] = useState([]);
 
+  const { user } = useContext(AuthContext);
+
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
   async function getSections(bookId) {
-    return await fetch(`${apiURL}/livres/${bookId}/sections`).then((response) => {
+    console.log('user.token', user.token);
+    return await fetch(`${apiURL}/livres/${bookId}/sections`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setSections(data);
@@ -25,7 +35,14 @@ export function AdminSectionListView() {
   }
 
   useEffect(() => {
-    fetch(`${apiURL}/livres/${bookId}/sections`).then((response) => {
+    if (!user) return;
+    fetch(`${apiURL}/livres/${bookId}/sections`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setSections(data);
@@ -34,7 +51,7 @@ export function AdminSectionListView() {
         console.error('Error fetching sections');
       }
     });
-  }, [bookId, apiURL]);
+  }, [bookId, apiURL, user]);
 
   function handleSearch(e) {
     setSearch(e.target.value);

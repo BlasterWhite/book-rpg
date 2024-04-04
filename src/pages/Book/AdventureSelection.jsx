@@ -32,7 +32,7 @@ export function AdventureSelection() {
         console.error('Error fetching adventures');
       }
     });
-  }, []);
+  }, [token]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -152,7 +152,7 @@ export function AdventureSelection() {
     } else {
       return (
         <div>
-          <h1> There's no adventure yet. Start a new one! </h1>
+          <h1> There&apos;s no adventure yet. Start a new one! </h1>
           <button onClick={createAdventure}>Create a new adventure!</button>
         </div>
       );

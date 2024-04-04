@@ -10,7 +10,12 @@ export function MultipleChoiceComponent({ sections, handleSectionClicked }) {
       {sections.map((choice, index) => {
         return (
           <div className={'choice'} key={index}>
-            <button type={'button'} onClick={() => getNextSection(choice?.association_liaison_section?.id_section_destination)}>
+            <button
+              type={'button'}
+              onClick={() =>
+                getNextSection(choice?.association_liaison_section?.id_section_destination)
+              }
+            >
               Aller à la section {choice?.association_liaison_section?.id_section_destination}
             </button>
           </div>
