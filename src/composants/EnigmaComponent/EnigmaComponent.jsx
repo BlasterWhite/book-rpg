@@ -9,7 +9,7 @@ export function EnigmaComponent({ handleNextSection, section }) {
 
   useEffect(() => {}, []);
 
-  async function handleResults(results) {
+  async function handleResults() {
     const win = section.resultat.condition;
     const winDestination = section.resultat.gagne;
     const loseDestination = section.resultat.perd;

@@ -27,6 +27,14 @@
       font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     }
 
+    details {
+      img {
+        max-width: 100%;
+        border-radius: 16px;
+        margin-top: 16px;
+      }
+    }
+
     .dual-input {
       display: flex;
       gap: 16px;
