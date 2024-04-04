@@ -18,13 +18,16 @@ export function LoginView() {
     };
 
     try {
-      await fetch('http://localhost:3000/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      }).then((response) =>
+      await fetch(
+        (import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000') + '/users/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        }
+      ).then((response) =>
         response.json().then((data) => {
           if (!data.error) {
             login(data);

@@ -55,8 +55,7 @@ export function RegisterView({ isConnected }) {
     };
 
     try {
-      // await fetch('http://193.168.146.103:3000/users', {
-      await fetch('http://localhost:3000/users', {
+      await fetch((import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000') + '/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -1,11 +1,10 @@
 import './BookCard.scss';
-
 import fullStar from '@/assets/icons/FullStarIcon.svg';
 import emptyStar from '@/assets/icons/EmptyStarIcon.svg';
 import PropTypes from 'prop-types';
 
 export function BookCard({ book, handleFavourite }) {
-  const { titre, img, fav } = book;
+  const { titre, image, fav } = book;
   const handleClick = () => {
     handleFavourite(book.id);
   };
@@ -20,7 +19,7 @@ export function BookCard({ book, handleFavourite }) {
           onClick={() => handleClick()}
         />
       </div>
-      <img src={img || 'https://placehold.co/270x500.png'} alt={'Book cover'} />
+      <img src={image.image || 'https://placehold.co/270x500.png'} alt={'Book cover'} />
       <div className={'book-card-content'}>
         <h3>{titre}</h3>
       </div>
@@ -32,7 +31,7 @@ BookCard.propTypes = {
   book: PropTypes.shape({
     id: PropTypes.number.isRequired,
     titre: PropTypes.string.isRequired,
-    img: PropTypes.string,
+    image: PropTypes.string,
     fav: PropTypes.bool
   }).isRequired,
   handleFavourite: PropTypes.func
