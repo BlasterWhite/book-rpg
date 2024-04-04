@@ -53,6 +53,7 @@ export function AdminBookEditView() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!user) return;
 
     let id_image = 0;
 
@@ -61,7 +62,8 @@ export function AdminBookEditView() {
       await fetch(`${apiURL}/images/url`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: user.token
         },
         body: JSON.stringify({ url: image })
       }).then((response) => {
@@ -70,7 +72,8 @@ export function AdminBookEditView() {
             fetch(`${apiURL}/livres/${bookId}`, {
               method: 'PUT',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: user.token
               },
               body: JSON.stringify({ ...EditBook, id_image: data.id })
             }).then((response) => {
@@ -89,7 +92,8 @@ export function AdminBookEditView() {
       await fetch(`${apiURL}/images`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: user.token
         },
         body: JSON.stringify({ prompt: EditBook.resume })
       }).then((response) => {
@@ -98,7 +102,8 @@ export function AdminBookEditView() {
             fetch(`${apiURL}/livres/${bookId}`, {
               method: 'PUT',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: user.token
               },
               body: JSON.stringify({ ...EditBook, id_image: data.id })
             }).then((response) => {
@@ -117,7 +122,8 @@ export function AdminBookEditView() {
       await fetch(`${apiURL}/livres/${bookId}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: user.token
         },
         body: JSON.stringify({ ...EditBook, id_image })
       }).then((response) => {
