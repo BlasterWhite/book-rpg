@@ -14,8 +14,6 @@ export function DiceComponent({
 
   const dices = useRef([]);
 
-  console.log('section', section);
-
   if (!isMounted.current) {
     for (let i = 0; i < numberOfDices; i++) {
       for (let j = 0; j < numberOfFaces; j++) {
@@ -35,19 +33,15 @@ export function DiceComponent({
     const win = section.resultat.condition?.['1'];
     const winDestination = section.resultat.gagne;
     const loseDestination = section.resultat.perd;
-
     const resultSum = results.reduce((acc, curr) => acc + curr, 0);
-    console.log('result', results);
-    console.log('resultSum', resultSum);
-    console.log('win', win);
-    console.log('winDestination', winDestination);
-    console.log('loseDestination', loseDestination);
 
-    if (win && win.length > 0 && win.includes(resultSum)) {
-      handleNextSection(winDestination);
-    } else {
-      handleNextSection(loseDestination);
-    }
+    setTimeout(() => {
+      if (win && win.length > 0 && win.includes(resultSum)) {
+        handleNextSection(winDestination);
+      } else {
+        handleNextSection(loseDestination);
+      }
+    }, 2000);
   }
 
   function throwDices() {
