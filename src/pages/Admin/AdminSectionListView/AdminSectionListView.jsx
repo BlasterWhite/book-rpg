@@ -72,8 +72,13 @@ export function AdminSectionListView() {
   }
 
   async function handleDeleteBook(id) {
+    if (!user) return;
     await fetch(`${apiURL}/livres/${bookId}/sections/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
     }).then((response) => {
       if (response.ok) {
         // Remove the book from the list
@@ -104,10 +109,12 @@ export function AdminSectionListView() {
 
     // TODO: Implement the API call to create a new book
     // Post the new book to the server
+    if (!user) return;
     const response = await fetch(`${apiURL}/livres/${bookId}/sections`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: user.token
       },
       body: JSON.stringify(section)
     });
