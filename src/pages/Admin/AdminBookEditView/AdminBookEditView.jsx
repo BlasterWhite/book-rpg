@@ -128,7 +128,7 @@ export function AdminBookEditView() {
         body: JSON.stringify({ ...EditBook, id_image })
       }).then((response) => {
         if (response.ok) {
-          // navigate('/admin');
+          navigate('/admin');
         } else {
           console.error('Error updating book');
         }
