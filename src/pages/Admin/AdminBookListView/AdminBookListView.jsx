@@ -53,7 +53,6 @@ export function AdminBookListView() {
   }
 
   async function handleDeleteBook(id) {
-    console.log('Delete book', id);
     await fetch(`${apiURL}/livres/${id}`, {
       method: 'DELETE'
     }).then((response) => {
@@ -73,7 +72,19 @@ export function AdminBookListView() {
       id_image: 1,
       resume: '',
       date_sortie: new Date().toISOString().split('T')[0],
-      tag: 'Book'
+      tag: 'Book',
+      personnage: {
+        nom: 'bob',
+        description: "L'aventurier qui saura gravire les montagne du bangala",
+        id_image: 1,
+        occupation: 'spy',
+        apparence: 'Blond au cehveux doré,les yeux bleu avec une carure mama des familles',
+        dexterite: 0,
+        endurance: 2,
+        psychisme: 0,
+        force: -1,
+        resistance: 4
+      }
     };
 
     // TODO: Implement the API call to create a new book

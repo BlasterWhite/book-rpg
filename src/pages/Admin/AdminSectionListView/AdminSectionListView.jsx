@@ -55,32 +55,32 @@ export function AdminSectionListView() {
   }
 
   async function handleDeleteBook(id) {
-    console.log('Delete book', id);
     await fetch(`${apiURL}/livres/${bookId}/sections/${id}`, {
       method: 'DELETE'
     }).then((response) => {
       if (response.ok) {
         // Remove the book from the list
-        console.log('List of sections before delete', sections);
         setSections(sections.filter((section) => section.id !== id));
-        console.log('List of sections after delete', sections);
       } else {
         console.error('Error deleting book');
       }
     });
   }
 
-  async function handleCreateSection() {
+  function getHighestNumeroSection() {
     let highestNumeroSection = 1;
     if (sections.length > 0) {
       highestNumeroSection = Math.max(...sections.map((section) => section.numero_section)) + 1;
     }
+    return highestNumeroSection;
+  }
 
+  async function handleCreateSection() {
     let section = {
-      numero_section: highestNumeroSection,
+      numero_section: getHighestNumeroSection(),
       texte: 'New section',
       id_image: '1',
-      type: '',
+      type: 'none',
       resultat: null,
       destinations: []
     };
@@ -95,15 +95,14 @@ export function AdminSectionListView() {
       body: JSON.stringify(section)
     });
     const resData = await response.json();
+    section.id = resData.message.id;
+
+    console.log('section', section);
 
     // Add the new book to the list
     if (section.length === 0) {
-      console.log('section is empty');
-      console.log('resData', resData);
-      console.log('sections', sections);
-      console.log(section.length);
       setSections([resData]);
-    } else setSections([...sections, resData]);
+    } else setSections([...sections, section]);
   }
 
   return (
@@ -127,22 +126,24 @@ export function AdminSectionListView() {
         </div>
       </div>
       <div className={'section-list'}>
-        {sections.map((section, index) => (
-          <div key={index} className={'section'}>
-            <div className={'section-info'}>
-              <p className={'section-title'}>{section.texte}</p>
-              <p className={'section-id'}>ID: {section.id}</p>
+        {sections
+          ?.sort((a, b) => a.id > b.id)
+          .map((section, index) => (
+            <div key={index} className={'section'}>
+              <div className={'section-info'}>
+                <p className={'section-title'}>{section.texte}</p>
+                <p className={'section-id'}>ID: {section.id}</p>
+              </div>
+              <div className={'section-actions'}>
+                <NavLink to={`/admin/${bookId}/section/${section.id}`}>
+                  <img className={'icon edit'} src={EditIcon} alt="Edit" />
+                </NavLink>
+                <a onClick={() => handleDeleteBook(section.id)}>
+                  <img className={'icon delete'} src={DeleteIcon} alt="Delete" />
+                </a>
+              </div>
             </div>
-            <div className={'section-actions'}>
-              <NavLink to={`/admin/${bookId}/section/${section.id}`}>
-                <img className={'icon edit'} src={EditIcon} alt="Edit" />
-              </NavLink>
-              <a onClick={() => handleDeleteBook(section.id)}>
-                <img className={'icon delete'} src={DeleteIcon} alt="Delete" />
-              </a>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

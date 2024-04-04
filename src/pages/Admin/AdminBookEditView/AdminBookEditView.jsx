@@ -23,7 +23,6 @@ export function AdminBookEditView() {
   }, [bookId, apiURL]);
 
   function editBook(e) {
-    console.log(e.target.name, e.target.value);
     setEditBook((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
@@ -43,24 +42,87 @@ export function AdminBookEditView() {
     setEditBook((prev) => ({ ...prev, tag: newTags.join(';') }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    fetch(`${apiURL}/livres/${bookId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(EditBook)
-    }).then((response) => {
-      if (response.ok) {
-        console.log('Book updated');
-        navigate('/admin');
-      } else {
-        console.error('Error updating book');
-      }
-    });
+    let id_image = 0;
+
+    if (image) {
+      console.log('Uploading image');
+      await fetch(`${apiURL}/images/url`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url: image })
+      }).then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            fetch(`${apiURL}/livres/${bookId}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ ...EditBook, id_image: data.id })
+            }).then((response) => {
+              if (response.ok) {
+                navigate('/admin');
+              } else {
+                console.error('Error updating book');
+              }
+            });
+          });
+        } else {
+          console.error('Error uploading image');
+        }
+      });
+    } else if (imageAi) {
+      await fetch(`${apiURL}/images`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt: EditBook.resume })
+      }).then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            fetch(`${apiURL}/livres/${bookId}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ ...EditBook, id_image: data.id })
+            }).then((response) => {
+              if (response.ok) {
+                navigate('/admin');
+              } else {
+                console.error('Error updating book');
+              }
+            });
+          });
+        } else {
+          console.error('Error uploading image');
+        }
+      });
+    } else {
+      await fetch(`${apiURL}/livres/${bookId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ...EditBook, id_image })
+      }).then((response) => {
+        if (response.ok) {
+          // navigate('/admin');
+        } else {
+          console.error('Error updating book');
+        }
+      });
+    }
   }
+
+  const [image, setImage] = useState('');
+  const [imageAi, setImageAi] = useState(false);
 
   return (
     <div className={'admin-book-edit-view'}>
@@ -72,7 +134,23 @@ export function AdminBookEditView() {
         <label htmlFor="resume">Resume:</label>
         <textarea id="resume" name="resume" value={EditBook.resume} onChange={editBook} />
         <label htmlFor="image">Image:</label>
-        <input type="text" id="image" name="image" value={EditBook.img} onChange={editBook} />
+        <input
+          type="text"
+          id="image"
+          name="image"
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+        />
+        <div>
+          <label htmlFor="ai">AI:</label>
+          <input
+            type="checkbox"
+            id="ai"
+            name="ai"
+            value={imageAi}
+            onChange={(e) => setImageAi(e.target.checked)}
+          />
+        </div>
         <div className={'dual-input'}>
           <div className={'left'}>
             <label htmlFor="releaseDate">Release Date:</label>

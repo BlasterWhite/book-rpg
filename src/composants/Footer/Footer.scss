@@ -3,6 +3,7 @@
 div.footer-background {
   background-image: linear-gradient($footer-top-background-color, $footer-bottom-background-color);
   color: $footer-text-color;
+  margin-top: 2rem;
 
   .footer-body {
     max-width: 1140px;
