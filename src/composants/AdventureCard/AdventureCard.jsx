@@ -1,7 +1,7 @@
 import './AdventureCard.scss';
 import PropTypes from 'prop-types';
 
-export function AdventureCard({ adventure, handleFavourite }) {
+export function AdventureCard({ adventure }) {
   return (
     <div className={'adventure-card'}>
       <div className={'adventure-card-content'}>
@@ -14,6 +14,5 @@ export function AdventureCard({ adventure, handleFavourite }) {
 AdventureCard.propTypes = {
   adventure: PropTypes.shape({
     id: PropTypes.number.isRequired
-  }).isRequired,
-  handleFavourite: PropTypes.func.isRequired
+  }).isRequired
 };
