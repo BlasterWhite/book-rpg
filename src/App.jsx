@@ -3,7 +3,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { SingleBook } from '@/pages/Book/SingleBook.jsx';
 import { LibraryView } from '@/pages/Library/LibraryView.jsx';
 import { HomeView } from '@/pages/Home/HomeView.jsx';
-import { CharacterSelection } from '@/pages/Book/CharacterSelection.jsx';
+import { AdventureSelection } from '@/pages/Book/AdventureSelection.jsx';
 import { LoginView } from '@/pages/Account/LoginView.jsx';
 import { RegisterView } from '@/pages/Account/RegisterView.jsx';
 import { Footer } from '@/composants/Footer/Footer.jsx';
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
             children: [
               {
                 path: '',
-                element: <CharacterSelection />
+                element: <AdventureSelection />
               },
               {
                 path: ':characterId',
