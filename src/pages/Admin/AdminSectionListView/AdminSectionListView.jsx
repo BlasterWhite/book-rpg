@@ -16,7 +16,6 @@ export function AdminSectionListView() {
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
   async function getSections(bookId) {
-    console.log('user.token', user.token);
     return await fetch(`${apiURL}/livres/${bookId}/sections`, {
       method: 'GET',
       headers: {
@@ -120,8 +119,6 @@ export function AdminSectionListView() {
     });
     const resData = await response.json();
     section.id = resData.message.id;
-
-    console.log('section', section);
 
     // Add the new book to the list
     if (section.length === 0) {
