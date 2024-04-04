@@ -45,5 +45,112 @@
       "releaseDate": "2024-03-30",
       "tags": "Tag1;Tag2;Tag3"
     }
+  ],
+  "sections": [
+    {
+      "id": 1,
+      "id_livre": 1,
+      "numero_section": 1,
+      "texte": "Vous commencez une nouvelle aventure. Si vous souhaitez voir le Pere Fouras, rendez-vous au 2. Si vous souhaitez combattre la sorciere, rendez-vous au 3.",
+      "id_image": 1,
+      "type": "choix",
+      "resultat": null,
+      "sections": [
+        {
+          "id": 3,
+          "id_livre": 1,
+          "numero_section": 3,
+          "texte": "Vous vous retrouvez face a la sorciere. Si vous gagnez, rendez-vous au 4. Sinon rendez-vous au 5.",
+          "id_image": 1,
+          "type": "combat",
+          "association_liaison_section": {
+            "id_section_source": 1,
+            "id_section_destination": 3
+          }
+        },
+        {
+          "id": 2,
+          "id_livre": 1,
+          "numero_section": 2,
+          "texte": "Vous vous retrouvez face au Pere Fouras qui vous demande de lancer des des. Si votre lance est superieur a 5, rendez-vous au 6. Si votre lance est inferieur ou egal a 5, rendez-vous au 7.",
+          "id_image": 1,
+          "type": "des",
+          "association_liaison_section": {
+            "id_section_source": 1,
+            "id_section_destination": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "id_livre": 1,
+      "numero_section": 2,
+      "texte": "Vous commencez une nouvelle aventure. Si vous souhaitez voir le Pere Fouras, rendez-vous au 2. Si vous souhaitez combattre la sorciere, rendez-vous au 3.",
+      "id_image": 1,
+      "type": "choix",
+      "resultat": null,
+      "sections": [
+        {
+          "id": 3,
+          "id_livre": 1,
+          "numero_section": 3,
+          "texte": "Section 2 : Vous vous retrouvez face a la sorciere. Si vous gagnez, rendez-vous au 4. Sinon rendez-vous au 5.",
+          "id_image": 1,
+          "type": "combat",
+          "association_liaison_section": {
+            "id_section_source": 1,
+            "id_section_destination": 3
+          }
+        },
+        {
+          "id": 2,
+          "id_livre": 1,
+          "numero_section": 2,
+          "texte": "Vous vous retrouvez face au Pere Fouras qui vous demande de lancer des des. Si votre lance est superieur a 5, rendez-vous au 6. Si votre lance est inferieur ou egal a 5, rendez-vous au 7.",
+          "id_image": 1,
+          "type": "des",
+          "association_liaison_section": {
+            "id_section_source": 1,
+            "id_section_destination": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "id_livre": 1,
+      "numero_section": 3,
+      "texte": "Section 3 : Vous commencez une nouvelle aventure. Si vous souhaitez voir le Pere Fouras, rendez-vous au 2. Si vous souhaitez combattre la sorciere, rendez-vous au 3.",
+      "id_image": 1,
+      "type": "choix",
+      "resultat": null,
+      "sections": [
+        {
+          "id": 3,
+          "id_livre": 1,
+          "numero_section": 3,
+          "texte": "Vous vous retrouvez face a la sorciere. Si vous gagnez, rendez-vous au 4. Sinon rendez-vous au 5.",
+          "id_image": 1,
+          "type": "combat",
+          "association_liaison_section": {
+            "id_section_source": 1,
+            "id_section_destination": 3
+          }
+        },
+        {
+          "id": 2,
+          "id_livre": 1,
+          "numero_section": 2,
+          "texte": "Vous vous retrouvez face au Pere Fouras qui vous demande de lancer des des. Si votre lance est superieur a 5, rendez-vous au 6. Si votre lance est inferieur ou egal a 5, rendez-vous au 7.",
+          "id_image": 1,
+          "type": "des",
+          "association_liaison_section": {
+            "id_section_source": 1,
+            "id_section_destination": 2
+          }
+        }
+      ]
+    }
   ]
 }

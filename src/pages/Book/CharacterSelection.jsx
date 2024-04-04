@@ -5,7 +5,7 @@ export function CharacterSelection() {
   return (
     <div>
       <h1>Book {bookId}</h1>
-      <h3>Character Selection</h3>
+      <h3>Character Selection url /book/:idLivres</h3>
     </div>
   );
 }
