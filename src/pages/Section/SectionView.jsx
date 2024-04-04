@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import './SectionView.scss';
 import { MultipleChoiceComponent } from '@/composants/MultipleChoiceComponent.jsx';
 import { DiceComponent } from '@/composants/DiceComponent/DiceComponent.jsx';
+import { EnigmaComponent } from '../../composants/EnigmaComponent/EnigmaComponent';
 
 export function SectionView({ section, handleNextSection }) {
   const { texte, sections, image, type } = section;
@@ -16,7 +17,8 @@ export function SectionView({ section, handleNextSection }) {
           />
         );
       if (type === 'combat') return <h2>Combat</h2>;
-      if (type === 'enigme') return <h2>Enigme</h2>;
+      if (type === 'enigme')
+        return <EnigmaComponent handleNextSection={handleNextSection} section={section} />;
       if (type === 'des')
         return (
           <DiceComponent
