@@ -2,16 +2,28 @@ import { useParams } from 'react-router-dom';
 import './AdventureSelection.scss';
 import { useEffect, useState } from 'react';
 import { AdventureCard } from '@/composants/AdventureCard/AdventureCard.jsx';
+import Cookies from 'js-cookie';
 
 export function AdventureSelection() {
   const { bookId } = useParams();
   const [, setSearch] = useState('');
   const [adventures, setAdventures] = useState([]);
 
+  let token = Cookies.get('token');
   useEffect(() => {
     // Fetch adventures from the server
     console.log('fetching adventures');
-    fetch(`${import.meta.env.VITE_API_URL}/users/1/aventures`).then((response) => {
+    if (!token) {
+      window.location.href = '/login';
+    }
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', Authorization: `${token}` }
+    };
+    fetch(
+      `${import.meta.env.VITE_API_URL}/users/${JSON.parse(localStorage.getItem('user')).id}/aventures`,
+      requestOptions
+    ).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setAdventures(data);
@@ -37,7 +49,9 @@ export function AdventureSelection() {
     if (!e.target.value) {
       // Fetch adventuress from the server
       console.log('fetching adventures for the search');
-      fetch(`${import.meta.env.VITE_API_URL}/users/1/aventures`).then((response) => {
+      fetch(
+        `${import.meta.env.VITE_API_URL}/users/${JSON.parse(localStorage.getItem('user')).id}/aventures`
+      ).then((response) => {
         if (response.ok) {
           response.json().then((data) => {
             setAdventures(data);
@@ -52,13 +66,15 @@ export function AdventureSelection() {
   function createAdventure() {
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Authorization: `${token}` },
       body: JSON.stringify({
         id_utilisateur: 1,
-        id_livre: parseInt(bookId),
-        id_section_actuelle: 1,
-        id_personnage: 32
+        id_livre: parseInt(bookId)
       })
+    };
+    const requestOptionsGet = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', Authorization: `${token}` }
     };
     fetch(`${import.meta.env.VITE_API_URL}/aventures`, requestOptions)
       .then((response) => {
@@ -67,7 +83,10 @@ export function AdventureSelection() {
         }
       })
       .then(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/users/1/aventures`)
+        fetch(
+          `${import.meta.env.VITE_API_URL}/users/${JSON.parse(localStorage.getItem('user')).id}/aventures`,
+          requestOptionsGet
+        )
           .then((response) => {
             if (response.ok) {
               return response.json();
@@ -87,25 +106,31 @@ export function AdventureSelection() {
   function redirect(adventureId) {
     let characterId;
     let currentSection;
-    fetch(`${import.meta.env.VITE_API_URL}/aventures/${adventureId}`).then((response) => {
-      if (!response.ok) {
-        console.error('error fetching adventure');
-        return null;
-      } else {
-        response
-          .json()
-          .then((data) => {
-            characterId = data.id_personnage;
-            currentSection = data.id_section_actuelle;
-          })
-          .then(() => {
-            if (!characterId || !currentSection) {
-              return null;
-            }
-            window.location.href = `/book/${bookId}/${characterId}/${currentSection}`;
-          });
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', Authorization: `${token}` }
+    };
+    fetch(`${import.meta.env.VITE_API_URL}/aventures/${adventureId}`, requestOptions).then(
+      (response) => {
+        if (!response.ok) {
+          console.error('error fetching adventure');
+          return null;
+        } else {
+          response
+            .json()
+            .then((data) => {
+              characterId = data.id_personnage;
+              currentSection = data.id_section_actuelle;
+            })
+            .then(() => {
+              if (!characterId || !currentSection) {
+                return null;
+              }
+              window.location.href = `/book/${bookId}/${characterId}/${currentSection}`;
+            });
+        }
       }
-    });
+    );
     return null;
   }
 
