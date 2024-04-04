@@ -4,6 +4,11 @@
   --black-text-color: #333;
   --primary-color: #007bff;
   --white-text-color: #fff;
+  --secondary-color: #1a41cd;
+  --accent-color: #ff833d;
+  --danger-color: #fc2a2a;
+  --success-color: #1cf95a;
+  --warning-color: #ffe600;
 
   // Footer
   --footer-top-background-color: #333333;
@@ -16,6 +21,7 @@
 
   // Sizes
   --max-width: 1140px;
+  --text-color: #333;
 }
 
 // General
@@ -23,6 +29,11 @@ $background-color: var(--background-color);
 $black-text-color: var(--black-text-color);
 $white-text-color: var(--white-text-color);
 $primary-color: var(--primary-color);
+$secondary-color: var(--secondary-color);
+$accent-color: var(--accent-color);
+$danger-color: var(--danger-color);
+$success-color: var(--success-color);
+$warning-color: var(--warning-color);
 
 // Footer
 $footer-top-background-color: var(--footer-top-background-color);
