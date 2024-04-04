@@ -1,4 +1,4 @@
-@import '@/assets/scss/variables';
+@import '@/assets/scss/variables.scss';
 
 .home-view {
   text-align: center;
@@ -13,7 +13,7 @@
   }
 
   .home-content {
-    max-width: 1140px;
+    max-width: $max-width;
     margin: 2rem auto;
 
     .home-header {
@@ -44,7 +44,7 @@
           width: fit-content;
           font-size: 1.25rem;
           background: transparent;
-          color: $text-color;
+          color: $black-text-color;
           border: 2px solid $primary-color;
           border-radius: 1rem;
           cursor: pointer;
