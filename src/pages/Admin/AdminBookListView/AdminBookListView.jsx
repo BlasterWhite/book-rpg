@@ -97,10 +97,12 @@ export function AdminBookListView() {
 
     // TODO: Implement the API call to create a new book
     // Post the new book to the server
+    if (!user) return;
     const response = await fetch(`${apiURL}/livres`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: user.token
       },
       body: JSON.stringify(book)
     });
