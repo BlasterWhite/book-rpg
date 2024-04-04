@@ -2,14 +2,13 @@ import './HomeView.scss';
 import newIcon from '@/assets/icons/newIcon.svg';
 import stonksIcon from '@/assets/icons/StonksIcon.svg';
 import { useNavigate } from 'react-router-dom';
-import MockJSON from '@/assets/mock.json';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
 import { useEffect, useState } from 'react';
 
 export function HomeView() {
   const navigate = useNavigate();
 
-  const [books, setBooks] = useState(MockJSON.books);
+  const [books, setBooks] = useState([]);
 
   const [newBooks, setNewBooks] = useState([]);
 

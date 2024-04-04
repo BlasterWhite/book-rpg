@@ -28,7 +28,13 @@ export function SingleBook() {
 
   function renderSection() {
     if (section && section.id) {
-      return <SectionView characterId={characterId} section={section} handleNextSection={handleSectionClicked} />;
+      return (
+        <SectionView
+          characterId={characterId}
+          section={section}
+          handleNextSection={handleSectionClicked}
+        />
+      );
     } else {
       return <div>Loading...</div>;
     }
