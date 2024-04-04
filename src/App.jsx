@@ -142,6 +142,7 @@ function App() {
   };
 
   useEffect(() => {
+    console.log('App useEffect');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const user = localStorage.getItem('user');
     if (isLoggedIn) {

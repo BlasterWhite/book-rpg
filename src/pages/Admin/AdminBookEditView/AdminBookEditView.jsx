@@ -1,6 +1,7 @@
 import './AdminBookEditView.scss';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 
 export function AdminBookEditView() {
   const { bookId } = useParams();
@@ -9,9 +10,17 @@ export function AdminBookEditView() {
   const navigate = useNavigate();
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    fetch(`${apiURL}/livres/${bookId}`).then((response) => {
+    if (!user) return;
+    fetch(`${apiURL}/livres/${bookId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setEditBook(data);
@@ -20,7 +29,7 @@ export function AdminBookEditView() {
         console.error('Error fetching books');
       }
     });
-  }, [bookId, apiURL]);
+  }, [bookId, apiURL, user]);
 
   function editBook(e) {
     setEditBook((prev) => ({ ...prev, [e.target.name]: e.target.value }));
