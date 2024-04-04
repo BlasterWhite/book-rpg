@@ -4,51 +4,52 @@ import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import Cookies from 'js-cookie';
 
 export function AdminEquipementListView() {
   const [, setSearch] = useState('');
-  const [weapons, setWeapons] = useState([]);
-
+  const [equipment, setEquipment] = useState([]);
   const { user } = useContext(AuthContext);
+
+  let token = Cookies.get('token');
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
-  async function getWeapons() {
-    return await fetch(`${apiURL}/armes`, {
+  async function getEquipment() {
+    return await fetch(`${apiURL}/equipements`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: user.token
+        Authorization: token
       }
     }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
-          setWeapons(data);
+          setEquipment(data);
         });
       } else {
-        console.error('Error fetching weapons');
+        console.error('Error fetching equipment');
       }
     });
   }
 
   useEffect(() => {
     if (!user) return;
-    fetch(`${apiURL}/armes`, {
+    fetch(`${apiURL}/equipements`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: user.token
+        Authorization: token
       }
     }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
-          console.log(data);
-          setWeapons(data);
+          setEquipment(data);
         });
       } else {
-        console.error('Error fetching weapons');
+        console.error('Error fetching equipment');
       }
     });
   }, [apiURL, user]);
@@ -57,68 +58,67 @@ export function AdminEquipementListView() {
     setSearch(e.target.value);
 
     // Filter sections by title or ID
-    const filteredWeapons = weapons.filter(
+    const filteredEquipment = equipment.filter(
       (section) =>
         // TODO: search on what ?
         section.texte.toLowerCase().includes(e.target.value.toLowerCase()) ||
         section.numero_section.toString().includes(e.target.value)
     );
 
-    setWeapons(filteredWeapons);
+    setEquipment(filteredEquipment);
 
     // If search is empty, show all sections
     if (!e.target.value) {
-      getWeapons();
+      getEquipment();
     }
   }
 
-  async function handleDeleteWeapons(id) {
+  async function handleDeleteEquipment(id) {
     if (!user) return;
-    await fetch(`${apiURL}/armes`, {
+    await fetch(`${apiURL}/equipements/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: user.token
+        Authorization: token
       }
     }).then((response) => {
       if (response.ok) {
-        // Remove the weapon from the list
-        setWeapons(weapons.filter((weapon) => weapon.id !== id));
+        // Remove the equipment from the list
+        setEquipment(equipment.filter((eq) => eq.id !== id));
       } else {
-        console.error('Error deleting weapon');
+        console.error('Error deleting equipment');
       }
     });
   }
 
-  async function handleCreateWeapon() {
-    let weapon = {
-      titre: 'new weapon',
-      description: 'new weapon description',
+  async function handleCreateEquipment() {
+    let eq = {
+      nom: 'new equipment',
+      description: 'new equipment description',
       id_image: 2,
-      degats: 10,
-      durabilite: 5
+      resistance: 10
     };
 
     // Post the new book to the server
     if (!user) return;
-    const response = await fetch(`${apiURL}/armes`, {
+    const response = await fetch(`${apiURL}/equipements`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: user.token
+        Authorization: token
       },
-      body: JSON.stringify(weapon)
+      body: JSON.stringify(eq)
     });
     const resData = await response.json();
 
-    // Add the new weapon to the list
-    setWeapons([...weapons, resData]);
+    // Add the new equipment to the list
+    setEquipment([...equipment, resData]);
   }
 
   return (
-    <div className={'admin-weapon-list-view'}>
-      <h1 className={'title'}>Admin | Weapons list</h1>
-      <div className={'weapon-header'}>
+    <div className={'admin-equipment-list-view'}>
+      <h1 className={'title'}>Admin | Equipment list</h1>
+      <div className={'equipment-header'}>
         <div className={'actions'}>
           <input
             type="text"
@@ -126,23 +126,23 @@ export function AdminEquipementListView() {
             className={'search'}
             onChange={handleSearch}
           />
-          <BaseButton text={'Create a weapon'} icon={AddIcon} onClick={handleCreateWeapon} />
+          <BaseButton text={'Create an equipment'} icon={AddIcon} onClick={handleCreateEquipment} />
         </div>
       </div>
-      <div className={'weapon-list'}>
-        {weapons
+      <div className={'equipment-list'}>
+        {equipment
           ?.sort((a, b) => a.id > b.id)
-          .map((weapon, index) => (
-            <div key={index} className={'weapon'}>
-              <div className={'weapon-info'}>
-                <p className={'weapon-title'}>{weapon.titre}</p>
-                <p className={'weapon-id'}>ID: {weapon.id}</p>
+          .map((equipment, index) => (
+            <div key={index} className={'equipment'}>
+              <div className={'equipment-info'}>
+                <p className={'equipment-title'}>{equipment.nom}</p>
+                <p className={'equipment-id'}>ID: {equipment.id}</p>
               </div>
-              <div className={'weapon-actions'}>
-                <NavLink to={`/admin/weapon/${weapon.id}`}>
+              <div className={'equipment-actions'}>
+                <NavLink to={`/admin/equipment/${equipment.id}`}>
                   <img className={'icon edit'} src={EditIcon} alt="Edit" />
                 </NavLink>
-                <a onClick={() => handleDeleteWeapons(weapon.id)}>
+                <a onClick={() => handleDeleteEquipment(equipment.id)}>
                   <img className={'icon delete'} src={DeleteIcon} alt="Delete" />
                 </a>
               </div>

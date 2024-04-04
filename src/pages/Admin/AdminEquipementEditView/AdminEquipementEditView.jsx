@@ -3,6 +3,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
+import Cookies from 'js-cookie';
 
 export function AdminEquipementEditView() {
   const { equipmentId } = useParams();
@@ -14,6 +15,8 @@ export function AdminEquipementEditView() {
     resistance: 0
   });
 
+  let token = Cookies.get('token');
+
   const { user } = useContext(AuthContext);
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
@@ -24,7 +27,7 @@ export function AdminEquipementEditView() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: user.token
+        Authorization: token
       }
     }).then((response) => {
       if (response.ok) {
@@ -36,7 +39,7 @@ export function AdminEquipementEditView() {
           // }
         });
       } else {
-        console.error('Error fetching weapon');
+        console.error('Error fetching equipment');
       }
     });
   }, [equipmentId, apiURL, user]);
@@ -52,7 +55,7 @@ export function AdminEquipementEditView() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: user.token
+        Authorization: token
       },
       body: JSON.stringify({ url: imageUrl })
     }).then((response) => {
@@ -86,7 +89,7 @@ export function AdminEquipementEditView() {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: user.token
+        Authorization: token
       },
       body: JSON.stringify(equipment)
     }).then((response) => {
@@ -113,20 +116,12 @@ export function AdminEquipementEditView() {
           value={equipment.description}
           onChange={editEquipment}
         />
-        <label htmlFor={'degats'}>Damage: </label>
+        <label htmlFor={'resistance'}>Resistance: </label>
         <input
           type="number"
-          name="degats"
-          id="degats"
-          value={equipment.degats}
-          onChange={editEquipment}
-        />
-        <label htmlFor={'durabilite'}>Durability: </label>
-        <input
-          type="number"
-          name="durabilite"
-          id="durabilite"
-          value={equipment.durabilite}
+          name="resistance"
+          id="resistance"
+          value={equipment.resistance}
           onChange={editEquipment}
         />
         <label htmlFor={'image'}>Image: </label>
