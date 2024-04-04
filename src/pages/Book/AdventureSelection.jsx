@@ -1,40 +1,85 @@
 import { useParams } from 'react-router-dom';
 import './AdventureSelection.scss';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AdventureCard } from '@/composants/AdventureCard/AdventureCard.jsx';
-import Cookies from 'js-cookie';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 
 export function AdventureSelection() {
   const { bookId } = useParams();
   const [, setSearch] = useState('');
+  const [book, setBook] = useState([]);
   const [adventures, setAdventures] = useState([]);
+  const { user } = useContext(AuthContext);
 
-  let token = Cookies.get('token');
+  const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+  /*
   useEffect(() => {
+    try {
+      JSON.parse(localStorage.getItem('user')).id;
+    } catch(error) {
+      console.log("error");
+    }
     // Fetch adventures from the server
     console.log('fetching adventures');
-    if (!token) {
-      window.location.href = '/login';
-    }
+    if (!user) return;
     const requestOptions = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json', Authorization: `${token}` }
+      headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
     fetch(
       `${import.meta.env.VITE_API_URL}/users/${JSON.parse(localStorage.getItem('user')).id}/aventures`,
       requestOptions
-    ).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          setAdventures(data);
-        });
+      ).then((response) => {
+        if (response.ok) {
+          console.log(response);
+          try {
+            response.json().then((data) => {
+              setAdventures(data);
+            });
+          } catch(error) {
+            console.log("error");
+          }
+          
       } else {
         console.error('Error fetching adventures');
       }
     });
-  }, [token]);
+  }, [user]);
+  */
+  useEffect(() => {
+    try {
+      JSON.parse(localStorage.getItem('user')).id;
+    } catch(error) {
+      console.log("error");
+    }
+    // Fetch adventures from the server
+    console.log('fetching books');
+    if (!user) return;
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', Authorization: user.token }
+    };
+    fetch(
+      `${apiURL}/livres/${bookId}`,
+      requestOptions
+    ).then((response) => {
+      if(response.ok) {
+        response.json().then((data) => {
+          setBook(data);
+        })
+      } else {
+        console.error('Error fetching books');
+      }
+    });
+  }, [user]);
 
   function handleSearch(e) {
+    try {
+      JSON.parse(localStorage.getItem('user')).id;
+    } catch(error) {
+      console.log("error");
+    }
+
     setSearch(e.target.value);
 
     // Filter adventures by name
@@ -161,7 +206,11 @@ export function AdventureSelection() {
 
   return (
     <div>
-      <h1>Book {bookId}</h1>
+      <div>
+        <h1>{book.titre}</h1>
+        <p className='text-scenario'>{book.resume}</p>
+        <img src={book.image.image} alt={'Livre image'} className='book-image'/>
+      </div>
       <h3>Adventure Selection</h3>
       <div className={'adventure-selection'}>
         <header className={'adventure-selection-header'}>
