@@ -234,6 +234,44 @@ export function AdminSectionEditView() {
     });
   }
 
+  const [events, setEvents] = useState([
+    {
+      operation: 'none',
+      witch: 'attribute',
+      type: 'none',
+      value: 0
+    },
+    {
+      operation: 'none',
+      witch: 'attribute',
+      type: 'none',
+      value: 0
+    },
+    {
+      operation: 'none',
+      witch: 'attribute',
+      type: 'none',
+      value: 0
+    },
+    {
+      operation: 'none',
+      witch: 'attribute',
+      type: 'none',
+      value: 0
+    }
+  ]);
+
+  function handleEventChange(eventIndex, e) {
+    setEvents((prev) => {
+      const newEvents = [...prev];
+      newEvents[eventIndex] = {
+        ...newEvents[eventIndex],
+        [e.target.id]: e.target.value
+      };
+      return newEvents;
+    });
+  }
+
   return (
     <div className={'admin-section-edit-view'}>
       <h1 className={'title'}>Admin</h1>
@@ -241,6 +279,47 @@ export function AdminSectionEditView() {
       <form onSubmit={handleSubmit}>
         <label htmlFor={'texte'}>Text: </label>
         <textarea name="texte" value={EditSection.texte} onChange={editSection} />
+        <details>
+          <summary>Events settings</summary>
+          {events.map((event, index) => (
+            <details className={'event'} key={index}>
+              <summary>Event {index + 1}</summary>
+              <label htmlFor={'operation'}>Operation: </label>
+              <select
+                id={'operation'}
+                value={event.operation}
+                onChange={(e) => handleEventChange(index, e)}>
+                <option value={'none'}>None</option>
+                <option value={'add'}>Add</option>
+                <option value={'remove'}>Remove</option>
+              </select>
+              <label htmlFor={'witch'}>What: </label>
+              <select
+                id={'witch'}
+                value={event.witch}
+                onChange={(e) => handleEventChange(index, e)}>
+                <option value={'attribute'}>attribute</option>
+                <option value={'equipment'}>equipment</option>
+                <option value={'weapon'}>weapon</option>
+              </select>
+              <label htmlFor={'type'}>Type: </label>
+              <select id={'type'} value={event.type} onChange={(e) => handleEventChange(index, e)}>
+                <option value={'force'}>Force</option>
+                <option value={'dexterite'}>Dextérité</option>
+                <option value={'endurance'}>Endurance</option>
+                <option value={'psychisme'}>Psychisme</option>
+                <option value={'resistance'}>Resistance</option>
+              </select>
+              <label htmlFor={'value'}>Value:</label>
+              <input
+                type="number"
+                id={'value'}
+                value={event.value}
+                onChange={(e) => handleEventChange(index, e)}
+              />
+            </details>
+          ))}
+        </details>
         <div className={'interactivity-section'}>
           <select name="type" value={EditSection.type} onChange={editSection}>
             <option value="none">None</option>
