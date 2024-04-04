@@ -1,0 +1,58 @@
+@import '@/assets/scss/variables';
+
+.admin-section-edit-view {
+  max-width: 1140px;
+  margin: 0 auto;
+  width: 100%;
+
+  h1.title {
+    font-size: 24px;
+  }
+
+  form {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    input[type='text'],
+    input[type='number'],
+    input[type='file'],
+    input[type='date'],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+      font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+      font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    }
+
+    .interactivity-section {
+      width: 100%;
+
+      .dice-content {
+        display: flex;
+        gap: 16px;
+        flex-direction: column;
+
+        .dices {
+          display: flex;
+          gap: 8px;
+        }
+      }
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+  }
+}
