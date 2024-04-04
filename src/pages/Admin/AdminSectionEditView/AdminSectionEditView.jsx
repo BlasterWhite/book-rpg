@@ -238,25 +238,25 @@ export function AdminSectionEditView() {
     {
       operation: 'none',
       witch: 'attribute',
-      type: 'none',
+      type: 'force',
       value: 0
     },
     {
       operation: 'none',
       witch: 'attribute',
-      type: 'none',
+      type: 'force',
       value: 0
     },
     {
       operation: 'none',
       witch: 'attribute',
-      type: 'none',
+      type: 'force',
       value: 0
     },
     {
       operation: 'none',
       witch: 'attribute',
-      type: 'none',
+      type: 'force',
       value: 0
     }
   ]);
