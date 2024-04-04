@@ -3,7 +3,7 @@ import { SectionView } from '@/pages/Section/SectionView.jsx';
 import { useEffect, useState } from 'react';
 
 export function SingleBook() {
-  const { sectionId, bookId } = useParams();
+  const { sectionId, bookId, characterId } = useParams();
   const navigate = useNavigate();
 
   const token =
@@ -28,14 +28,14 @@ export function SingleBook() {
 
   function renderSection() {
     if (section && section.id) {
-      return <SectionView section={section} handleNextSection={handleSectionClicked} />;
+      return <SectionView characterId={characterId} section={section} handleNextSection={handleSectionClicked} />;
     } else {
       return <div>Loading...</div>;
     }
   }
 
   const handleSectionClicked = (newSectionId) => {
-    navigate(`/book/${bookId}/section/${newSectionId}`);
+    navigate(`/book/${bookId}/${characterId}}/${newSectionId}`);
   };
 
   return (
