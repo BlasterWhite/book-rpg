@@ -52,7 +52,7 @@ export function AdminEquipementListView() {
         console.error('Error fetching equipment');
       }
     });
-  }, [apiURL, user]);
+  }, [apiURL, user, token]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
