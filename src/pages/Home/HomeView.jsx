@@ -2,32 +2,47 @@ import './HomeView.scss';
 import newIcon from '@/assets/icons/newIcon.svg';
 import stonksIcon from '@/assets/icons/StonksIcon.svg';
 import { useNavigate } from 'react-router-dom';
-import MockJSON from '@/assets/mock.json';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
 import { useEffect, useState } from 'react';
 
 export function HomeView() {
   const navigate = useNavigate();
 
-  const [books, setBooks] = useState(MockJSON.books);
-
+  const [books, setBooks] = useState([]);
   const [newBooks, setNewBooks] = useState([]);
+  const [popularBooks, setPopularBooks] = useState([]);
 
-  const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+  const apiURL =
+    'http://localhost:3000' || import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
   useEffect(() => {
-    // Fetch books from the server
     if (!apiURL) return console.error('No API URL provided', apiURL);
-    fetch(`${apiURL}/livres`).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          // Set the first 4 books as new books
-          setNewBooks(data.slice(0, 4));
-        });
-      } else {
-        console.error('Error fetching books');
-      }
-    });
+    fetch(`${apiURL}/livres`).then((response) =>
+      response
+        .json()
+        .then((data) => setBooks(data))
+        .catch((error) => console.error('Error fetching books', error))
+    );
+  }, [apiURL]);
+
+  useEffect(() => {
+    if (!apiURL) return console.error('No API URL provided', apiURL);
+    fetch(`${apiURL}/livres/news`).then((response) =>
+      response
+        .json()
+        .then((data) => setNewBooks(data.length > 0 ? data.slice(0, 4) : []))
+        .catch((error) => console.error('Error fetching books', error))
+    );
+  }, [apiURL]);
+
+  useEffect(() => {
+    if (!apiURL) return console.error('No API URL provided', apiURL);
+    fetch(`${apiURL}/livres/popular`).then((response) =>
+      response
+        .json()
+        .then((data) => setPopularBooks(data.length > 0 ? data.slice(0, 4) : []))
+        .catch((error) => console.error('Error fetching books', error))
+    );
   }, [apiURL]);
 
   function handleClick() {
@@ -41,6 +56,7 @@ export function HomeView() {
       }
       return book;
     });
+    console.log(newBooks);
     setBooks(newBooks);
   };
 
@@ -76,13 +92,16 @@ export function HomeView() {
             Popular adventures
           </h3>
           <div className={'popular-books'}>
-            {newBooks.map((book) => (
-              <BookCard
-                key={book.id}
-                book={book}
-                handleFavourite={() => handleFavourite(book.id)}
-              />
-            ))}
+            {popularBooks.map(
+              (book) =>
+                book.id && (
+                  <BookCard
+                    key={book.id}
+                    book={book}
+                    handleFavourite={() => handleFavourite(book.id)}
+                  />
+                )
+            )}
           </div>
         </div>
         <div className={'home-new-books'}>
@@ -91,13 +110,16 @@ export function HomeView() {
             New adventures
           </h3>
           <div className={'new-books'}>
-            {newBooks.map((book) => (
-              <BookCard
-                key={book.id}
-                book={book}
-                handleFavourite={() => handleFavourite(book.id)}
-              />
-            ))}
+            {newBooks.map(
+              (book) =>
+                book.id && (
+                  <BookCard
+                    key={book.id}
+                    book={book}
+                    handleFavourite={() => handleFavourite(book.id)}
+                  />
+                )
+            )}
           </div>
         </div>
       </div>

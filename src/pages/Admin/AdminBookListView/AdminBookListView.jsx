@@ -2,14 +2,16 @@ import './AdminBookListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import NodeIcon from '@/assets/icons/BookIcon.svg';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 
 export function AdminBookListView() {
   const [, setSearch] = useState('');
   const [books, setBooks] = useState([]);
+  const { user } = useContext(AuthContext);
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
@@ -24,7 +26,7 @@ export function AdminBookListView() {
         console.error('Error fetching books');
       }
     });
-  }, [apiURL]);
+  }, [apiURL, user]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -55,7 +57,11 @@ export function AdminBookListView() {
 
   async function handleDeleteBook(id) {
     await fetch(`${apiURL}/livres/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
     }).then((response) => {
       if (response.ok) {
         // Remove the book from the list
@@ -93,12 +99,12 @@ export function AdminBookListView() {
     const response = await fetch(`${apiURL}/livres`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: user.token
       },
       body: JSON.stringify(book)
     });
     const resData = await response.json();
-
     // Add the new book to the list
     setBooks([...books, resData]);
   }

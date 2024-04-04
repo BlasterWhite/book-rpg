@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 export function BookCard({ book, handleFavourite }) {
   const { titre, image, fav } = book;
   const handleClick = () => {
+    console.log('click');
     handleFavourite(book.id);
   };
 
