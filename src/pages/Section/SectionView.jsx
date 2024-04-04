@@ -40,6 +40,7 @@ SectionView.propTypes = {
   section: PropTypes.shape({
     id: PropTypes.number.isRequired,
     texte: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     sections: PropTypes.array.isRequired,
     image: PropTypes.object
   }).isRequired,
