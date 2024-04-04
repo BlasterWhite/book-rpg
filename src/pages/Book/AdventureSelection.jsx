@@ -21,7 +21,7 @@ export function AdventureSelection() {
       headers: { 'Content-Type': 'application/json', Authorization: `${token}` }
     };
     fetch(
-      `${import.meta.env.VITE_API_URL}/users/${JSON.parse(localStorage.getItem('user')).id}/aventures`,
+      `${import.meta.env.VITE_API_URL}/users/${JSON.parse(localStorage.getItem('user')).id}/aventures/${bookId}`,
       requestOptions
     ).then((response) => {
       if (response.ok) {
@@ -152,7 +152,7 @@ export function AdventureSelection() {
     } else {
       return (
         <div>
-          <h1> There's no adventure yet. Start a new one! </h1>
+          <h1> There&apos;s no adventure yet. Start a new one! </h1>
           <button onClick={createAdventure}>Create a new adventure!</button>
         </div>
       );

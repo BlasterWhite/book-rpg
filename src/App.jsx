@@ -122,6 +122,7 @@ function App() {
 
   const login = (data) => {
     setIsLoggedIn(true);
+    data.user.token = data.token;
     setUser(data.user);
     document.cookie = `token=${data.token}; max-age=86400; path=/`;
     localStorage.setItem('user', JSON.stringify(data.user));
