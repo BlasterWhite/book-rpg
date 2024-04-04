@@ -7,10 +7,12 @@ export function LibraryView() {
   const [, setSearch] = useState('');
   const [books, setBooks] = useState([]);
 
+  const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+
   useEffect(() => {
     // Fetch books from the server
-    console.log('fetching books');
-    fetch(`${import.meta.env.VITE_API_URL}/livres`).then((response) => {
+    if (!apiURL) return console.error('No API URL provided', apiURL);
+    fetch(`${apiURL}/livres`).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           setBooks(data);
@@ -19,7 +21,7 @@ export function LibraryView() {
         console.error('Error fetching books');
       }
     });
-  }, []);
+  }, [apiURL]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -37,7 +39,7 @@ export function LibraryView() {
     if (!e.target.value) {
       // Fetch books from the server
       console.log('fetching books for the search');
-      fetch(`${import.meta.env.VITE_API_URL}/livres`).then((response) => {
+      fetch(`${apiURL}/livres`).then((response) => {
         if (response.ok) {
           response.json().then((data) => {
             setBooks(data);
