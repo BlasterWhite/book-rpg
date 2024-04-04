@@ -3,8 +3,9 @@ import './SectionView.scss';
 import { MultipleChoiceComponent } from '@/composants/MultipleChoiceComponent.jsx';
 import { DiceComponent } from '@/composants/DiceComponent/DiceComponent.jsx';
 import { EnigmaComponent } from '../../composants/EnigmaComponent/EnigmaComponent';
+import { FightComponent } from '@/composants/FightComponent/FightComponent.jsx';
 
-export function SectionView({ section, handleNextSection }) {
+export function SectionView({ section, handleNextSection, characterId }) {
   const { texte, sections, image, type } = section;
 
   function interracivity() {
@@ -16,7 +17,14 @@ export function SectionView({ section, handleNextSection }) {
             handleSectionClicked={(e) => handleNextSection(e)}
           />
         );
-      if (type === 'combat') return <h2>Combat</h2>;
+      if (type === 'combat')
+        return (
+          <FightComponent
+            handleNextSection={handleNextSection}
+            section={section}
+            characterId={characterId}
+          />
+        );
       if (type === 'enigme')
         return <EnigmaComponent handleNextSection={handleNextSection} section={section} />;
       if (type === 'des')
@@ -57,5 +65,6 @@ SectionView.propTypes = {
     sections: PropTypes.array.isRequired,
     image: PropTypes.object
   }).isRequired,
-  handleNextSection: PropTypes.func.isRequired
+  handleNextSection: PropTypes.func.isRequired,
+  characterId: PropTypes.number
 };

@@ -21,7 +21,7 @@ export function AdventureSelection() {
       headers: { 'Content-Type': 'application/json', Authorization: `${token}` }
     };
     fetch(
-      `${import.meta.env.VITE_API_URL}/users/${JSON.parse(localStorage.getItem('user')).id}/aventures`,
+      `${import.meta.env.VITE_API_URL}/users/${JSON.parse(localStorage.getItem('user')).id}/aventures/${bookId}`,
       requestOptions
     ).then((response) => {
       if (response.ok) {

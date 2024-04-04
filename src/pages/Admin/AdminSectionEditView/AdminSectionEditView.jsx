@@ -2,6 +2,7 @@ import './AdminSectionEditView.scss';
 import { NavLink, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
 
 export function AdminSectionEditView() {
   const { bookId, sectionId } = useParams();
@@ -461,11 +462,9 @@ export function AdminSectionEditView() {
         </div>
         <div className={'actions'}>
           <NavLink to={'/admin'} className={'btn cancel'}>
-            <button className={'btn cancel'}>Cancel</button>
+            <BaseButton text={'Cancel'} outlined={true} />
           </NavLink>
-          <button className={'btn save'} type="submit">
-            Save
-          </button>
+          <BaseButton text={'Save'} type={'submit'} />
         </div>
       </form>
     </div>

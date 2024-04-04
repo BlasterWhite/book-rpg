@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
 import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
 
 export function AdminSectionListView() {
   const { bookId } = useParams();
@@ -140,10 +141,7 @@ export function AdminSectionListView() {
             className={'search'}
             onChange={handleSearch}
           />
-          <button className={'btn add-section'} onClick={handleCreateSection}>
-            <img className={'icon'} src={AddIcon} alt="Add icon" />
-            Add Section
-          </button>
+          <BaseButton text={'Create a book'} icon={AddIcon} onClick={handleCreateSection} />
         </div>
       </div>
       <div className={'section-list'}>

@@ -2,6 +2,7 @@ import './AdminBookEditView.scss';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
 
 export function AdminBookEditView() {
   const { bookId } = useParams();
@@ -188,7 +189,7 @@ export function AdminBookEditView() {
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}
               />
-              <button onClick={handleAddTag}>Add</button>
+              <BaseButton text={'Add'} onClick={handleAddTag} />
             </div>
             <div className={'tags-list'}>
               {EditBook.tag?.split(';')?.map((tag, index) => (
@@ -201,11 +202,9 @@ export function AdminBookEditView() {
         </div>
         <div className={'actions'}>
           <NavLink to={'/admin'} className={'btn cancel'}>
-            <button className={'btn cancel'}>Cancel</button>
+            <BaseButton text={'Cancel'} outlined={true} />
           </NavLink>
-          <button className={'btn save'} type="submit">
-            Save
-          </button>
+          <BaseButton text={'Save'} type={'submit'} />
         </div>
       </form>
     </div>
