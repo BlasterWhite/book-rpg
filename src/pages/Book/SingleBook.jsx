@@ -1,32 +1,47 @@
-import {useParams} from 'react-router-dom';
-import {SectionView} from "@/pages/Section/SectionView.jsx";
-import MockJSON from '@/assets/mock.json'
-import {useState} from "react";
+import { useParams } from 'react-router-dom';
+import { SectionView } from '@/pages/Section/SectionView.jsx';
+import { useEffect, useState } from 'react';
 
 export function SingleBook() {
-    const {sectionId} = useParams();
+  const { sectionId, bookId } = useParams();
 
-    const [sections] = useState(MockJSON.sections);
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoidGVzdC50ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTcxMjIyMjA5MCwiZXhwIjoxNzEyMzA4NDkwfQ.Pde893oQq8kHp7BsGYAkD5Vfl07iDyDGUENp2u7vRyE';
+  const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
-    const handleSectionClicked = (newSectionId) => {
-        console.log(newSectionId);
-        // const nextSection = sections.map((section) => {
-        //     if (section.id === newSectionId) {
-        //         section = newSectionId;
-        //     }
-        //     return section
-        // });
-        // setSection(nextSection);
-    }
+  const [section, SetSection] = useState({});
 
-    return (
-        <div >
-            <SectionView
-                key={sectionId}
-                section={sections[sectionId - 1]}
-                handleSectionClicked={() => handleSectionClicked(sectionId)}
-            />
-        </div>
-    );
+  useEffect(() => {
+    fetch(`${apiURL}/livres/${bookId}/sections/${sectionId}`, {headers: {Authorization: token}}).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          SetSection(data);
+        });
+      } else {
+        console.error('Error fetching sections');
+      }
+    });
+  }, [bookId, sectionId, apiURL]);
+
+  const handleSectionClicked = (newSectionId) => {
+    const nextSection = section.map((section) => {
+      if (section.id === newSectionId) {
+        section.id = newSectionId;
+      }
+      return section;
+    });
+    SetSection(nextSection);
+  };
+
+
+
+  return (
+    <div>
+      <SectionView
+        key={sectionId}
+        section={section}
+        handleSectionClicked={(e) => handleSectionClicked(e)}
+      />
+    </div>
+  );
 }
-

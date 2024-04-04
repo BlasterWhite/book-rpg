@@ -5,12 +5,14 @@ div.multiple-choice {
   flex-direction: row;
   gap: 2rem;
 
-
-
   button {
     font-size: 1.25rem;
     color: $white-text-color;
-    background-image: linear-gradient(45deg, $choice-button-background-left, $choice-button-background-right);
+    background-image: linear-gradient(
+      45deg,
+      $choice-button-background-left,
+      $choice-button-background-right
+    );
     border: 0;
     border-radius: 1rem;
     padding: 1rem;
