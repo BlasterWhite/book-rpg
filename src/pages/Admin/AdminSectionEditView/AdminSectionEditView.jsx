@@ -45,6 +45,8 @@ export function AdminSectionEditView() {
       if (response.ok) {
         response.json().then((data) => {
           setEditSection(data);
+          setEventsFromFetch(data.events);
+
           if (data.type === 'enigme' || data.type === 'combat' || data.type === 'des') {
             setWin(data.resultat.gagne);
             setLose(data.resultat.perd);
@@ -69,6 +71,48 @@ export function AdminSectionEditView() {
       }
     });
   }, [bookId, sectionId, apiURL, user]);
+
+  // weapons
+  const [weapons, setWeapons] = useState([]);
+  useEffect(() => {
+    if (!user) return;
+    fetch(`${apiURL}/armes`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          setWeapons(data);
+        });
+      } else {
+        console.error('Error fetching weapons');
+      }
+    });
+  }, [apiURL, user]);
+
+  // equipment
+  const [equipments, setEquipments] = useState([]);
+  useEffect(() => {
+    if (!user) return;
+    fetch(`${apiURL}/equipements`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          setEquipments(data);
+        });
+      } else {
+        console.error('Error fetching equipment');
+      }
+    });
+  }, [apiURL, user]);
 
   function editSection(e) {
     setEditSection((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -141,6 +185,7 @@ export function AdminSectionEditView() {
       section.texte = EditSection.texte;
       section.type = EditSection.type;
       section.id_image = EditSection.id_image;
+      section.event = formatEvent();
       updateSection(section);
     }
 
@@ -158,6 +203,7 @@ export function AdminSectionEditView() {
         perd: parseInt(lose)
       };
 
+      section.event = formatEvent();
       updateSection(section);
     }
 
@@ -178,6 +224,7 @@ export function AdminSectionEditView() {
         perd: parseInt(lose)
       };
 
+      section.event = formatEvent();
       updateSection(section);
     }
 
@@ -186,6 +233,7 @@ export function AdminSectionEditView() {
       section.texte = EditSection.texte;
       section.type = EditSection.type;
       section.id_image = EditSection.id_image;
+      section.event = formatEvent();
       updateSection(section);
     }
 
@@ -203,6 +251,7 @@ export function AdminSectionEditView() {
         perd: parseInt(lose)
       };
 
+      section.event = formatEvent();
       updateSection(section);
     }
 
@@ -211,6 +260,7 @@ export function AdminSectionEditView() {
       section.texte = EditSection.texte;
       section.type = EditSection.type;
       section.id_image = EditSection.id_image;
+      section.event = formatEvent();
       updateSection(section);
     }
   }
@@ -234,6 +284,81 @@ export function AdminSectionEditView() {
     });
   }
 
+  const [events, setEvents] = useState([
+    {
+      operation: 'none',
+      which: 'attribute',
+      type: 'force',
+      value: 0
+    },
+    {
+      operation: 'none',
+      which: 'attribute',
+      type: 'force',
+      value: 0
+    },
+    {
+      operation: 'none',
+      which: 'attribute',
+      type: 'force',
+      value: 0
+    },
+    {
+      operation: 'none',
+      which: 'attribute',
+      type: 'force',
+      value: 0
+    }
+  ]);
+
+  function handleEventChange(eventIndex, e) {
+    setEvents((prev) => {
+      const newEvents = [...prev];
+      newEvents[eventIndex] = {
+        ...newEvents[eventIndex],
+        [e.target.id]: e.target.value
+      };
+      return newEvents;
+    });
+  }
+
+  function formatEvent() {
+    let result = [];
+
+    events.forEach((event) => {
+      if (event.operation !== 'none') {
+        let obj = {
+          operation: event.operation,
+          which: event.which,
+          value: event.value
+        };
+        if (event.which === 'attribute') {
+          obj.type = event.type;
+        }
+        result.push(obj);
+      }
+    });
+
+    return result;
+  }
+
+  function setEventsFromFetch(fetchedEvents) {
+    console.log(fetchedEvents);
+    if (!fetchedEvents) return;
+
+    let newEvents = [];
+
+    events.forEach((event, index) => {
+      if (fetchedEvents[index]) {
+        newEvents.push(fetchedEvents[index]);
+      } else {
+        newEvents.push(event);
+      }
+    });
+
+    setEvents(newEvents);
+  }
+
   return (
     <div className={'admin-section-edit-view'}>
       <h1 className={'title'}>Admin</h1>
@@ -241,6 +366,92 @@ export function AdminSectionEditView() {
       <form onSubmit={handleSubmit}>
         <label htmlFor={'texte'}>Text: </label>
         <textarea name="texte" value={EditSection.texte} onChange={editSection} />
+        <details>
+          <summary>Events settings</summary>
+          {events.map((event, index) => (
+            <details className={'event'} key={index}>
+              <summary>Event {index + 1}</summary>
+              <label htmlFor={'operation'}>Operation: </label>
+              <select
+                id={'operation'}
+                value={event.operation}
+                onChange={(e) => handleEventChange(index, e)}>
+                <option value={'none'}>None</option>
+                <option value={'add'}>Add</option>
+                <option value={'remove'}>Remove</option>
+              </select>
+              <label htmlFor={'which'}>What: </label>
+              <select
+                id={'which'}
+                value={event.which}
+                onChange={(e) => handleEventChange(index, e)}>
+                <option value={'attribute'}>attribute</option>
+                <option value={'equipment'}>equipment</option>
+                <option value={'weapon'}>weapon</option>
+              </select>
+              <label
+                htmlFor={'type'}
+                style={{ display: event.which === 'attribute' ? 'initial' : 'none' }}>
+                Type:
+              </label>
+              <select
+                style={{ display: event.which === 'attribute' ? 'initial' : 'none' }}
+                id={'type'}
+                value={event.type}
+                onChange={(e) => handleEventChange(index, e)}>
+                <option value={'force'}>Force</option>
+                <option value={'dexterite'}>Dextérité</option>
+                <option value={'endurance'}>Endurance</option>
+                <option value={'psychisme'}>Psychisme</option>
+                <option value={'resistance'}>Resistance</option>
+              </select>
+              <label
+                htmlFor={'value'}
+                style={{ display: event.which === 'attribute' ? 'initial' : 'none' }}>
+                Value:
+              </label>
+              <input
+                type="number"
+                id={'value'}
+                style={{ display: event.which === 'attribute' ? 'initial' : 'none' }}
+                value={event.value}
+                onChange={(e) => handleEventChange(index, e)}
+              />
+              <label
+                htmlFor={'value'}
+                style={{ display: event.which === 'weapon' ? 'initial' : 'none' }}>
+                Weapon:
+              </label>
+              <select
+                id={'value'}
+                value={event.value}
+                onChange={(e) => handleEventChange(index, e)}
+                style={{ display: event.which === 'weapon' ? 'initial' : 'none' }}>
+                {weapons.map((weapon) => (
+                  <option key={weapon.id} value={weapon.id}>
+                    {weapon.titre}
+                  </option>
+                ))}
+              </select>
+              <label
+                htmlFor={'value'}
+                style={{ display: event.which === 'equipment' ? 'initial' : 'none' }}>
+                Equipment:
+              </label>
+              <select
+                id={'value'}
+                value={event.value}
+                onChange={(e) => handleEventChange(index, e)}
+                style={{ display: event.which === 'equipment' ? 'initial' : 'none' }}>
+                {equipments.map((equipment) => (
+                  <option key={equipment.id} value={equipment.id}>
+                    {equipment.nom}
+                  </option>
+                ))}
+              </select>
+            </details>
+          ))}
+        </details>
         <div className={'interactivity-section'}>
           <select name="type" value={EditSection.type} onChange={editSection}>
             <option value="none">None</option>
