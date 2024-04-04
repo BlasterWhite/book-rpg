@@ -141,7 +141,7 @@ export function AdventureSelection() {
           <div className={'adventure-selection-adventures'}>
             {adventures.map((adventure, index) => (
               <div onClick={() => redirect(adventure.id)} key={index}>
-                <AdventureCard adventure={adventure} handleFavourite={() => {}} key={index} />
+                <AdventureCard adventure={adventure} key={index} />
               </div>
             ))}
           </div>
