@@ -11,6 +11,7 @@ export function DiceComponent({
   const isMounted = useRef(false);
   const [hasDiceResults, setHasDiceResults] = useState(false);
   const [results, setResults] = useState([]);
+  const [feedback, setFeedback] = useState('');
 
   const dices = useRef([]);
 
@@ -34,13 +35,22 @@ export function DiceComponent({
     const winDestination = section.resultat.gagne;
     const loseDestination = section.resultat.perd;
     const resultSum = results.reduce((acc, curr) => acc + curr, 0);
+    let finalDestination = null;
+
+    if (win && win.length > 0 && win.includes(resultSum)) {
+      setFeedback(
+        `You won ! with a score of ${resultSum}! You are going to section ${winDestination}!`
+      );
+      finalDestination = winDestination;
+    } else {
+      setFeedback(
+        `You lost ! with a score of ${resultSum}! You are going to section ${loseDestination}!`
+      );
+      finalDestination = loseDestination;
+    }
 
     setTimeout(() => {
-      if (win && win.length > 0 && win.includes(resultSum)) {
-        handleNextSection(winDestination);
-      } else {
-        handleNextSection(loseDestination);
-      }
+      handleNextSection(finalDestination);
     }, 2000);
   }
 
@@ -61,11 +71,12 @@ export function DiceComponent({
   return (
     <div className={'dice-component-container'}>
       <button onClick={throwDices}>Roll dices</button>
+      <h2>{feedback}</h2>
       {hasDiceResults && (
         <div className={'dice-container'}>
           {dices.current.map((dice, index) => (
             <div key={index} className={'dice'}>
-              <img src="/Dice-square.png"></img>
+              <img src="/Dice-square.png" alt={'dice square'}></img>
               <h3>{results[index]}</h3>
             </div>
           ))}
