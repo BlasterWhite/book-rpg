@@ -2,11 +2,41 @@ import './BookCard.scss';
 import fullStar from '@/assets/icons/FullStarIcon.svg';
 import emptyStar from '@/assets/icons/EmptyStarIcon.svg';
 import PropTypes from 'prop-types';
-export function BookCard({ book, handleFavourite }) {
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+
+export function BookCard({ book, handleFavourite, books }) {
   const { titre, image, fav } = book;
+  const [isFav, setIsFav] = useState(fav);
+  const { user } = useContext(AuthContext);
+
   const handleClick = () => {
-    console.log('click');
     handleFavourite(book.id);
+    const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+    if (isFav) {
+      fetch(`${apiURL}/users/${user.id}/favoris/${book.id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: user.token
+        }
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error('Error fetching books', error));
+      return;
+    } else {
+      fetch(`${apiURL}/users/${user.id}/favoris/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: user.token
+        },
+        body: JSON.stringify({ id_livre: book.id })
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error('Error fetching books', error));
+    }
   };
 
   let imageSrc = image.image;
@@ -14,22 +44,29 @@ export function BookCard({ book, handleFavourite }) {
     imageSrc = 'https://placehold.co/270x500.png';
   }
 
-  return (
-    <div className={'book-card'}>
-      <div className={'book-card-favourite-overlay'}>
-        <img
-          src={fav ? fullStar : emptyStar}
-          alt={'Favourite'}
-          className={fav ? 'favourite' : ''}
-          onClick={() => handleClick()}
-        />
+  useEffect(() => {
+    if (books && user) {
+      const isFav = books.filter((b) => b.id === book.id)[0].fav;
+      setIsFav(isFav);
+    }
+  }, [books, user]);
+  if (book)
+    return (
+      <div className={'book-card'}>
+        <div className={'book-card-favourite-overlay'}>
+          <img
+            src={isFav ? fullStar : emptyStar}
+            alt={'Favourite'}
+            className={fav ? 'favourite' : ''}
+            onClick={() => handleClick()}
+          />
+        </div>
+        <img src={imageSrc} alt={'Book cover'} />
+        <div className={'book-card-content'}>
+          <h3>{titre}</h3>
+        </div>
       </div>
-      <img src={imageSrc} alt={'Book cover'} />
-      <div className={'book-card-content'}>
-        <h3>{titre}</h3>
-      </div>
-    </div>
-  );
+    );
 }
 
 BookCard.propTypes = {
@@ -39,5 +76,6 @@ BookCard.propTypes = {
     image: PropTypes.object,
     fav: PropTypes.bool
   }).isRequired,
-  handleFavourite: PropTypes.func
+  handleFavourite: PropTypes.func,
+  books: PropTypes.array
 };

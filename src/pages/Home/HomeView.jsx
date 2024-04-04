@@ -99,6 +99,7 @@ export function HomeView() {
                     key={book.id}
                     book={book}
                     handleFavourite={() => handleFavourite(book.id)}
+                    books={books}
                   />
                 )
             )}
