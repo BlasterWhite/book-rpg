@@ -1,9 +1,10 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { SectionView } from '@/pages/Section/SectionView.jsx';
 import { useEffect, useState } from 'react';
 
 export function SingleBook() {
   const { sectionId, bookId } = useParams();
+  const navigate = useNavigate();
 
   const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoidGVzdC50ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTcxMjIyMjA5MCwiZXhwIjoxNzEyMzA4NDkwfQ.Pde893oQq8kHp7BsGYAkD5Vfl07iDyDGUENp2u7vRyE';
@@ -34,14 +35,13 @@ export function SingleBook() {
   }
 
   const handleSectionClicked = (newSectionId) => {
-    const nextSection = section.map((section) => {
-      if (section.id === newSectionId) {
-        section.id = newSectionId;
-      }
-      return section;
-    });
-    SetSection(nextSection);
+    navigate(`/book/${bookId}/section/${newSectionId}`);
   };
 
-  return <>{renderSection()}</>;
+  return (
+    <>
+      {section.type}
+      {renderSection()}
+    </>
+  );
 }
