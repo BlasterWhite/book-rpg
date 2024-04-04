@@ -141,7 +141,7 @@ export function AdminSectionListView() {
             className={'search'}
             onChange={handleSearch}
           />
-          <BaseButton text={'Create a book'} icon={AddIcon} onClick={handleCreateSection} />
+          <BaseButton text={'Create a Section'} icon={AddIcon} onClick={handleCreateSection} />
         </div>
       </div>
       <div className={'section-list'}>

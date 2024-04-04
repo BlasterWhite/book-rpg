@@ -337,8 +337,7 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-1"
                   value={EditSection.sections?.[0] ? EditSection.sections?.[0].id : 'none'}
-                  onChange={editSectionInSections}
-                >
+                  onChange={editSectionInSections}>
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -355,8 +354,7 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-2"
                   value={EditSection.sections?.[1] ? EditSection.sections?.[1].id : 'none'}
-                  onChange={editSectionInSections}
-                >
+                  onChange={editSectionInSections}>
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -373,8 +371,7 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-3"
                   value={EditSection.sections?.[2] ? EditSection.sections?.[2].id : 'none'}
-                  onChange={editSectionInSections}
-                >
+                  onChange={editSectionInSections}>
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -391,8 +388,7 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-4"
                   value={EditSection.sections?.[3] ? EditSection.sections?.[3].id : 'none'}
-                  onChange={editSectionInSections}
-                >
+                  onChange={editSectionInSections}>
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -413,10 +409,9 @@ export function AdminSectionEditView() {
                 <select
                   name="skill"
                   value={combat_type}
-                  onChange={(e) => setCombatType(e.target.value)}
-                >
+                  onChange={(e) => setCombatType(e.target.value)}>
                   <option value="force">Force</option>
-                  <option value="dexerite">Dexerite</option>
+                  <option value="dexterite">Dextérité</option>
                   <option value="endurance">Endurance</option>
                   <option value="psychisme">Psychisme</option>
                   <option value="resistance">Resistance</option>
