@@ -36,7 +36,7 @@ export function RegisterView({ isConnected }) {
     }
 
     // on vérifie que le mot de passe contient au moins 8 caractères dont au moins une lettre et un chiffre et un caractère spécial parmi $@$!%*?&#.
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*?&#])[A-Za-z\d$@$!%*?&#]{8,}$/;
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>+-_/~])(?=.*[a-zA-Z]).{8,}$/;
     if (!regex.test(password)) {
       const passwordInput = document.getElementById('password');
       passwordInput.classList.add('error');
