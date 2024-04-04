@@ -1,29 +1,48 @@
 :root {
+  // General
   --background-color: #ffffff;
-  --footer-text-color: #ffffff;
-  --footer-top-background-color: #333333;
-  --footer-bottom-background-color: #1d1d1d;
-  --text-color: #333;
+  --black-text-color: #333;
   --primary-color: #007bff;
-  --mail-submit-background-color: #9747ff;
-  --text-color: #333;
+  --white-text-color: #fff;
   --secondary-color: #1a41cd;
   --accent-color: #ff833d;
   --danger-color: #fc2a2a;
   --success-color: #1cf95a;
   --warning-color: #ffe600;
+
+  // Footer
+  --footer-top-background-color: #333333;
+  --footer-bottom-background-color: #1d1d1d;
+  --mail-submit-background-color: #9747ff;
+
+  // Section
+  --choice-button-background-left: #4e31ff;
+  --choice-button-background-right: #af04ff;
+
+  // Sizes
+  --max-width: 1140px;
+  --text-color: #333;
 }
 
+// General
 $background-color: var(--background-color);
-$footer-top-background-color: var(--footer-top-background-color);
-$footer-bottom-background-color: var(--footer-bottom-background-color);
-$footer-text-color: var(--footer-text-color);
-$text-color: var(--text-color);
+$black-text-color: var(--black-text-color);
+$white-text-color: var(--white-text-color);
 $primary-color: var(--primary-color);
-$mail-submit-background-color: var(--mail-submit-background-color);
-
 $secondary-color: var(--secondary-color);
 $accent-color: var(--accent-color);
 $danger-color: var(--danger-color);
 $success-color: var(--success-color);
 $warning-color: var(--warning-color);
+
+// Footer
+$footer-top-background-color: var(--footer-top-background-color);
+$footer-bottom-background-color: var(--footer-bottom-background-color);
+$mail-submit-background-color: var(--mail-submit-background-color);
+
+// Section
+$choice-button-background-left: var(--choice-button-background-left);
+$choice-button-background-right: var(--choice-button-background-right);
+
+// Sizes
+$max-width: var(--max-width);

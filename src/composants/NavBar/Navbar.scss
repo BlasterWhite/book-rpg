@@ -1,16 +1,16 @@
-@import '@/assets/scss/variables';
+@import '@/assets/scss/variables.scss';
 
 nav.nav-header {
-  max-width: 1140px;
+  max-width: $max-width;
   margin: 0 auto;
   background-color: $background-color;
-  color: $text-color;
+  color: $black-text-color;
   padding: 1rem 0;
   display: flex;
   justify-content: space-between;
 
   a {
-    color: $text-color;
+    color: $black-text-color;
     text-decoration: none;
 
     &.active {
@@ -39,7 +39,38 @@ nav.nav-header {
 
     &-item-right {
       display: flex;
+      align-items: center;
       gap: 1rem;
+
+      .user {
+        &-info {
+          display: flex;
+          flex-direction: column;
+          align-items: end;
+        }
+
+        &-name {
+          font-weight: bold;
+          font-size: 1.2rem;
+        }
+
+        &-email {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+
+  button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #d32f2f;
     }
   }
 }
