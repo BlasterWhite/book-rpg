@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import './SectionView.scss';
 import { MultipleChoiceComponent } from '@/composants/MultipleChoiceComponent.jsx';
+import { DiceComponent } from '@/composants/DiceComponent/DiceComponent.jsx';
 
-export function SectionView({ section, handleSectionClicked }) {
+export function SectionView({ section, handleNextSection }) {
   const { texte, sections, image, type } = section;
 
   function interracivity() {
@@ -11,12 +12,20 @@ export function SectionView({ section, handleSectionClicked }) {
         return (
           <MultipleChoiceComponent
             sections={sections}
-            handleSectionClicked={(e) => handleSectionClicked(e)}
+            handleSectionClicked={(e) => handleNextSection(e)}
           />
         );
       if (type === 'combat') return <h2>Combat</h2>;
       if (type === 'enigme') return <h2>Enigme</h2>;
-      if (type === 'des') return <h2>Des</h2>;
+      if (type === 'des')
+        return (
+          <DiceComponent
+            numberOfDices={2}
+            numberOfFaces={6}
+            handleNextSection={handleNextSection}
+            section={section}
+          />
+        );
       if (type === 'termine') return <h2>Fin</h2>;
       if (type === 'none') return <h2>None</h2>;
     }
@@ -46,5 +55,5 @@ SectionView.propTypes = {
     sections: PropTypes.array.isRequired,
     image: PropTypes.object
   }).isRequired,
-  handleSectionClicked: PropTypes.func.isRequired
+  handleNextSection: PropTypes.func.isRequired
 };
