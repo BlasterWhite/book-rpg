@@ -12,7 +12,9 @@ export function SingleBook() {
   const [section, SetSection] = useState({});
 
   useEffect(() => {
-    fetch(`${apiURL}/livres/${bookId}/sections/${sectionId}`, {headers: {Authorization: token}}).then((response) => {
+    fetch(`${apiURL}/livres/${bookId}/sections/${sectionId}`, {
+      headers: { Authorization: token }
+    }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           SetSection(data);
@@ -22,6 +24,14 @@ export function SingleBook() {
       }
     });
   }, [bookId, sectionId, apiURL]);
+
+  function renderSection() {
+    if (section && section.id) {
+      return <SectionView section={section} handleSectionClicked={handleSectionClicked} />;
+    } else {
+      return <div>Loading...</div>;
+    }
+  }
 
   const handleSectionClicked = (newSectionId) => {
     const nextSection = section.map((section) => {
@@ -33,15 +43,5 @@ export function SingleBook() {
     SetSection(nextSection);
   };
 
-
-
-  return (
-    <div>
-      <SectionView
-        key={sectionId}
-        section={section}
-        handleSectionClicked={(e) => handleSectionClicked(e)}
-      />
-    </div>
-  );
+  return <>{renderSection()}</>;
 }
