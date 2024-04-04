@@ -19,11 +19,7 @@ export function BookCard({ book, handleFavourite, books }) {
         headers: {
           Authorization: user.token
         }
-      })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error('Error fetching books', error));
-      return;
+      }).catch((error) => console.error('Error fetching books', error));
     } else {
       fetch(`${apiURL}/users/${user.id}/favoris/`, {
         method: 'POST',
