@@ -16,13 +16,14 @@ export function SectionView({ section, handleNextSection, characterId }) {
             handleSectionClicked={(e) => handleNextSection(e)}
           />
         );
-      if (type === 'combat') return (
-        <FightComponent
-          handleNextSection={handleNextSection}
-          section={section}
-          characterId={characterId}
-        />
-      );
+      if (type === 'combat')
+        return (
+          <FightComponent
+            handleNextSection={handleNextSection}
+            section={section}
+            characterId={characterId}
+          />
+        );
       if (type === 'enigme') return <h2>Enigme</h2>;
       if (type === 'des')
         return (
