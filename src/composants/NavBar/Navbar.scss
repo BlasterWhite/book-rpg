@@ -1,16 +1,16 @@
-@import '@/assets/scss/variables';
+@import '@/assets/scss/variables.scss';
 
 nav.nav-header {
-  max-width: 1140px;
+  max-width: $max-width;
   margin: 0 auto;
   background-color: $background-color;
-  color: $text-color;
+  color: $black-text-color;
   padding: 1rem 0;
   display: flex;
   justify-content: space-between;
 
   a {
-    color: $text-color;
+    color: $black-text-color;
     text-decoration: none;
 
     &.active {
