@@ -11,6 +11,7 @@ import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 export function AdminBookListView() {
   const [, setSearch] = useState('');
   const [books, setBooks] = useState([]);
+  const { user } = useContext(AuthContext);
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
   const { user } = useContext(AuthContext);
@@ -26,7 +27,7 @@ export function AdminBookListView() {
         console.error('Error fetching books');
       }
     });
-  }, [apiURL]);
+  }, [apiURL, user]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -107,7 +108,6 @@ export function AdminBookListView() {
       body: JSON.stringify(book)
     });
     const resData = await response.json();
-
     // Add the new book to the list
     setBooks([...books, resData]);
   }
