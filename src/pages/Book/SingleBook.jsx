@@ -43,7 +43,7 @@ export function SingleBook() {
   }
 
   const handleSectionClicked = (newSectionId) => {
-    navigate(`/book/${bookId}/${characterId}}/${newSectionId}`);
+    navigate(`/book/${bookId}/${characterId}/${newSectionId}`);
   };
 
   return (
