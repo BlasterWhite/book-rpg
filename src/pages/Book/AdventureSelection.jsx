@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, NavLink } from 'react-router-dom';
 import './AdventureSelection.scss';
 import { useContext, useEffect, useState } from 'react';
 import { AdventureCard } from '@/composants/AdventureCard/AdventureCard.jsx';
@@ -7,11 +7,16 @@ import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 export function AdventureSelection() {
   const { bookId } = useParams();
   const [, setSearch] = useState('');
+  const [book, setBook] = useState([]);
   const [adventures, setAdventures] = useState([]);
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
+  const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+  
   useEffect(() => {
     // Fetch adventures from the server
+    if (!user) return;
     if (!user) return;
     console.log('fetching adventures');
     const requestOptions = {
@@ -20,20 +25,42 @@ export function AdventureSelection() {
     };
     const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     fetch(
-      `${API_URL}/users/${user.id}/aventures/livres/${bookId}`,
+      `${apiURL}/users/${user.id}/aventures/livres/${bookId}`,
       requestOptions
-    ).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          setAdventures(data);
-        });
-      } else {
-        console.error('Error fetching adventures');
-      }
+    ).then((response) => response.json()
+    .then((data) => {
+      setAdventures(data);
+    }))
+    .catch((error) => {
+    });
+  }, [user]);
+  
+  useEffect(() => {
+    // Fetch book from the server
+    if (!user) return;
+    console.log('fetching books');
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', Authorization: user.token }
+    };
+    fetch(
+      `${apiURL}/livres/${bookId}`,
+      requestOptions
+    ).then((response) => response.json()
+    .then((data) => {
+      setBook(data)}))
+    .catch((error) => {
+      navigate('/');
     });
   }, [bookId, user]);
 
   function handleSearch(e) {
+    try {
+      JSON.parse(localStorage.getItem('user')).id;
+    } catch(error) {
+      console.log("error");
+    }
+
     setSearch(e.target.value);
 
     // Filter adventures by name
@@ -49,15 +76,8 @@ export function AdventureSelection() {
       if (!user) return;
       // Fetch adventuress from the server
       console.log('fetching adventures for the search');
-      const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
       fetch(
-        `${API_URL}/users/${user.id}/aventures`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json', Authorization: user.token
-          }
-        }
+        `${apiURL}/users/${user.id}/aventures/livres/${bookId}`
       ).then((response) => {
         if (response.ok) {
           response.json().then((data) => {
@@ -74,7 +94,7 @@ export function AdventureSelection() {
     if (!user) return;
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` },
+      headers: { 'Content-Type': 'application/json', Authorization: user.token },
       body: JSON.stringify({
         id_utilisateur: user.id,
         id_livre: parseInt(bookId)
@@ -82,10 +102,10 @@ export function AdventureSelection() {
     };
     const requestOptionsGet = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
+      headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
-    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
-    fetch(`${API_URL}/aventures`, requestOptions)
+
+    fetch(`${apiURL}/aventures`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           console.error('error creating adventure');
@@ -93,22 +113,14 @@ export function AdventureSelection() {
       })
       .then(() => {
         fetch(
-          `${import.meta.env.VITE_API_URL}/users/${user.id}/aventures`,
+          `${apiURL}/users/${user.id}/aventures/livres/${bookId}`,
           requestOptionsGet
-        )
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw new Error('Error fetching adventures');
-            }
-          })
-          .then((data) => {
-            setAdventures(data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        ).then((response) => response.json()
+        .then((data) => {
+          setAdventures(data);
+        }))
+        .catch((error) => {
+        });
       });
   }
 
@@ -119,8 +131,7 @@ export function AdventureSelection() {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
     };
-    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
-    fetch(`${API_URL}/aventures/livres/${adventureId}`, requestOptions).then(
+    fetch(`${apiURL}/aventures/${adventureId}`, requestOptions).then(
       (response) => {
         if (!response.ok) {
           console.error('error fetching adventure');
@@ -151,7 +162,7 @@ export function AdventureSelection() {
           <div className={'adventure-selection-adventures'}>
             {adventures?.map((adventure, index) => (
               <div onClick={() => redirect(adventure.id)} key={index}>
-                <AdventureCard adventure={adventure} key={index} />
+                <AdventureCard adventure={adventure} book={book} key={index} handleFavourite={() => {}} />
               </div>
             ))}
           </div>
@@ -171,7 +182,19 @@ export function AdventureSelection() {
 
   return (
     <div>
-      <h1>Book {bookId}</h1>
+      <NavLink to={`/book/`}>← Back to Books</NavLink>
+      {
+        book ? <div className='display-book'>
+        <div className='book-information'>
+          <h1>{book?.titre ? book.titre : 'Book not found'}</h1>
+          <p>{book.resume}</p>
+        </div>
+        <div className='image-book'>
+          <img src={book?.image?.image ? book.image.image : 'https://placehold.co/500x500.png'} alt={'Livre image'}/>
+        </div>
+      </div> : <h1>Book not found</h1>
+      }
+      
       <h3>Adventure Selection</h3>
       <div className={'adventure-selection'}>
         <header className={'adventure-selection-header'}>

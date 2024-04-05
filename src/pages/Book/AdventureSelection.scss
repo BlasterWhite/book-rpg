@@ -19,3 +19,39 @@ input[type='text'] {
   border-radius: 16px;
   margin-bottom: 0.75rem;
 }
+
+a {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.display-book {
+  display: flex;
+  flex-direction: row;
+  max-width: 1140px;
+  margin: 0 auto;
+  margin-top: 40px;
+
+  .book-information {
+    width: calc(100% - 270px);
+    padding-right: 40px;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .image-book {
+    width: 270px;
+    height: 350px;
+    
+    img {
+      width: 100%;
+      height: calc(100% - 3rem);
+      object-fit: cover;
+      border-radius: 16px;
+    }
+  }
+
+}
