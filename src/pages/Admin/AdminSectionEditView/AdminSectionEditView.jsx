@@ -375,7 +375,8 @@ export function AdminSectionEditView() {
               <select
                 id={'operation'}
                 value={event.operation}
-                onChange={(e) => handleEventChange(index, e)}>
+                onChange={(e) => handleEventChange(index, e)}
+              >
                 <option value={'none'}>None</option>
                 <option value={'add'}>Add</option>
                 <option value={'remove'}>Remove</option>
@@ -384,21 +385,24 @@ export function AdminSectionEditView() {
               <select
                 id={'which'}
                 value={event.which}
-                onChange={(e) => handleEventChange(index, e)}>
+                onChange={(e) => handleEventChange(index, e)}
+              >
                 <option value={'attribute'}>attribute</option>
                 <option value={'equipment'}>equipment</option>
                 <option value={'weapon'}>weapon</option>
               </select>
               <label
                 htmlFor={'type'}
-                style={{ display: event.which === 'attribute' ? 'initial' : 'none' }}>
+                style={{ display: event.which === 'attribute' ? 'initial' : 'none' }}
+              >
                 Type:
               </label>
               <select
                 style={{ display: event.which === 'attribute' ? 'initial' : 'none' }}
                 id={'type'}
                 value={event.type}
-                onChange={(e) => handleEventChange(index, e)}>
+                onChange={(e) => handleEventChange(index, e)}
+              >
                 <option value={'force'}>Force</option>
                 <option value={'dexterite'}>Dextérité</option>
                 <option value={'endurance'}>Endurance</option>
@@ -407,7 +411,8 @@ export function AdminSectionEditView() {
               </select>
               <label
                 htmlFor={'value'}
-                style={{ display: event.which === 'attribute' ? 'initial' : 'none' }}>
+                style={{ display: event.which === 'attribute' ? 'initial' : 'none' }}
+              >
                 Value:
               </label>
               <input
@@ -419,14 +424,16 @@ export function AdminSectionEditView() {
               />
               <label
                 htmlFor={'value'}
-                style={{ display: event.which === 'weapon' ? 'initial' : 'none' }}>
+                style={{ display: event.which === 'weapon' ? 'initial' : 'none' }}
+              >
                 Weapon:
               </label>
               <select
                 id={'value'}
                 value={event.value}
                 onChange={(e) => handleEventChange(index, e)}
-                style={{ display: event.which === 'weapon' ? 'initial' : 'none' }}>
+                style={{ display: event.which === 'weapon' ? 'initial' : 'none' }}
+              >
                 {weapons.map((weapon) => (
                   <option key={weapon.id} value={weapon.id}>
                     {weapon.titre}
@@ -435,14 +442,16 @@ export function AdminSectionEditView() {
               </select>
               <label
                 htmlFor={'value'}
-                style={{ display: event.which === 'equipment' ? 'initial' : 'none' }}>
+                style={{ display: event.which === 'equipment' ? 'initial' : 'none' }}
+              >
                 Equipment:
               </label>
               <select
                 id={'value'}
                 value={event.value}
                 onChange={(e) => handleEventChange(index, e)}
-                style={{ display: event.which === 'equipment' ? 'initial' : 'none' }}>
+                style={{ display: event.which === 'equipment' ? 'initial' : 'none' }}
+              >
                 {equipments.map((equipment) => (
                   <option key={equipment.id} value={equipment.id}>
                     {equipment.nom}
@@ -548,7 +557,8 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-1"
                   value={EditSection.sections?.[0] ? EditSection.sections?.[0].id : 'none'}
-                  onChange={editSectionInSections}>
+                  onChange={editSectionInSections}
+                >
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -565,7 +575,8 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-2"
                   value={EditSection.sections?.[1] ? EditSection.sections?.[1].id : 'none'}
-                  onChange={editSectionInSections}>
+                  onChange={editSectionInSections}
+                >
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -582,7 +593,8 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-3"
                   value={EditSection.sections?.[2] ? EditSection.sections?.[2].id : 'none'}
-                  onChange={editSectionInSections}>
+                  onChange={editSectionInSections}
+                >
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -599,7 +611,8 @@ export function AdminSectionEditView() {
                 <select
                   name="destination-4"
                   value={EditSection.sections?.[3] ? EditSection.sections?.[3].id : 'none'}
-                  onChange={editSectionInSections}>
+                  onChange={editSectionInSections}
+                >
                   <option value={'none'}>None</option>
                   {sections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -620,7 +633,8 @@ export function AdminSectionEditView() {
                 <select
                   name="skill"
                   value={combat_type}
-                  onChange={(e) => setCombatType(e.target.value)}>
+                  onChange={(e) => setCombatType(e.target.value)}
+                >
                   <option value="force">Force</option>
                   <option value="dexterite">Dextérité</option>
                   <option value="endurance">Endurance</option>
