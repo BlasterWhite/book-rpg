@@ -2,15 +2,18 @@ import './AdminBookListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import NodeIcon from '@/assets/icons/BookIcon.svg';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
+import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 
 export function AdminBookListView() {
   const [, setSearch] = useState('');
   const [books, setBooks] = useState([]);
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     // Fetch books from the server
@@ -23,7 +26,7 @@ export function AdminBookListView() {
         console.error('Error fetching books');
       }
     });
-  }, [apiURL]);
+  }, [apiURL, user]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -53,8 +56,13 @@ export function AdminBookListView() {
   }
 
   async function handleDeleteBook(id) {
+    if (!user) return;
     await fetch(`${apiURL}/livres/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
     }).then((response) => {
       if (response.ok) {
         // Remove the book from the list
@@ -89,15 +97,16 @@ export function AdminBookListView() {
 
     // TODO: Implement the API call to create a new book
     // Post the new book to the server
+    if (!user) return;
     const response = await fetch(`${apiURL}/livres`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: user.token
       },
       body: JSON.stringify(book)
     });
     const resData = await response.json();
-
     // Add the new book to the list
     setBooks([...books, resData]);
   }
@@ -105,6 +114,7 @@ export function AdminBookListView() {
   return (
     <div className={'admin-book-list-view'}>
       <h1 className={'title'}>Admin | Book list</h1>
+      <NavLink to={`/admin`}>← Back to admin</NavLink>
       <div className={'actions'}>
         <input
           type="text"
@@ -112,10 +122,7 @@ export function AdminBookListView() {
           className={'search'}
           onChange={handleSearch}
         />
-        <button className={'btn add-section'} onClick={handleCreateBook}>
-          <img className={'icon'} src={AddIcon} alt="Add icon" />
-          Create a book
-        </button>
+        <BaseButton text={'Create a book'} icon={AddIcon} onClick={handleCreateBook} />
       </div>
       <div className={'book-list'}>
         {books.map((book, index) => (
@@ -125,10 +132,10 @@ export function AdminBookListView() {
               <div className={'book-id'}>ID: {book.id}</div>
             </div>
             <div className={'book-actions'}>
-              <NavLink to={`/admin/${book.id}/section`}>
+              <NavLink to={`/admin/book/${book.id}/section`}>
                 <img className={'icon edit'} src={NodeIcon} alt="Edit" />
               </NavLink>{' '}
-              <NavLink to={`/admin/${book.id}`}>
+              <NavLink to={`/admin/book/${book.id}`}>
                 <img className={'icon edit'} src={EditIcon} alt="Edit" />
               </NavLink>
               <a onClick={() => handleDeleteBook(book.id)}>

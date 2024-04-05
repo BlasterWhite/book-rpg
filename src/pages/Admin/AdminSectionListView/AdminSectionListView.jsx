@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
 import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
 
 export function AdminSectionListView() {
   const { bookId } = useParams();
@@ -16,7 +17,6 @@ export function AdminSectionListView() {
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
   async function getSections(bookId) {
-    console.log('user.token', user.token);
     return await fetch(`${apiURL}/livres/${bookId}/sections`, {
       method: 'GET',
       headers: {
@@ -35,6 +35,7 @@ export function AdminSectionListView() {
   }
 
   useEffect(() => {
+    console.log('bookId', bookId);
     if (!user) return;
     fetch(`${apiURL}/livres/${bookId}/sections`, {
       method: 'GET',
@@ -45,6 +46,7 @@ export function AdminSectionListView() {
     }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
+          console.log(data);
           setSections(data);
         });
       } else {
@@ -121,8 +123,6 @@ export function AdminSectionListView() {
     const resData = await response.json();
     section.id = resData.message.id;
 
-    console.log('section', section);
-
     // Add the new book to the list
     if (section.length === 0) {
       setSections([resData]);
@@ -135,7 +135,7 @@ export function AdminSectionListView() {
         Admin | Section list <span className={'id'}>ID : {bookId}</span>{' '}
       </h1>
       <div className={'section-header'}>
-        <NavLink to={`/admin/`}>← Back to Books</NavLink>
+        <NavLink to={`/admin/book`}>← Back to Books</NavLink>
         <div className={'actions'}>
           <input
             type="text"
@@ -143,10 +143,7 @@ export function AdminSectionListView() {
             className={'search'}
             onChange={handleSearch}
           />
-          <button className={'btn add-section'} onClick={handleCreateSection}>
-            <img className={'icon'} src={AddIcon} alt="Add icon" />
-            Add Section
-          </button>
+          <BaseButton text={'Create a Section'} icon={AddIcon} onClick={handleCreateSection} />
         </div>
       </div>
       <div className={'section-list'}>
@@ -159,7 +156,7 @@ export function AdminSectionListView() {
                 <p className={'section-id'}>ID: {section.id}</p>
               </div>
               <div className={'section-actions'}>
-                <NavLink to={`/admin/${bookId}/section/${section.id}`}>
+                <NavLink to={`/admin/book/${bookId}/section/${section.id}`}>
                   <img className={'icon edit'} src={EditIcon} alt="Edit" />
                 </NavLink>
                 <a onClick={() => handleDeleteBook(section.id)}>

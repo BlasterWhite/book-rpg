@@ -1,0 +1,11 @@
+@import '@/assets/scss/variables.scss';
+
+.fight-component-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fight-component-text {
+  margin-bottom: 1rem;
+}

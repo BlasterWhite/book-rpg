@@ -21,6 +21,5 @@ export function AdventureCard({ adventure, book, handleFavourite }) {
 AdventureCard.propTypes = {
   adventure: PropTypes.shape({
     id: PropTypes.number.isRequired
-  }).isRequired,
-  handleFavourite: PropTypes.func.isRequired
+  }).isRequired
 };

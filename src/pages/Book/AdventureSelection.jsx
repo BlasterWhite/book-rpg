@@ -17,11 +17,14 @@ export function AdventureSelection() {
   useEffect(() => {
     // Fetch adventures from the server
     if (!user) return;
+    if (!user) return;
     console.log('fetching adventures');
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
+      headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
+    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     fetch(
       `${apiURL}/users/${user.id}/aventures/livres/${bookId}`,
       requestOptions
@@ -51,7 +54,7 @@ export function AdventureSelection() {
     .catch((error) => {
       navigate('/');
     });
-  }, [user]);
+  }, [bookId, user]);
 
   function handleSearch(e) {
     try {
@@ -72,8 +75,10 @@ export function AdventureSelection() {
 
     // If search is empty, show all adventures
     if (!e.target.value) {
+      if (!user) return;
       // Fetch adventuress from the server
       console.log('fetching adventures for the search');
+      const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
       fetch(
         `${apiURL}/users/${user.id}/aventures/livres/${bookId}`
       ).then((response) => {
@@ -89,6 +94,7 @@ export function AdventureSelection() {
   }
 
   function createAdventure() {
+    if (!user) return;
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: user.token },
@@ -126,7 +132,7 @@ export function AdventureSelection() {
     let currentSection;
     const requestOptions = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json', Authorization: `${token}` }
+      headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
     };
     fetch(`${apiURL}/aventures/${adventureId}`, requestOptions).then(
       (response) => {
@@ -153,11 +159,11 @@ export function AdventureSelection() {
   }
 
   function ShowAdventures() {
-    if (adventures.length !== 0) {
+    if (adventures && adventures.length !== 0) {
       return (
         <div>
           <div className={'adventure-selection-adventures'}>
-            {adventures.map((adventure, index) => (
+            {adventures?.map((adventure, index) => (
               <div onClick={() => redirect(adventure.id)} key={index}>
                 <AdventureCard adventure={adventure} book={book} key={index} handleFavourite={() => {}} />
               </div>

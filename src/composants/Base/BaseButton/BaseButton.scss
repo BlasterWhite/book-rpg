@@ -1,0 +1,37 @@
+@import '@/assets/scss/variables';
+
+.base-button {
+  display: flex;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 1.2rem;
+  font-weight: normal;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: $primary-color;
+  color: $white-text-color;
+
+  &:hover {
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &.outlined {
+    background-color: transparent;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+
+    &:hover {
+      background-color: $primary-color;
+      color: $white-text-color;
+    }
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+}

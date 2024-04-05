@@ -1,6 +1,6 @@
 @import '@/assets/scss/variables';
 
-.admin-section-list-view {
+.admin-equipment-list-view {
   max-width: 1140px;
   margin: 0 auto;
   width: 100%;
@@ -14,7 +14,7 @@
     }
   }
 
-  .section-header {
+  .equipment-header {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -35,12 +35,12 @@
     border-radius: 16px;
   }
 
-  .section-list {
+  .equipment-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
 
-    .section {
+    .equipment {
       border: 1px solid rgba(0, 0, 0, 0.2);
       border-radius: 16px;
       display: flex;
@@ -54,7 +54,7 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
 
-      .section-info {
+      .equipment-info {
         overflow: hidden;
 
         & > p {
@@ -63,18 +63,18 @@
           overflow: hidden;
           white-space: nowrap;
 
-          &.section-title {
+          &.equipment-title {
             font-size: 16px;
           }
 
-          &.section-id {
+          &.equipment-id {
             font-size: 10px;
             color: rgba(0, 0, 0, 0.5);
           }
         }
       }
 
-      .section-actions {
+      .equipment-actions {
         display: flex;
         gap: 8px;
 
