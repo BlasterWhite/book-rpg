@@ -11,7 +11,6 @@ import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 export function AdminBookListView() {
   const [, setSearch] = useState('');
   const [books, setBooks] = useState([]);
-  const { user } = useContext(AuthContext);
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
   const { user } = useContext(AuthContext);
