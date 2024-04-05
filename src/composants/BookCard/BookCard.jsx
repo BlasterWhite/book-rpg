@@ -36,10 +36,13 @@ export function BookCard({ book, handleFavourite, books, favourites }) {
     }
   };
 
-  let imageSrc = image.image;
+  let imageSrc
   if (image && image.image && image.image.startsWith('Pas')) {
-    imageSrc = 'https://placehold.co/270x500.png';
+    imageSrc = image.image;
   }
+  if (!(image && image.image)) {
+      imageSrc = 'https://placehold.co/270x500.png';
+    }
 
   useEffect(() => {
     if (books && user && favourites.length > 0) {

@@ -59,11 +59,17 @@ export function HomeView() {
             book.fav = false;
             return book;
           });
+          // si l'array est plus petit que 4 on complète avec les newBooks
+          if (popularBooks.length < 4) {
+            const newBooks2 = newBooks.slice(0, 4 - popularBooks.length);
+            popularBooks.push(...newBooks2);
+          }
+          console.log(popularBooks);
           setPopularBooks(popularBooks);
         })
         .catch((error) => console.error('Error fetching books', error))
     );
-  }, [apiURL]);
+  }, [apiURL, newBooks]);
 
   useEffect(() => {
     if (!apiURL) return console.error('No API URL provided', apiURL);
