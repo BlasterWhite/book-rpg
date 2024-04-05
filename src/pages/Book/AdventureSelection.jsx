@@ -18,7 +18,7 @@ export function AdventureSelection() {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
-    const API_URL = import.meta.env.VITE_API_URL || 'http://http://193.168.146.103:3000';
+    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     fetch(
       `${API_URL}/users/${user.id}/aventures/livres/${bookId}`,
       requestOptions
