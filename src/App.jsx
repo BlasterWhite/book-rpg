@@ -13,8 +13,12 @@ import { AdminBookEditView } from '@/pages/Admin/AdminBookEditView/AdminBookEdit
 import { ErrorView } from '@/pages/Errors/ErrorView.jsx';
 import { AdminSectionListView } from '@/pages/Admin/AdminSectionListView/AdminSectionListView.jsx';
 import { AdminSectionEditView } from '@/pages/Admin/AdminSectionEditView/AdminSectionEditView.jsx';
+import { AdminEquipementEditView } from '@/pages/Admin/AdminEquipementEditView/AdminEquipementEditView.jsx';
+import { AdminEquipementListView } from '@/pages/Admin/AdminEquipementListView/AdminEquipementListView.jsx';
 import { useEffect, useState } from 'react';
 import { AuthContext } from './composants/AuthContext/AuthContext.jsx';
+import { AdminWeaponListView } from '@/pages/Admin/AdminWeaponListView/AdminWeaponListView.jsx';
+import { AdminWeaponEditView } from '@/pages/Admin/AdminWeaponEditView/AdminWeaponEditView.jsx';
 
 const router = createBrowserRouter([
   {
@@ -93,6 +97,34 @@ const router = createBrowserRouter([
                 element: <AdminSectionEditView />
               }
             ]
+          },
+          {
+            path: 'weapon',
+            element: <Outlet />,
+            children: [
+              {
+                path: '',
+                element: <AdminWeaponListView />
+              },
+              {
+                path: ':weaponId',
+                element: <AdminWeaponEditView />
+              }
+            ]
+          },
+          {
+            path: 'equipment',
+            element: <Outlet />,
+            children: [
+              {
+                path: '',
+                element: <AdminEquipementListView />
+              },
+              {
+                path: ':equipmentId',
+                element: <AdminEquipementEditView />
+              }
+            ]
           }
         ]
       }
@@ -142,7 +174,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log('App useEffect');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const user = localStorage.getItem('user');
     if (isLoggedIn) {

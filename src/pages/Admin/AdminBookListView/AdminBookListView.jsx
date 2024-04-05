@@ -14,6 +14,7 @@ export function AdminBookListView() {
   const { user } = useContext(AuthContext);
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     // Fetch books from the server
@@ -56,6 +57,7 @@ export function AdminBookListView() {
   }
 
   async function handleDeleteBook(id) {
+    if (!user) return;
     await fetch(`${apiURL}/livres/${id}`, {
       method: 'DELETE',
       headers: {
@@ -96,6 +98,7 @@ export function AdminBookListView() {
 
     // TODO: Implement the API call to create a new book
     // Post the new book to the server
+    if (!user) return;
     const response = await fetch(`${apiURL}/livres`, {
       method: 'POST',
       headers: {

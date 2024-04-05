@@ -11,31 +11,51 @@ export function FightComponent({ handleNextSection, section, characterId }) {
   useEffect(() => {
     if (!user) return;
 
-    const API_URL = `${(import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000')}/personnages/${characterId}`;
+    const API_URL = `${import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000'}/personnages/${characterId}`;
     fetch(API_URL, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': user.token
+        Authorization: user.token
       }
-    }).then(response => response.json()
-      .then(data => {
-        setPersonnage(data);
-      })
-      .catch(error => console.log(error))
-      .catch(error => console.log(error)));
+    }).then((response) =>
+      response
+        .json()
+        .then((data) => {
+          setPersonnage(data);
+        })
+        .catch((error) => console.log(error))
+        .catch((error) => console.log(error))
+    );
   }, [characterId, user]);
-
 
   return (
     <div className={'fight-component-container'}>
       <div className={'fight-component-text'}>
-        <span>Votre attribut de {section.resultat.condition} : {section.resultat.type_condition} </span>
-        <strong>({(personnage[section.resultat.type_condition] >= section.resultat.condition) ? 'Vous avez perdu' : 'Vous avez gagné'})</strong>
+        <span>
+          Votre attribut de {section.resultat.condition} : {section.resultat.type_condition}{' '}
+        </span>
+        <strong>
+          (
+          {personnage[section.resultat.type_condition] >= section.resultat.condition
+            ? 'Vous avez perdu'
+            : 'Vous avez gagné'}
+          )
+        </strong>
       </div>
       <BaseButton
-        text={(personnage[section.resultat.type_condition] >= section.resultat.condition) ? 'Perdu' : 'Gagné'}
-        onClick={() => handleNextSection((personnage[section.resultat.type_condition] >= section.resultat.condition) ? section.resultat.gagne : section.resultat.perd)}
+        text={
+          personnage[section.resultat.type_condition] >= section.resultat.condition
+            ? 'Perdu'
+            : 'Gagné'
+        }
+        onClick={() =>
+          handleNextSection(
+            personnage[section.resultat.type_condition] >= section.resultat.condition
+              ? section.resultat.gagne
+              : section.resultat.perd
+          )
+        }
       />
     </div>
   );

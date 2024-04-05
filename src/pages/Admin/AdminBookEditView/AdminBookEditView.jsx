@@ -150,6 +150,10 @@ export function AdminBookEditView() {
         <label htmlFor="resume">Resume:</label>
         <textarea id="resume" name="resume" value={EditBook.resume} onChange={editBook} />
         <label htmlFor="image">Image:</label>
+        <details>
+          <summary>Actual image</summary>
+          <img className={'image-preview'} src={EditBook?.image?.image} alt="image preview" />
+        </details>
         <input
           type="text"
           id="image"

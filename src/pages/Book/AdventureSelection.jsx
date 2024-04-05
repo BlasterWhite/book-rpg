@@ -32,7 +32,7 @@ export function AdventureSelection() {
         console.error('Error fetching adventures');
       }
     });
-  }, [token]);
+  }, [token, bookId]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -135,11 +135,11 @@ export function AdventureSelection() {
   }
 
   function ShowAdventures() {
-    if (adventures.length !== 0) {
+    if (adventures && adventures.length !== 0) {
       return (
         <div>
           <div className={'adventure-selection-adventures'}>
-            {adventures.map((adventure, index) => (
+            {adventures?.map((adventure, index) => (
               <div onClick={() => redirect(adventure.id)} key={index}>
                 <AdventureCard adventure={adventure} key={index} />
               </div>

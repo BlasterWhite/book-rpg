@@ -27,8 +27,12 @@
       font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     }
 
-    details.event {
-      padding: 4px 1rem;
+    details {
+      img {
+        max-width: 100%;
+        border-radius: 16px;
+        margin-top: 16px;
+      }
     }
 
     select {

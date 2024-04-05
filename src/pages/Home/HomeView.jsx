@@ -103,7 +103,6 @@ export function HomeView() {
       }
       return book;
     });
-    console.log(newBooks);
     setBooks(newBooks);
   };
 

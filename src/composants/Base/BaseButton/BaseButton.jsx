@@ -7,7 +7,8 @@ export function BaseButton({ text, onClick, disabled, outlined, icon, type }) {
       className={`base-button ${outlined ? 'outlined' : ''}`}
       onClick={onClick}
       disabled={disabled}
-      type={type}>
+      type={type}
+    >
       {icon && <img src={icon} alt={text} />}
       {text}
     </button>
