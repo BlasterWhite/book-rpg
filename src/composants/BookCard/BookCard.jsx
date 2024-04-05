@@ -12,6 +12,7 @@ export function BookCard({ book, handleFavourite, books, favourites }) {
 
   const handleClick = () => {
     handleFavourite(book.id);
+    setIsFav(!isFav);
     const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     if (isFav) {
       fetch(`${apiURL}/users/${user.id}/favoris/${book.id}`, {
@@ -42,14 +43,17 @@ export function BookCard({ book, handleFavourite, books, favourites }) {
 
   useEffect(() => {
     if (books && user && favourites.length > 0) {
-      const isFav = books.filter((b) => b.id === book.id)[0].fav;
-      const isFavoritFromDb = favourites.filter((f) => f.id_livre === book.id);
-      if (isFavoritFromDb.length > 0) {
-        setIsFav(true);
+      let isFavoritFromDb = false;
+      for (const f of favourites) {
+        if (f.id_livre === book.id) {
+          isFavoritFromDb = true;
+          break;
+        }
       }
-      setIsFav(isFav);
+      setIsFav(isFavoritFromDb);
     }
   }, [book.id, books, favourites, user]);
+
   if (book)
     return (
       <div className={'book-card'}>

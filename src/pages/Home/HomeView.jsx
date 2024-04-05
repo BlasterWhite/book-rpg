@@ -22,7 +22,13 @@ export function HomeView() {
     fetch(`${apiURL}/livres`).then((response) =>
       response
         .json()
-        .then((data) => setBooks(data))
+        .then((data) => {
+          const booksWithFav = data.map((book) => {
+            book.fav = false;
+            return book;
+          });
+          setBooks(booksWithFav);
+        })
         .catch((error) => console.error('Error fetching books', error))
     );
   }, [apiURL]);
@@ -32,7 +38,13 @@ export function HomeView() {
     fetch(`${apiURL}/livres/news`).then((response) =>
       response
         .json()
-        .then((data) => setNewBooks(data.length > 0 ? data.slice(0, 4) : []))
+        .then((data) => {
+          const newBooks = data.slice(0, 4).map((book) => {
+            book.fav = false;
+            return book;
+          });
+          setNewBooks(newBooks);
+        })
         .catch((error) => console.error('Error fetching books', error))
     );
   }, [apiURL]);
@@ -42,7 +54,13 @@ export function HomeView() {
     fetch(`${apiURL}/livres/popular`).then((response) =>
       response
         .json()
-        .then((data) => setPopularBooks(data.length > 0 ? data.slice(0, 4) : []))
+        .then((data) => {
+          const popularBooks = data.slice(0, 4).map((book) => {
+            book.fav = false;
+            return book;
+          });
+          setPopularBooks(popularBooks);
+        })
         .catch((error) => console.error('Error fetching books', error))
     );
   }, [apiURL]);
@@ -58,7 +76,14 @@ export function HomeView() {
     }).then((response) =>
       response
         .json()
-        .then((data) => setFavourites(data))
+        .then((data) => {
+          const booksWithFav = books.map((book) => {
+            book.fav = data.some((fav) => fav.id_livre === book.id);
+            return book;
+          });
+          setBooks(booksWithFav);
+          setFavourites(data);
+        })
         .catch((error) => console.error('Error fetching books', error))
     );
   }, [apiURL, user]);
@@ -70,7 +95,11 @@ export function HomeView() {
   const handleFavourite = (id) => {
     const newBooks = books.map((book) => {
       if (book.id === id) {
-        book.fav = !book.fav;
+        if (book.fav) {
+          book.fav = !book.fav;
+        } else {
+          book.fav = false;
+        }
       }
       return book;
     });
