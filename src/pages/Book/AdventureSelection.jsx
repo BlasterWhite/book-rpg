@@ -69,11 +69,12 @@ export function AdventureSelection() {
   }
 
   function createAdventure() {
+    if (!user) return;
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` },
       body: JSON.stringify({
-        id_utilisateur: 1,
+        id_utilisateur: user.id,
         id_livre: parseInt(bookId)
       })
     };
@@ -81,7 +82,6 @@ export function AdventureSelection() {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
     };
-    if (!user) return;
     fetch(`${import.meta.env.VITE_API_URL}/aventures`, requestOptions)
       .then((response) => {
         if (!response.ok) {
