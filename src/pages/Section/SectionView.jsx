@@ -66,5 +66,5 @@ SectionView.propTypes = {
     image: PropTypes.object
   }).isRequired,
   handleNextSection: PropTypes.func.isRequired,
-  characterId: PropTypes.number
+  characterId: PropTypes.string
 };

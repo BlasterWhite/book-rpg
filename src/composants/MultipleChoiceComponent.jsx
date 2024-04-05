@@ -16,7 +16,7 @@ export function MultipleChoiceComponent({ sections, handleSectionClicked }) {
                 getNextSection(choice?.association_liaison_section?.id_section_destination)
               }
             >
-              Aller à la section {choice?.association_liaison_section?.id_section_destination}
+              Aller à la section {choice.numero_section}
             </button>
           </div>
         );
