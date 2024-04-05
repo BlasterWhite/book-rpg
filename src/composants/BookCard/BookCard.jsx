@@ -36,7 +36,7 @@ export function BookCard({ book, handleFavourite, books, favourites }) {
     }
   };
 
-  let imageSrc = image.image;
+  let imageSrc = image?.image || null;
   if (image && image.image && image.image.startsWith('Pas')) {
     imageSrc = 'https://placehold.co/270x500.png';
   }
