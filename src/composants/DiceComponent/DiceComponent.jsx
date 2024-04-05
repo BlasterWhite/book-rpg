@@ -1,17 +1,36 @@
 import './DiceComponent.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 
 export function DiceComponent({
-  numberOfDices = 2,
-  numberOfFaces = 6,
-  handleNextSection,
-  section
-}) {
+                                numberOfDices = 2,
+                                numberOfFaces = 6,
+                                handleNextSection,
+                                section,
+                                characterId
+                              }) {
   const isMounted = useRef(false);
   const [hasDiceResults, setHasDiceResults] = useState(false);
   const [results, setResults] = useState([]);
   const [feedback, setFeedback] = useState('');
+  const [aventure, setAventure] = useState([]);
+  const { user } = useContext(AuthContext);
+
+
+  useEffect(() => {
+    if (!user) return;
+    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', Authorization: user.token }
+    };
+    fetch(`${API_URL}/personnages/${characterId}/aventure`, requestOptions)
+      .then((response) => response.json()
+        .then((data) => setAventure(data))
+        .catch((error) => console.error(error)));
+    // on fait une requête put sur l'aventure
+  }, [characterId, section, user]);
 
   const dices = useRef([]);
 
@@ -51,6 +70,22 @@ export function DiceComponent({
 
     setTimeout(() => {
       handleNextSection(finalDestination);
+
+      if (!user) return;
+      const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+      // on récupère la prochaine sections depuis sections
+      if (!section) return;
+      const statut = section.type === 'termine' ? 'termine' : 'en_cours';
+      const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: user.token },
+        body: JSON.stringify({ id_section_actuelle: section.id, statut: statut })
+      };
+      const newAventureID = Number.parseInt(aventure.id);
+      fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions)
+        .then((response) => response.json()
+          .then((data) => console.log(data))
+          .catch((error) => console.error(error)));
     }, 2000);
   }
 
@@ -101,5 +136,6 @@ DiceComponent.propTypes = {
   }).isRequired,
   handleNextSection: PropTypes.func,
   numberOfDices: PropTypes.number,
-  numberOfFaces: PropTypes.number
+  numberOfFaces: PropTypes.number,
+  characterId: PropTypes.string.isRequired
 };

@@ -1,13 +1,28 @@
 import './EnigmaComponent.scss';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 
-export function EnigmaComponent({ handleNextSection, section }) {
+export function EnigmaComponent({ handleNextSection, section, characterId }) {
   const [feedback, setFeedback] = useState('');
   const [search, setSearch] = useState('');
+  const [aventure, setAventure] = useState([]);
+  const { user } = useContext(AuthContext);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (!user) return;
+    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', Authorization: user.token }
+    };
+    fetch(`${API_URL}/personnages/${characterId}/aventure`, requestOptions)
+      .then((response) => response.json()
+        .then((data) => setAventure(data))
+        .catch((error) => console.error(error)));
+    // on fait une requête put sur l'aventure
+  }, [characterId, section, user]);
 
   async function handleResults() {
     const win = section.resultat.condition;
@@ -35,6 +50,34 @@ export function EnigmaComponent({ handleNextSection, section }) {
         response.json().then((data) => {
           if (!data.error) {
             levenschteinResults = data;
+
+            if (levenschteinResults && levenschteinResults?.percent >= 50) {
+              setFeedback(`That's the right answer! You are going to section ${winDestination}!`);
+              finalDestination = winDestination;
+            } else {
+              setFeedback(`That's the wrong answer! You are going to section ${loseDestination}!`);
+              finalDestination = loseDestination;
+            }
+
+            setTimeout(() => {
+              handleNextSection(finalDestination);
+
+              if (!user) return;
+              const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+              // on récupère la prochaine sections depuis sections
+              if (!section) return;
+              const statut = section.type === 'termine' ? 'termine' : 'en_cours';
+              const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', Authorization: user.token },
+                body: JSON.stringify({ id_section_actuelle: section.id, statut: statut })
+              };
+              const newAventureID = Number.parseInt(aventure.id);
+              fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions)
+                .then((response) => response.json()
+                  .then((data) => console.log(data))
+                  .catch((error) => console.error(error)));
+            }, 2000);
           } else {
             console.error('Could not get lenvenschtein results');
           }
@@ -43,18 +86,6 @@ export function EnigmaComponent({ handleNextSection, section }) {
     } catch (error) {
       console.error('Erreur lors de la soumission du formulaire de connexion:', error);
     }
-
-    if (levenschteinResults && levenschteinResults?.percent >= 50) {
-      setFeedback(`That's the right answer! You are going to section ${winDestination}!`);
-      finalDestination = winDestination;
-    } else {
-      setFeedback(`That's the wrong answer! You are going to section ${loseDestination}!`);
-      finalDestination = loseDestination;
-    }
-
-    setTimeout(() => {
-      handleNextSection(finalDestination);
-    }, 2000);
   }
 
   function saveAnswer(e) {

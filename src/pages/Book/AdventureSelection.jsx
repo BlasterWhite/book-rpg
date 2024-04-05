@@ -13,7 +13,7 @@ export function AdventureSelection() {
   const navigate = useNavigate();
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
-  
+
   useEffect(() => {
     // Fetch adventures from the server
     if (!user) return;
@@ -25,7 +25,7 @@ export function AdventureSelection() {
     };
     const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     fetch(
-      `${apiURL}/users/${user.id}/aventures/livres/${bookId}`,
+      `${API_URL}/users/${user.id}/aventures/livres/${bookId}`,
       requestOptions
     ).then((response) => response.json()
     .then((data) => {
@@ -34,7 +34,7 @@ export function AdventureSelection() {
     .catch((error) => {
     });
   }, [user]);
-  
+
   useEffect(() => {
     // Fetch book from the server
     if (!user) return;
@@ -43,8 +43,9 @@ export function AdventureSelection() {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
+    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     fetch(
-      `${apiURL}/livres/${bookId}`,
+      `${API_URL}/livres/${bookId}`,
       requestOptions
     ).then((response) => response.json()
     .then((data) => {
@@ -76,8 +77,15 @@ export function AdventureSelection() {
       if (!user) return;
       // Fetch adventuress from the server
       console.log('fetching adventures for the search');
+      const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
       fetch(
-        `${apiURL}/users/${user.id}/aventures/livres/${bookId}`
+        `${API_URL}/users/${user.id}/aventures`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json', Authorization: user.token
+          }
+        }
       ).then((response) => {
         if (response.ok) {
           response.json().then((data) => {
@@ -94,7 +102,7 @@ export function AdventureSelection() {
     if (!user) return;
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: user.token },
+      headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` },
       body: JSON.stringify({
         id_utilisateur: user.id,
         id_livre: parseInt(bookId)
@@ -102,10 +110,10 @@ export function AdventureSelection() {
     };
     const requestOptionsGet = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json', Authorization: user.token }
+      headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
     };
-
-    fetch(`${apiURL}/aventures`, requestOptions)
+    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+    fetch(`${API_URL}/aventures`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           console.error('error creating adventure');
@@ -113,7 +121,7 @@ export function AdventureSelection() {
       })
       .then(() => {
         fetch(
-          `${apiURL}/users/${user.id}/aventures/livres/${bookId}`,
+          `${API_URL}/users/${user.id}/aventures/livres/${bookId}`,
           requestOptionsGet
         ).then((response) => response.json()
         .then((data) => {
@@ -131,7 +139,8 @@ export function AdventureSelection() {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
     };
-    fetch(`${apiURL}/aventures/${adventureId}`, requestOptions).then(
+    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+    fetch(`${API_URL}/aventures/${adventureId}`, requestOptions).then(
       (response) => {
         if (!response.ok) {
           console.error('error fetching adventure');
@@ -194,7 +203,7 @@ export function AdventureSelection() {
         </div>
       </div> : <h1>Book not found</h1>
       }
-      
+
       <h3>Adventure Selection</h3>
       <div className={'adventure-selection'}>
         <header className={'adventure-selection-header'}>
