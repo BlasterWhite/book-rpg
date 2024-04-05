@@ -3,7 +3,8 @@ import newIcon from '@/assets/icons/newIcon.svg';
 import stonksIcon from '@/assets/icons/StonksIcon.svg';
 import { useNavigate } from 'react-router-dom';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 
 export function HomeView() {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ export function HomeView() {
   const [books, setBooks] = useState([]);
   const [newBooks, setNewBooks] = useState([]);
   const [popularBooks, setPopularBooks] = useState([]);
+  const [favourites, setFavourites] = useState([]);
+  const { user } = useContext(AuthContext);
 
   const apiURL =
     'http://localhost:3000' || import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
@@ -44,6 +47,22 @@ export function HomeView() {
         .catch((error) => console.error('Error fetching books', error))
     );
   }, [apiURL]);
+
+  useEffect(() => {
+    if (!apiURL) return console.error('No API URL provided', apiURL);
+    if (!user) return;
+    fetch(`${apiURL}/users/1/favoris`, {
+      method: 'GET',
+      headers: {
+        Authorization: user.token
+      }
+    }).then((response) =>
+      response
+        .json()
+        .then((data) => setFavourites(data))
+        .catch((error) => console.error('Error fetching books', error))
+    );
+  }, [apiURL, user]);
 
   function handleClick() {
     navigate('/book');
@@ -99,7 +118,8 @@ export function HomeView() {
                     key={book.id}
                     book={book}
                     handleFavourite={() => handleFavourite(book.id)}
-                    books={books}
+                    books={popularBooks}
+                    favourites={favourites}
                   />
                 )
             )}
@@ -118,6 +138,8 @@ export function HomeView() {
                     key={book.id}
                     book={book}
                     handleFavourite={() => handleFavourite(book.id)}
+                    books={newBooks}
+                    favourites={favourites}
                   />
                 )
             )}

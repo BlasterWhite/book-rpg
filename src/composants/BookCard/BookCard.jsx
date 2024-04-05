@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 
-export function BookCard({ book, handleFavourite, books }) {
+export function BookCard({ book, handleFavourite, books, favourites }) {
   const { titre, image, fav } = book;
   const [isFav, setIsFav] = useState(fav);
   const { user } = useContext(AuthContext);
@@ -41,11 +41,15 @@ export function BookCard({ book, handleFavourite, books }) {
   }
 
   useEffect(() => {
-    if (books && user) {
+    if (books && user && favourites.length > 0) {
       const isFav = books.filter((b) => b.id === book.id)[0].fav;
+      const isFavoritFromDb = favourites.filter((f) => f.id_livre === book.id);
+      if (isFavoritFromDb.length > 0) {
+        setIsFav(true);
+      }
       setIsFav(isFav);
     }
-  }, [books, user]);
+  }, [book.id, books, favourites, user]);
   if (book)
     return (
       <div className={'book-card'}>
@@ -73,5 +77,6 @@ BookCard.propTypes = {
     fav: PropTypes.bool
   }).isRequired,
   handleFavourite: PropTypes.func,
-  books: PropTypes.array
+  books: PropTypes.array,
+  favourites: PropTypes.array
 };
