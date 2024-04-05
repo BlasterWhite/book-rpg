@@ -19,7 +19,7 @@ export function AdventureSelection() {
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
     fetch(
-      `${import.meta.env.VITE_API_URL}/users/${user.id}/aventures/${bookId}`,
+      `http://localhost:3000/users/${user.id}/aventures/livres/${bookId}`,
       requestOptions
     ).then((response) => {
       if (response.ok) {
@@ -116,7 +116,7 @@ export function AdventureSelection() {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
     };
-    fetch(`${import.meta.env.VITE_API_URL}/aventures/${adventureId}`, requestOptions).then(
+    fetch(`${import.meta.env.VITE_API_URL}/aventures/livres/${adventureId}`, requestOptions).then(
       (response) => {
         if (!response.ok) {
           console.error('error fetching adventure');
