@@ -35,6 +35,7 @@ export function AdminSectionListView() {
   }
 
   useEffect(() => {
+    console.log('bookId', bookId);
     if (!user) return;
     fetch(`${apiURL}/livres/${bookId}/sections`, {
       method: 'GET',
@@ -45,6 +46,7 @@ export function AdminSectionListView() {
     }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
+          console.log(data);
           setSections(data);
         });
       } else {
@@ -133,7 +135,7 @@ export function AdminSectionListView() {
         Admin | Section list <span className={'id'}>ID : {bookId}</span>{' '}
       </h1>
       <div className={'section-header'}>
-        <NavLink to={`/admin/`}>← Back to Books</NavLink>
+        <NavLink to={`/admin/book`}>← Back to Books</NavLink>
         <div className={'actions'}>
           <input
             type="text"
@@ -154,7 +156,7 @@ export function AdminSectionListView() {
                 <p className={'section-id'}>ID: {section.id}</p>
               </div>
               <div className={'section-actions'}>
-                <NavLink to={`/admin/${bookId}/section/${section.id}`}>
+                <NavLink to={`/admin/book/${bookId}/section/${section.id}`}>
                   <img className={'icon edit'} src={EditIcon} alt="Edit" />
                 </NavLink>
                 <a onClick={() => handleDeleteBook(section.id)}>

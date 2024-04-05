@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { AuthContext } from './composants/AuthContext/AuthContext.jsx';
 import { AdminWeaponListView } from '@/pages/Admin/AdminWeaponListView/AdminWeaponListView.jsx';
 import { AdminWeaponEditView } from '@/pages/Admin/AdminWeaponEditView/AdminWeaponEditView.jsx';
+import { AdminView } from '@/pages/Admin/AdminView.jsx';
 
 const router = createBrowserRouter([
   {
@@ -78,23 +79,33 @@ const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <AdminBookListView />
+            element: <AdminView />
           },
           {
-            path: ':bookId',
-            element: <AdminBookEditView />
-          },
-          {
-            path: ':bookId/section',
+            path: 'book',
             element: <Outlet />,
             children: [
               {
                 path: '',
-                element: <AdminSectionListView />
+                element: <AdminBookListView />
               },
               {
-                path: ':sectionId',
-                element: <AdminSectionEditView />
+                path: ':bookId',
+                element: <AdminBookEditView />
+              },
+              {
+                path: ':bookId/section',
+                element: <Outlet />,
+                children: [
+                  {
+                    path: '',
+                    element: <AdminSectionListView />
+                  },
+                  {
+                    path: ':sectionId',
+                    element: <AdminSectionEditView />
+                  }
+                ]
               }
             ]
           },

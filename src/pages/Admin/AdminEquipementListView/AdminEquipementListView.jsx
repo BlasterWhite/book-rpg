@@ -118,6 +118,7 @@ export function AdminEquipementListView() {
   return (
     <div className={'admin-equipment-list-view'}>
       <h1 className={'title'}>Admin | Equipment list</h1>
+      <NavLink to={`/admin`}>← Back to admin</NavLink>
       <div className={'equipment-header'}>
         <div className={'actions'}>
           <input

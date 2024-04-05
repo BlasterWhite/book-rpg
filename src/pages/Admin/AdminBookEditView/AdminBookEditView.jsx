@@ -143,7 +143,7 @@ export function AdminBookEditView() {
   return (
     <div className={'admin-book-edit-view'}>
       <h1 className={'title'}>Admin</h1>
-      <NavLink to={'/admin'}>← Back</NavLink>
+      <NavLink to={'/admin/book'}>← Back admin book list</NavLink>
       <form onSubmit={handleSubmit}>
         <label htmlFor="titre">Title:</label>
         <input type="text" id="titre" name="titre" value={EditBook.titre} onChange={editBook} />

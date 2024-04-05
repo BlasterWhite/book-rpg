@@ -114,6 +114,7 @@ export function AdminBookListView() {
   return (
     <div className={'admin-book-list-view'}>
       <h1 className={'title'}>Admin | Book list</h1>
+      <NavLink to={`/admin`}>← Back to admin</NavLink>
       <div className={'actions'}>
         <input
           type="text"
@@ -131,10 +132,10 @@ export function AdminBookListView() {
               <div className={'book-id'}>ID: {book.id}</div>
             </div>
             <div className={'book-actions'}>
-              <NavLink to={`/admin/${book.id}/section`}>
+              <NavLink to={`/admin/book/${book.id}/section`}>
                 <img className={'icon edit'} src={NodeIcon} alt="Edit" />
               </NavLink>{' '}
-              <NavLink to={`/admin/${book.id}`}>
+              <NavLink to={`/admin/book/${book.id}`}>
                 <img className={'icon edit'} src={EditIcon} alt="Edit" />
               </NavLink>
               <a onClick={() => handleDeleteBook(book.id)}>

@@ -1,0 +1,26 @@
+@import "@/assets/scss/variables";
+
+.admin-view {
+  width: $max-width;
+  height: 100%;
+
+  .admin-view-buttons {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 20px;
+
+    a {
+      background: $primary-color;
+      color: $white-text-color;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background: $secondary-color;
+      }
+    }
+  }
+}
