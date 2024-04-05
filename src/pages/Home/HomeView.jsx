@@ -15,8 +15,7 @@ export function HomeView() {
   const [favourites, setFavourites] = useState([]);
   const { user } = useContext(AuthContext);
 
-  const apiURL =
-    'http://localhost:3000' || import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+  const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
   useEffect(() => {
     if (!apiURL) return console.error('No API URL provided', apiURL);
