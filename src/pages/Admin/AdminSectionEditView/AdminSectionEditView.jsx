@@ -23,7 +23,11 @@ export function AdminSectionEditView() {
     }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
-          setSections(data.filter((section) => section.id !== sectionId));
+          setSections(
+            data
+              .filter((section) => section.id !== sectionId)
+              .sort((a, b) => a.numero_section - b.numero_section)
+          );
         });
       } else {
         console.error('Error fetching sections');
