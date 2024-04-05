@@ -22,7 +22,6 @@ export function AdventureSelection() {
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
-      headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
     const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     fetch(
@@ -30,7 +29,6 @@ export function AdventureSelection() {
       requestOptions
     ).then((response) => response.json()
     .then((data) => {
-      console.log(data);
       setAdventures(data);
     }))
     .catch((error) => {
@@ -78,7 +76,6 @@ export function AdventureSelection() {
       if (!user) return;
       // Fetch adventuress from the server
       console.log('fetching adventures for the search');
-      const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
       fetch(
         `${apiURL}/users/${user.id}/aventures/livres/${bookId}`
       ).then((response) => {
@@ -182,12 +179,6 @@ export function AdventureSelection() {
       );
     }
   }
-
-  /*
-  <h1>{book.titre}</h1>
-        <p className='text-scenario'>{book.resume}</p>
-        <img src={book.image.image} alt={'Livre image'} className='book-image'/>
-  */
 
   return (
     <div>
