@@ -52,8 +52,8 @@ export function FightComponent({ handleNextSection, section, characterId }) {
         onClick={() =>
           handleNextSection(
             personnage[section.resultat.type_condition] >= section.resultat.condition
-              ? section.resultat.gagne
-              : section.resultat.perd
+              ? section.resultat.perd
+              : section.resultat.gagne
           )
         }
       />
