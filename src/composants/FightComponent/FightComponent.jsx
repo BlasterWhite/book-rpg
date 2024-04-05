@@ -6,6 +6,7 @@ import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
 
 export function FightComponent({ handleNextSection, section, characterId }) {
   const [personnage, setPersonnage] = useState({});
+  const [aventure, setAventure] = useState({});
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -29,6 +30,44 @@ export function FightComponent({ handleNextSection, section, characterId }) {
     );
   }, [characterId, user]);
 
+  useEffect(() => {
+    if (!user) return;
+
+    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', Authorization: user.token }
+    };
+    fetch(`${API_URL}/personnages/${characterId}/aventure`, requestOptions)
+      .then((response) => response.json()
+        .then((data) => {
+          console.log(data);
+           setAventure(data)
+        })
+        .catch((error) => console.error(error)));
+    // on fait une requête put sur l'aventure
+  }, [characterId, user]);
+
+  const handleClick = (id) => {
+    handleNextSection(id);
+
+    if (!user) return;
+    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+    // on récupère la prochaine sections depuis sections
+    if (!section) return;
+    const statut = section.type === 'termine' ? 'termine' : 'en_cours';
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: user.token },
+      body: JSON.stringify({ id_section_actuelle: id, statut: statut })
+    };
+    const newAventureID = Number.parseInt(aventure.id);
+    fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions)
+      .then((response) => response.json()
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error)));
+  }
+
   return (
     <div className={'fight-component-container'}>
       <div className={'fight-component-text'}>
@@ -50,7 +89,7 @@ export function FightComponent({ handleNextSection, section, characterId }) {
             : 'Gagné'
         }
         onClick={() =>
-          handleNextSection(
+          handleClick(
             personnage[section.resultat.type_condition] >= section.resultat.condition
               ? section.resultat.perd
               : section.resultat.gagne
@@ -76,5 +115,5 @@ FightComponent.propTypes = {
     }).isRequired
   }).isRequired,
   handleNextSection: PropTypes.func,
-  characterId: PropTypes.number
+  characterId: PropTypes.string.isRequired
 };

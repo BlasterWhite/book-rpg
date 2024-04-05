@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 export function AdventureCard({ adventure, book, handleFavourite }) {
 
   function redirect() {
-    console.log(`${adventure.id}`);
-    console.log(`${book.id_personnage_default}`);
-    window.location.href = `/book/${book.id}/${book.id_personnage_default}/${adventure.id_section_actuelle}`;
+    window.location.href = `/book/${book.id}/${adventure.id_personnage}/${adventure.id_section_actuelle}`;
   }
 
   return (
