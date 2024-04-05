@@ -1,27 +1,25 @@
 import { useParams } from 'react-router-dom';
 import './AdventureSelection.scss';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AdventureCard } from '@/composants/AdventureCard/AdventureCard.jsx';
-import Cookies from 'js-cookie';
+import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 
 export function AdventureSelection() {
   const { bookId } = useParams();
   const [, setSearch] = useState('');
   const [adventures, setAdventures] = useState([]);
+  const { user } = useContext(AuthContext);
 
-  let token = Cookies.get('token');
   useEffect(() => {
     // Fetch adventures from the server
+    if (!user) return;
     console.log('fetching adventures');
-    if (!token) {
-      window.location.href = '/login';
-    }
     const requestOptions = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json', Authorization: `${token}` }
+      headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
     fetch(
-      `${import.meta.env.VITE_API_URL}/users/${JSON.parse(localStorage.getItem('user')).id}/aventures/${bookId}`,
+      `${import.meta.env.VITE_API_URL}/users/${user.id}/aventures/${bookId}`,
       requestOptions
     ).then((response) => {
       if (response.ok) {
@@ -32,7 +30,7 @@ export function AdventureSelection() {
         console.error('Error fetching adventures');
       }
     });
-  }, [token, bookId]);
+  }, [bookId, user]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -47,10 +45,17 @@ export function AdventureSelection() {
 
     // If search is empty, show all adventures
     if (!e.target.value) {
+      if (!user) return;
       // Fetch adventuress from the server
       console.log('fetching adventures for the search');
       fetch(
-        `${import.meta.env.VITE_API_URL}/users/${JSON.parse(localStorage.getItem('user')).id}/aventures`
+        `${import.meta.env.VITE_API_URL}/users/${user.id}/aventures`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json', Authorization: user.token
+          }
+        }
       ).then((response) => {
         if (response.ok) {
           response.json().then((data) => {
@@ -66,7 +71,7 @@ export function AdventureSelection() {
   function createAdventure() {
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `${token}` },
+      headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` },
       body: JSON.stringify({
         id_utilisateur: 1,
         id_livre: parseInt(bookId)
@@ -74,8 +79,9 @@ export function AdventureSelection() {
     };
     const requestOptionsGet = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json', Authorization: `${token}` }
+      headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
     };
+    if (!user) return;
     fetch(`${import.meta.env.VITE_API_URL}/aventures`, requestOptions)
       .then((response) => {
         if (!response.ok) {
@@ -84,7 +90,7 @@ export function AdventureSelection() {
       })
       .then(() => {
         fetch(
-          `${import.meta.env.VITE_API_URL}/users/${JSON.parse(localStorage.getItem('user')).id}/aventures`,
+          `${import.meta.env.VITE_API_URL}/users/${user.id}/aventures`,
           requestOptionsGet
         )
           .then((response) => {
@@ -108,7 +114,7 @@ export function AdventureSelection() {
     let currentSection;
     const requestOptions = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json', Authorization: `${token}` }
+      headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
     };
     fetch(`${import.meta.env.VITE_API_URL}/aventures/${adventureId}`, requestOptions).then(
       (response) => {
