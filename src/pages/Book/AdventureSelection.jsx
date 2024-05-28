@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/AuthContext.jsx';
 export function AdventureSelection() {
   const { bookId } = useParams();
   const [, setSearch] = useState('');
-  const [book, setBook] = useState([]);
+  const [book, setBook] = useState({});
   const [adventures, setAdventures] = useState([]);
   const { user } = useAuth();
   const navigate = useNavigate();

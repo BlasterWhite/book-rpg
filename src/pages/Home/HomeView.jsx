@@ -1,7 +1,7 @@
 import './HomeView.scss';
 import newIcon from '@/assets/icons/newIcon.svg';
 import stonksIcon from '@/assets/icons/StonksIcon.svg';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext.jsx';
@@ -143,14 +143,13 @@ export function HomeView() {
             {popularBooks.map(
               (book, index) =>
                 book.id && (
-                  <NavLink to={`/book/${book.id}`} key={index}>
-                    <BookCard
-                      book={book}
-                      handleFavourite={() => handleFavourite(book.id)}
-                      books={popularBooks}
-                      favourites={favourites}
-                    />
-                  </NavLink>
+                  <BookCard
+                    book={book}
+                    key={index}
+                    handleFavourite={() => handleFavourite(book.id)}
+                    books={popularBooks}
+                    favourites={favourites}
+                  />
                 )
             )}
           </div>
@@ -164,14 +163,13 @@ export function HomeView() {
             {newBooks.map(
               (book, index) =>
                 book.id && (
-                  <NavLink to={`/book/${book.id}`} key={index}>
-                    <BookCard
-                      book={book}
-                      handleFavourite={() => handleFavourite(book.id)}
-                      books={newBooks}
-                      favourites={favourites}
-                    />
-                  </NavLink>
+                  <BookCard
+                    book={book}
+                    key={index}
+                    handleFavourite={() => handleFavourite(book.id)}
+                    books={newBooks}
+                    favourites={favourites}
+                  />
                 )
             )}
           </div>
