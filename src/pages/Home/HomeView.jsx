@@ -148,13 +148,14 @@ export function HomeView() {
             {popularBooks.map(
               (book, index) =>
                 book.id && (
-                  <BookCard
-                    key={index}
-                    book={book}
-                    handleFavourite={() => handleFavourite(book.id)}
-                    books={popularBooks}
-                    favourites={favourites}
-                  />
+                  <NavLink to={`/book/${book.id}`} key={index}>
+                    <BookCard
+                      book={book}
+                      handleFavourite={() => handleFavourite(book.id)}
+                      books={popularBooks}
+                      favourites={favourites}
+                    />
+                  </NavLink>
                 )
             )}
           </div>
