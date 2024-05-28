@@ -1,15 +1,15 @@
 import { useNavigate, useParams, NavLink } from 'react-router-dom';
 import './AdventureSelection.scss';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AdventureCard } from '@/composants/AdventureCard/AdventureCard.jsx';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function AdventureSelection() {
   const { bookId } = useParams();
   const [, setSearch] = useState('');
   const [book, setBook] = useState([]);
   const [adventures, setAdventures] = useState([]);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
@@ -17,22 +17,21 @@ export function AdventureSelection() {
   useEffect(() => {
     // Fetch adventures from the server
     if (!user) return;
-    if (!user) return;
     console.log('fetching adventures');
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
-    fetch(`${API_URL}/users/${user.id}/aventures/livres/${bookId}`, requestOptions)
+    fetch(`${API_URL}/users/aventures/livres/${bookId}`, requestOptions)
       .then((response) =>
         response.json().then((data) => {
           setAdventures(data);
         })
       )
-      .catch((error) => {});
-  }, [user]);
-
-  console.log('bookId', bookId);
+      .catch(() => {
+        setAdventures([]);
+      });
+  }, [user, bookId, setAdventures, API_URL]);
 
   useEffect(() => {
     // Fetch book from the server
@@ -48,10 +47,10 @@ export function AdventureSelection() {
           setBook(data);
         })
       )
-      .catch((error) => {
+      .catch(() => {
         navigate('/');
       });
-  }, [bookId, user]);
+  }, [bookId, user, setBook, API_URL, navigate]);
 
   function handleSearch(e) {
     try {
@@ -75,7 +74,7 @@ export function AdventureSelection() {
       if (!user) return;
       // Fetch adventuress from the server
       console.log('fetching adventures for the search');
-      fetch(`${API_URL}/users/${user.id}/aventures`, {
+      fetch(`${API_URL}/users/aventures`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -114,13 +113,15 @@ export function AdventureSelection() {
         }
       })
       .then(() => {
-        fetch(`${API_URL}/users/${user.id}/aventures/livres/${bookId}`, requestOptionsGet)
+        fetch(`${API_URL}/users/aventures/livres/${bookId}`, requestOptionsGet)
           .then((response) =>
             response.json().then((data) => {
               setAdventures(data);
             })
           )
-          .catch((error) => {});
+          .catch(() => {
+            setAdventures([]);
+          });
       });
   }
 

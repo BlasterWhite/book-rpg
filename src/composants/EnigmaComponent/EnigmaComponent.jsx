@@ -1,14 +1,13 @@
 import './EnigmaComponent.scss';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Cookies from 'js-cookie';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function EnigmaComponent({ handleNextSection, section, characterId }) {
   const [feedback, setFeedback] = useState('');
   const [search, setSearch] = useState('');
   const [aventure, setAventure] = useState([]);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!user) return;
@@ -17,10 +16,12 @@ export function EnigmaComponent({ handleNextSection, section, characterId }) {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
-    fetch(`${API_URL}/personnages/${characterId}/aventure`, requestOptions)
-      .then((response) => response.json()
+    fetch(`${API_URL}/personnages/${characterId}/aventure`, requestOptions).then((response) =>
+      response
+        .json()
         .then((data) => setAventure(data))
-        .catch((error) => console.error(error)));
+        .catch((error) => console.error(error))
+    );
     // on fait une requête put sur l'aventure
   }, [characterId, section, user]);
 
@@ -30,16 +31,16 @@ export function EnigmaComponent({ handleNextSection, section, characterId }) {
     const loseDestination = section.resultat.perd;
     let levenschteinResults = null;
     let finalDestination = null;
-    let token = Cookies.get('token');
 
     try {
+      if (!user) return;
       await fetch(
         (import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000') + '/levenschtein',
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: token
+            Authorization: user.token
           },
           body: JSON.stringify({
             chaine1: win.trim().toLowerCase(),
@@ -73,10 +74,12 @@ export function EnigmaComponent({ handleNextSection, section, characterId }) {
                 body: JSON.stringify({ id_section_actuelle: section.id, statut: statut })
               };
               const newAventureID = Number.parseInt(aventure.id);
-              fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions)
-                .then((response) => response.json()
+              fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions).then((response) =>
+                response
+                  .json()
                   .then((data) => console.log(data))
-                  .catch((error) => console.error(error)));
+                  .catch((error) => console.error(error))
+              );
             }, 2000);
           } else {
             console.error('Could not get lenvenschtein results');
@@ -123,5 +126,6 @@ EnigmaComponent.propTypes = {
       perd: PropTypes.number
     }).isRequired
   }).isRequired,
-  handleNextSection: PropTypes.func
+  handleNextSection: PropTypes.func,
+  characterId: PropTypes.number.isRequired
 };

@@ -2,18 +2,18 @@ import './AdminBookListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import NodeIcon from '@/assets/icons/BookIcon.svg';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function AdminBookListView() {
   const [, setSearch] = useState('');
   const [books, setBooks] = useState([]);
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   useEffect(() => {
     // Fetch books from the server

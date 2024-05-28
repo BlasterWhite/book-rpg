@@ -2,13 +2,13 @@ import './BookCard.scss';
 import fullStar from '@/assets/icons/FullStarIcon.svg';
 import emptyStar from '@/assets/icons/EmptyStarIcon.svg';
 import PropTypes from 'prop-types';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function BookCard({ book, handleFavourite, books, favourites }) {
   const { titre, image, fav } = book;
   const [isFav, setIsFav] = useState(fav);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const handleClick = () => {
     handleFavourite(book.id);
@@ -41,8 +41,8 @@ export function BookCard({ book, handleFavourite, books, favourites }) {
     imageSrc = image.image;
   }
   if (!(image && image.image)) {
-      imageSrc = 'https://placehold.co/270x500.png';
-    }
+    imageSrc = 'https://placehold.co/270x500.png';
+  }
 
   useEffect(() => {
     if (books && user && favourites.length > 0) {

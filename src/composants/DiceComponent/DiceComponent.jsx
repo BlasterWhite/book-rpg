@@ -1,22 +1,21 @@
 import './DiceComponent.scss';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function DiceComponent({
-                                numberOfDices = 2,
-                                numberOfFaces = 6,
-                                handleNextSection,
-                                section,
-                                characterId
-                              }) {
+  numberOfDices = 2,
+  numberOfFaces = 6,
+  handleNextSection,
+  section,
+  characterId
+}) {
   const isMounted = useRef(false);
   const [hasDiceResults, setHasDiceResults] = useState(false);
   const [results, setResults] = useState([]);
   const [feedback, setFeedback] = useState('');
   const [aventure, setAventure] = useState([]);
-  const { user } = useContext(AuthContext);
-
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!user) return;
@@ -25,10 +24,12 @@ export function DiceComponent({
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
-    fetch(`${API_URL}/personnages/${characterId}/aventure`, requestOptions)
-      .then((response) => response.json()
+    fetch(`${API_URL}/personnages/${characterId}/aventure`, requestOptions).then((response) =>
+      response
+        .json()
         .then((data) => setAventure(data))
-        .catch((error) => console.error(error)));
+        .catch((error) => console.error(error))
+    );
     // on fait une requête put sur l'aventure
   }, [characterId, section, user]);
 
@@ -82,10 +83,12 @@ export function DiceComponent({
         body: JSON.stringify({ id_section_actuelle: section.id, statut: statut })
       };
       const newAventureID = Number.parseInt(aventure.id);
-      fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions)
-        .then((response) => response.json()
+      fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions).then((response) =>
+        response
+          .json()
           .then((data) => console.log(data))
-          .catch((error) => console.error(error)));
+          .catch((error) => console.error(error))
+      );
     }, 2000);
   }
 

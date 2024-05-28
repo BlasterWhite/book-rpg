@@ -3,8 +3,8 @@ import newIcon from '@/assets/icons/newIcon.svg';
 import stonksIcon from '@/assets/icons/StonksIcon.svg';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function HomeView() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export function HomeView() {
   const [newBooks, setNewBooks] = useState([]);
   const [popularBooks, setPopularBooks] = useState([]);
   const [favourites, setFavourites] = useState([]);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
@@ -24,14 +24,14 @@ export function HomeView() {
         .json()
         .then((data) => {
           const booksWithFav = data.map((book) => {
-            book.fav = false;
+            book.fav = favourites.some((fav) => fav.id_livre === book.id);
             return book;
           });
           setBooks(booksWithFav);
         })
         .catch((error) => console.error('Error fetching books', error))
     );
-  }, [apiURL]);
+  }, [apiURL, favourites, setBooks]);
 
   useEffect(() => {
     if (!apiURL) return console.error('No API URL provided', apiURL);
@@ -75,7 +75,7 @@ export function HomeView() {
   useEffect(() => {
     if (!apiURL) return console.error('No API URL provided', apiURL);
     if (!user) return;
-    fetch(`${apiURL}/users/${user.id}/favoris/`, {
+    fetch(`${apiURL}/users/favoris/`, {
       method: 'GET',
       headers: {
         Authorization: user.token
@@ -84,16 +84,11 @@ export function HomeView() {
       response
         .json()
         .then((data) => {
-          const booksWithFav = books.map((book) => {
-            book.fav = data.some((fav) => fav.id_livre === book.id);
-            return book;
-          });
-          setBooks(booksWithFav);
           setFavourites(data);
         })
         .catch((error) => console.error('Error fetching books', error))
     );
-  }, [apiURL, user]);
+  }, [apiURL, user, setFavourites]);
 
   function handleClick() {
     navigate('/book');

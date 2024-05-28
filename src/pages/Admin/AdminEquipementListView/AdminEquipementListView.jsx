@@ -1,28 +1,26 @@
 import './AdminEquipementListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
-import Cookies from 'js-cookie';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function AdminEquipementListView() {
   const [, setSearch] = useState('');
   const [equipment, setEquipment] = useState([]);
-  const { user } = useContext(AuthContext);
-
-  let token = Cookies.get('token');
+  const { user } = useAuth();
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
   async function getEquipment() {
+    if (!user) return;
     return await fetch(`${apiURL}/equipements`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token
+        Authorization: user.token
       }
     }).then((response) => {
       if (response.ok) {
@@ -41,7 +39,7 @@ export function AdminEquipementListView() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token
+        Authorization: user.token
       }
     }).then((response) => {
       if (response.ok) {
@@ -52,7 +50,7 @@ export function AdminEquipementListView() {
         console.error('Error fetching equipment');
       }
     });
-  }, [apiURL, user, token]);
+  }, [apiURL, user]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -79,7 +77,7 @@ export function AdminEquipementListView() {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token
+        Authorization: user.token
       }
     }).then((response) => {
       if (response.ok) {
@@ -105,7 +103,7 @@ export function AdminEquipementListView() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token
+        Authorization: user.token
       },
       body: JSON.stringify(eq)
     });
