@@ -160,6 +160,7 @@ function Root() {
 }
 
 function App() {
+  console.log('Book RPG v1.0.0');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
