@@ -6,7 +6,13 @@ import { NavLink } from 'react-router-dom';
 
 export function ProfilView() {
   const { user } = useContext(AuthContext);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({
+    prenom: undefined,
+    nom: undefined,
+    mail: undefined,
+    joinDate: '',
+    livre: {}
+  });
   const [favoris, setFavoris] = useState([{}]);
   const [books, setBooks] = useState([]);
 
@@ -24,7 +30,7 @@ export function ProfilView() {
     ).then((response) => response.json()
       .then((data) => setUserData(data)))
       .catch((error) => console.error(error));
-  }, [user]);
+  }, [apiURL, user]);
 
   useEffect(() => {
     if (!user) return;
@@ -40,7 +46,7 @@ export function ProfilView() {
         setFavoris(data);
       }))
       .catch((error) => console.error(error));
-  }, [user]);
+  }, [apiURL, user]);
 
   useEffect(() => {
     if (!apiURL) return console.error('No API URL provided', apiURL);
