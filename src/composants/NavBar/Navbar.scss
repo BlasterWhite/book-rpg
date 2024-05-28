@@ -58,6 +58,16 @@ nav.nav-header {
           font-size: 0.8rem;
         }
       }
+
+      .nav-item-navlink {
+        background-color: #1fe5e0;
+        color: #fff;
+        border: none;
+        padding: .5rem 1rem;
+        margin-bottom: 0.75rem;
+        border-radius: 5px;
+        cursor: pointer;
+      }
     }
   }
 

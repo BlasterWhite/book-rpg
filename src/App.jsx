@@ -20,6 +20,7 @@ import { AuthContext } from './composants/AuthContext/AuthContext.jsx';
 import { AdminWeaponListView } from '@/pages/Admin/AdminWeaponListView/AdminWeaponListView.jsx';
 import { AdminWeaponEditView } from '@/pages/Admin/AdminWeaponEditView/AdminWeaponEditView.jsx';
 import { AdminView } from '@/pages/Admin/AdminView.jsx';
+import { ProfilView } from '@/pages/Account/ProfilView.jsx';
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <RegisterView />
+      },
+      {
+        path: 'profil',
+        element: <ProfilView />
       },
       {
         path: 'admin',

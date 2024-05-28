@@ -31,6 +31,7 @@ export function Navbar() {
               'Unknown user'
             )}
           </span>
+          <NavLink className={'nav-item-navlink'} to={'/profil'}>Profil</NavLink>
           <button onClick={logout}>Logout</button>
         </div>
       )}
