@@ -17,7 +17,6 @@ export function AdventureSelection() {
   useEffect(() => {
     // Fetch adventures from the server
     if (!user) return;
-    if (!user) return;
     console.log('fetching adventures');
     const requestOptions = {
       method: 'GET',

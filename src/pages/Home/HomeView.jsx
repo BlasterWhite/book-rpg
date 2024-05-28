@@ -74,7 +74,7 @@ export function HomeView() {
   useEffect(() => {
     if (!apiURL) return console.error('No API URL provided', apiURL);
     if (!user) return;
-    fetch(`${apiURL}/users/${user.id}/favoris/`, {
+    fetch(`${apiURL}/users/favoris/`, {
       method: 'GET',
       headers: {
         Authorization: user.token

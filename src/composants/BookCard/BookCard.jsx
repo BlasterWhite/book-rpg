@@ -15,14 +15,14 @@ export function BookCard({ book, handleFavourite, books, favourites }) {
     setIsFav(!isFav);
     const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     if (isFav) {
-      fetch(`${apiURL}/users/${user.id}/favoris/${book.id}`, {
+      fetch(`${apiURL}/users/favoris/${book.id}`, {
         method: 'DELETE',
         headers: {
           Authorization: user.token
         }
       }).catch((error) => console.error('Error fetching books', error));
     } else {
-      fetch(`${apiURL}/users/${user.id}/favoris/`, {
+      fetch(`${apiURL}/users/favoris/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
