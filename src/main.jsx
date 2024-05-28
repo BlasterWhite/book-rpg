@@ -5,6 +5,7 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    {console.log('Book RPG v1.0.0')}
     <App />
   </React.StrictMode>
 );

@@ -1,8 +1,8 @@
 import './AdminBookEditView.scss';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { useEffect, useState } from 'react';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function AdminBookEditView() {
   const { bookId } = useParams();
@@ -11,7 +11,7 @@ export function AdminBookEditView() {
   const navigate = useNavigate();
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!user) return;

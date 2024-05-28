@@ -1,9 +1,8 @@
 import './AdminEquipementEditView.scss';
 import { NavLink, useParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { useEffect, useState } from 'react';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
-import Cookies from 'js-cookie';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function AdminEquipementEditView() {
   const { equipmentId } = useParams();
@@ -15,9 +14,7 @@ export function AdminEquipementEditView() {
     resistance: 0
   });
 
-  let token = Cookies.get('token');
-
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
@@ -27,7 +24,7 @@ export function AdminEquipementEditView() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token
+        Authorization: user.token
       }
     }).then((response) => {
       if (response.ok) {
@@ -42,20 +39,21 @@ export function AdminEquipementEditView() {
         console.error('Error fetching equipment');
       }
     });
-  }, [equipmentId, apiURL, user, token]);
+  }, [equipmentId, apiURL, user]);
 
   function editEquipment(e) {
     setEquipment({ ...equipment, [e.target.name]: e.target.value });
   }
 
   async function uploadImage(imageUrl) {
+    if (!user) return;
     // upload the link to the image to the server and send back the id
     let id_image = 1;
     id_image = await fetch(`${apiURL}/images/url`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token
+        Authorization: user.token
       },
       body: JSON.stringify({ url: imageUrl })
     }).then(async (response) => {
@@ -92,7 +90,7 @@ export function AdminEquipementEditView() {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token
+        Authorization: user.token
       },
       body: JSON.stringify(equipment)
     }).then((response) => {

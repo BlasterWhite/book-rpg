@@ -2,38 +2,43 @@ import './BookCard.scss';
 import fullStar from '@/assets/icons/FullStarIcon.svg';
 import emptyStar from '@/assets/icons/EmptyStarIcon.svg';
 import PropTypes from 'prop-types';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext.jsx';
+import { useNavigate } from 'react-router-dom';
 
 export function BookCard({ book, handleFavourite, books, favourites }) {
   const { titre, image, fav } = book;
   const [isFav, setIsFav] = useState(fav);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleClickFavourite = (e) => {
+    e.stopPropagation();
+
     handleFavourite(book.id);
     setIsFav(!isFav);
     const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     if (isFav) {
-      fetch(`${apiURL}/users/${user.id}/favoris/${book.id}`, {
+      fetch(`${apiURL}/users/favoris/${book.id}`, {
         method: 'DELETE',
         headers: {
           Authorization: user.token
         }
       }).catch((error) => console.error('Error fetching books', error));
     } else {
-      fetch(`${apiURL}/users/${user.id}/favoris/`, {
+      fetch(`${apiURL}/users/favoris/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: user.token
         },
         body: JSON.stringify({ id_livre: book.id })
-      })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error('Error fetching books', error));
+      }).catch((error) => console.error('Error fetching books', error));
     }
+  };
+
+  const handleClick = () => {
+    navigate(`/book/${book.id}`);
   };
 
   let imageSrc = image?.image || null;
@@ -41,8 +46,8 @@ export function BookCard({ book, handleFavourite, books, favourites }) {
     imageSrc = image.image;
   }
   if (!(image && image.image)) {
-      imageSrc = 'https://placehold.co/270x500.png';
-    }
+    imageSrc = 'https://placehold.co/270x500.png';
+  }
 
   useEffect(() => {
     if (books && user && favourites.length > 0) {
@@ -59,13 +64,13 @@ export function BookCard({ book, handleFavourite, books, favourites }) {
 
   if (book)
     return (
-      <div className={'book-card'}>
+      <div className={'book-card'} onClick={handleClick}>
         <div className={'book-card-favourite-overlay'}>
           <img
             src={isFav ? fullStar : emptyStar}
             alt={'Favourite'}
             className={fav ? 'favourite' : ''}
-            onClick={() => handleClick()}
+            onClick={(e) => handleClickFavourite(e)}
           />
         </div>
         <img src={imageSrc} alt={'Book cover'} />

@@ -15,11 +15,11 @@ import { AdminSectionListView } from '@/pages/Admin/AdminSectionListView/AdminSe
 import { AdminSectionEditView } from '@/pages/Admin/AdminSectionEditView/AdminSectionEditView.jsx';
 import { AdminEquipementEditView } from '@/pages/Admin/AdminEquipementEditView/AdminEquipementEditView.jsx';
 import { AdminEquipementListView } from '@/pages/Admin/AdminEquipementListView/AdminEquipementListView.jsx';
-import { useEffect, useState } from 'react';
-import { AuthContext } from './composants/AuthContext/AuthContext.jsx';
 import { AdminWeaponListView } from '@/pages/Admin/AdminWeaponListView/AdminWeaponListView.jsx';
 import { AdminWeaponEditView } from '@/pages/Admin/AdminWeaponEditView/AdminWeaponEditView.jsx';
 import { AdminView } from '@/pages/Admin/AdminView.jsx';
+import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
+import { AuthProvider } from '@/contexts/AuthContext.jsx';
 
 const router = createBrowserRouter([
   {
@@ -75,7 +75,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'admin',
-        element: <Outlet />,
+        element: (
+          <ProtectedRoute permissions={['admin']} redirect={'/'}>
+            <Outlet />
+          </ProtectedRoute>
+        ),
         children: [
           {
             path: '',
@@ -160,46 +164,10 @@ function Root() {
 }
 
 function App() {
-  console.log('Book RPG v1.0.0');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
-
-  const login = (data) => {
-    setIsLoggedIn(true);
-    data.user.token = data.token;
-    setUser(data.user);
-    document.cookie = `token=${data.token}; max-age=86400; path=/`;
-    localStorage.setItem('user', JSON.stringify(data.user));
-    localStorage.setItem('isLoggedIn', true);
-  };
-
-  const logout = () => {
-    setIsLoggedIn(false);
-    setUser(null);
-    document.cookie.split(';').forEach(function (c) {
-      document.cookie = c
-        .replace(/^ +/, '')
-        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
-    });
-    localStorage.removeItem('user');
-    localStorage.removeItem('isLoggedIn');
-  };
-
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    const user = localStorage.getItem('user');
-    if (isLoggedIn) {
-      setIsLoggedIn(true);
-    }
-    if (user) {
-      setUser(JSON.parse(user));
-    }
-  }, []);
-
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn, login, logout }}>
+    <AuthProvider>
       <RouterProvider router={router}></RouterProvider>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 

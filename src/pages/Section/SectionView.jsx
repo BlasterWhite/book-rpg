@@ -27,7 +27,13 @@ export function SectionView({ section, handleNextSection, characterId }) {
           />
         );
       if (type === 'enigme')
-        return <EnigmaComponent handleNextSection={handleNextSection} section={section} characterId={characterId} />;
+        return (
+          <EnigmaComponent
+            handleNextSection={handleNextSection}
+            section={section}
+            characterId={characterId}
+          />
+        );
       if (type === 'des')
         return (
           <DiceComponent

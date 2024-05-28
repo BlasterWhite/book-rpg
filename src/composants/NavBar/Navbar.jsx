@@ -1,10 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import './Navbar.scss';
-import { AuthContext } from '../AuthContext/AuthContext.jsx';
-import { useContext } from 'react';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function Navbar() {
-  const { user, logout, isLoggedIn } = useContext(AuthContext);
+  const { user, logout, isLoggedIn } = useAuth();
 
   return (
     <nav className={'nav-header'}>
