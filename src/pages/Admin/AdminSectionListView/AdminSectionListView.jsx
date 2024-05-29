@@ -1,18 +1,18 @@
 import './AdminSectionListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function AdminSectionListView() {
   const { bookId } = useParams();
   const [, setSearch] = useState('');
   const [sections, setSections] = useState([]);
 
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
@@ -35,7 +35,6 @@ export function AdminSectionListView() {
   }
 
   useEffect(() => {
-    console.log('bookId', bookId);
     if (!user) return;
     fetch(`${apiURL}/livres/${bookId}/sections`, {
       method: 'GET',

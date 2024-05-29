@@ -1,10 +1,10 @@
 import './Login.scss';
-import { AuthContext } from '../../composants/AuthContext/AuthContext';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function LoginView() {
-  const { login } = useContext(AuthContext);
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();

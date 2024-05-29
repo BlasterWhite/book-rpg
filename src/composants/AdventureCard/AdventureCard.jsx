@@ -1,8 +1,7 @@
 import './AdventureCard.scss';
 import PropTypes from 'prop-types';
 
-export function AdventureCard({ adventure, book, handleFavourite }) {
-
+export function AdventureCard({ adventure, book }) {
   function redirect() {
     window.location.href = `/book/${book.id}/${adventure.id_personnage}/${adventure.id_section_actuelle}`;
   }
@@ -18,6 +17,11 @@ export function AdventureCard({ adventure, book, handleFavourite }) {
 
 AdventureCard.propTypes = {
   adventure: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    id_personnage: PropTypes.number.isRequired,
+    id_section_actuelle: PropTypes.number.isRequired
+  }).isRequired,
+  book: PropTypes.shape({
     id: PropTypes.number.isRequired
   }).isRequired
 };

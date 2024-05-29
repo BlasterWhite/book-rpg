@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { SectionView } from '@/pages/Section/SectionView.jsx';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function SingleBook() {
   const { sectionId, bookId, characterId } = useParams();
@@ -9,7 +9,7 @@ export function SingleBook() {
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const [section, SetSection] = useState({});
 

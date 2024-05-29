@@ -1,17 +1,17 @@
 import './AdminWeaponListView.scss';
 import EditIcon from '@/assets/icons/EditIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon.svg';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function AdminWeaponListView() {
   const [, setSearch] = useState('');
   const [weapons, setWeapons] = useState([]);
 
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 

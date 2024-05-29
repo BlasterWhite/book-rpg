@@ -1,13 +1,13 @@
 import './FightComponent.scss';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function FightComponent({ handleNextSection, section, characterId }) {
   const [personnage, setPersonnage] = useState({});
   const [aventure, setAventure] = useState({});
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!user) return;
@@ -38,13 +38,15 @@ export function FightComponent({ handleNextSection, section, characterId }) {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
-    fetch(`${API_URL}/personnages/${characterId}/aventure`, requestOptions)
-      .then((response) => response.json()
+    fetch(`${API_URL}/personnages/${characterId}/aventure`, requestOptions).then((response) =>
+      response
+        .json()
         .then((data) => {
           console.log(data);
-           setAventure(data)
+          setAventure(data);
         })
-        .catch((error) => console.error(error)));
+        .catch((error) => console.error(error))
+    );
     // on fait une requête put sur l'aventure
   }, [characterId, user]);
 
@@ -62,11 +64,13 @@ export function FightComponent({ handleNextSection, section, characterId }) {
       body: JSON.stringify({ id_section_actuelle: id, statut: statut })
     };
     const newAventureID = Number.parseInt(aventure.id);
-    fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions)
-      .then((response) => response.json()
+    fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions).then((response) =>
+      response
+        .json()
         .then((data) => console.log(data))
-        .catch((error) => console.error(error)));
-  }
+        .catch((error) => console.error(error))
+    );
+  };
 
   return (
     <div className={'fight-component-container'}>

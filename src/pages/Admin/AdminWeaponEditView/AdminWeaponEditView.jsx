@@ -1,8 +1,8 @@
 import './AdminWeaponEditView.scss';
 import { NavLink, useParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '@/composants/AuthContext/AuthContext.jsx';
+import { useEffect, useState } from 'react';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function AdminWeaponEditView() {
   const { weaponId } = useParams();
@@ -14,7 +14,7 @@ export function AdminWeaponEditView() {
     durabilite: 0,
     id_image: 0
   });
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
