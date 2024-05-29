@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 
-export function BookCard({ book, handleFavourite, books, favourites }) {
+export function BookCard({ book, handleFavourite, favourites }) {
   const { titre, image, fav } = book;
   const [isFav, setIsFav] = useState(fav);
   const { user, isLoggedIn } = useAuth();
@@ -50,7 +50,7 @@ export function BookCard({ book, handleFavourite, books, favourites }) {
   }
 
   useEffect(() => {
-    if (books && user && favourites.length > 0) {
+    if (user && favourites.length > 0) {
       let isFavoritFromDb = false;
       for (const f of favourites) {
         if (f.id_livre === book.id) {
@@ -60,7 +60,7 @@ export function BookCard({ book, handleFavourite, books, favourites }) {
       }
       setIsFav(isFavoritFromDb);
     }
-  }, [book.id, books, favourites, user]);
+  }, [book.id, favourites, user]);
 
   if (book)
     return (
@@ -91,6 +91,5 @@ BookCard.propTypes = {
     fav: PropTypes.bool
   }).isRequired,
   handleFavourite: PropTypes.func,
-  books: PropTypes.array,
   favourites: PropTypes.array
 };

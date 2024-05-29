@@ -99,7 +99,6 @@ export function LibraryView() {
               book={book}
               handleFavourite={() => handleFavourite(book.id)}
               key={index}
-              books={[]}
               favourites={favourites}
             />
           ))}
