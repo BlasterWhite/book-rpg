@@ -10,8 +10,8 @@ export function ProfilView() {
     prenom: undefined,
     nom: undefined,
     mail: undefined,
-    joinDate: '',
-    livre: {}
+    creation_date: '',
+    livre: {},
   });
   const [favoris, setFavoris] = useState([{}]);
   const [books, setBooks] = useState([]);
@@ -84,7 +84,7 @@ export function ProfilView() {
           <div className="profile-details">
             <h2 className="profile-name">{userData.nom} {userData.prenom}</h2>
             <span className="profile-email">{userData.mail}</span>
-            <span className="profile-join-date">Member since {userData?.joinDate || '29/07/2003'}</span>
+            <span className="profile-join-date">Member since {userData.creation_date || '29/07/2003'}</span>
           </div>
         </div>
       </div>
