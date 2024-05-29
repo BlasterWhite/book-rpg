@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 export function BookCard({ book, handleFavourite, books, favourites }) {
   const { titre, image, fav } = book;
   const [isFav, setIsFav] = useState(fav);
-  const { user } = useAuth();
+  const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   const handleClickFavourite = (e) => {
@@ -65,14 +65,16 @@ export function BookCard({ book, handleFavourite, books, favourites }) {
   if (book)
     return (
       <div className={'book-card'} onClick={handleClick}>
-        <div className={'book-card-favourite-overlay'}>
-          <img
-            src={isFav ? fullStar : emptyStar}
-            alt={'Favourite'}
-            className={fav ? 'favourite' : ''}
-            onClick={(e) => handleClickFavourite(e)}
-          />
-        </div>
+        {isLoggedIn && (
+          <div className={'book-card-favourite-overlay'}>
+            <img
+              src={isFav ? fullStar : emptyStar}
+              alt={'Favourite'}
+              className={fav ? 'favourite' : ''}
+              onClick={(e) => handleClickFavourite(e)}
+            />
+          </div>
+        )}
         <img src={imageSrc} alt={'Book cover'} />
         <div className={'book-card-content'}>
           <h3>{titre}</h3>

@@ -1,10 +1,13 @@
 import './LibraryView.scss';
 import { useEffect, useState } from 'react';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function LibraryView() {
   const [, setSearch] = useState('');
   const [books, setBooks] = useState([]);
+  const [favourites, setFavourites] = useState([]);
+  const { user } = useAuth();
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
@@ -20,7 +23,25 @@ export function LibraryView() {
         console.error('Error fetching books');
       }
     });
-  }, [apiURL]);
+  }, [apiURL, favourites, setBooks]);
+
+  useEffect(() => {
+    if (!apiURL) return console.error('No API URL provided', apiURL);
+    if (!user) return;
+    fetch(`${apiURL}/users/favoris/`, {
+      method: 'GET',
+      headers: {
+        Authorization: user.token
+      }
+    }).then((response) =>
+      response
+        .json()
+        .then((data) => {
+          setFavourites(data);
+        })
+        .catch((error) => console.error('Error fetching books', error))
+    );
+  }, [apiURL, user, setFavourites]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -50,6 +71,19 @@ export function LibraryView() {
     }
   }
 
+  const handleFavourite = (id) => {
+    const newBooks = books.map((book) => {
+      if (book.id === id) {
+        if (book.fav) {
+          book.fav = !book.fav;
+        } else {
+          book.fav = false;
+        }
+      }
+      return book;
+    });
+  };
+
   return (
     <div className={'library-view'}>
       <div className={'library-view-content'}>
@@ -61,7 +95,13 @@ export function LibraryView() {
         </header>
         <div className={'library-view-books'}>
           {books.map((book, index) => (
-            <BookCard book={book} handleFavourite={() => {}} key={index} />
+            <BookCard
+              book={book}
+              handleFavourite={() => handleFavourite(book.id)}
+              key={index}
+              books={[]}
+              favourites={favourites}
+            />
           ))}
         </div>
       </div>
