@@ -24,11 +24,8 @@ export function ProfilView() {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
-    fetch(
-      `${apiURL}/users/${user.id}`,
-      requestOptions
-    ).then((response) => response.json()
-      .then((data) => setUserData(data)))
+    fetch(`${apiURL}/users/${user.id}`, requestOptions)
+      .then((response) => response.json().then((data) => setUserData(data)))
       .catch((error) => console.error(error));
   }, [apiURL, user]);
 
@@ -38,13 +35,12 @@ export function ProfilView() {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
-    fetch(
-      `${apiURL}/users/favoris`,
-      requestOptions
-    ).then((response) => response.json()
-      .then((data) => {
-        setFavoris(data);
-      }))
+    fetch(`${apiURL}/users/favoris`, requestOptions)
+      .then((response) =>
+        response.json().then((data) => {
+          setFavoris(data);
+        })
+      )
       .catch((error) => console.error(error));
   }, [apiURL, user]);
 
@@ -69,30 +65,38 @@ export function ProfilView() {
       <div className="profile-container">
         <div className="profile-info">
           <img
-            src={'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-            alt="User Avatar" className="profile-avatar" />
+            src={
+              'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+            }
+            alt="User Avatar"
+            className="profile-avatar"
+          />
           <div className="profile-details">
-            <h2 className="profile-name">{userData.nom} {userData.prenom}</h2>
+            <h2 className="profile-name">
+              {userData.nom} {userData.prenom}
+            </h2>
             <span className="profile-email">{userData.mail}</span>
-            <span className="profile-join-date">Member since {userData?.joinDate || '29/07/2003'}</span>
+            <span className="profile-join-date">
+              Member since {userData?.joinDate || '29/07/2003'}
+            </span>
           </div>
         </div>
       </div>
       <div className="profile-favorites">
         <h2 className="profile-favorites-title">Mes Favoris</h2>
         <div className="profile-favorites-list">
-          {favoris.map((fav) => fav.livre && (
-            <NavLink to={`/book/${fav.id_livre}`} key={fav.id_livre}>
-              <BookCard
-                book={fav.livre}
-                handleFavourite={() => {
-                }}
-                books={books}
-                favourites={favoris}
-              />
-            </NavLink>
-
-          ))}
+          {favoris.map(
+            (fav, index) =>
+              fav.livre && (
+                <BookCard
+                  book={fav.livre}
+                  key={index}
+                  handleFavourite={() => {}}
+                  books={books}
+                  favourites={favoris}
+                />
+              )
+          )}
         </div>
       </div>
     </div>
