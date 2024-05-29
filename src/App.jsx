@@ -41,7 +41,11 @@ const router = createBrowserRouter([
           },
           {
             path: ':bookId',
-            element: <Outlet />,
+            element: (
+              <ProtectedRoute permissions={['user', 'admin']} redirect={'/login'}>
+                <Outlet />
+              </ProtectedRoute>
+            ),
             children: [
               {
                 path: '',
