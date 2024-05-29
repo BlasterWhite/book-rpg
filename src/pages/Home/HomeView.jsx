@@ -147,7 +147,6 @@ export function HomeView() {
                     book={book}
                     key={index}
                     handleFavourite={() => handleFavourite(book.id)}
-                    books={popularBooks}
                     favourites={favourites}
                   />
                 )
@@ -167,7 +166,6 @@ export function HomeView() {
                     book={book}
                     key={index}
                     handleFavourite={() => handleFavourite(book.id)}
-                    books={newBooks}
                     favourites={favourites}
                   />
                 )
