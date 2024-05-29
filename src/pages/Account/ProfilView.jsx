@@ -24,11 +24,8 @@ export function ProfilView() {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
-    fetch(
-      `${apiURL}/users/${user.id}`,
-      requestOptions
-    ).then((response) => response.json()
-      .then((data) => setUserData(data)))
+    fetch(`${apiURL}/users/${user.id}`, requestOptions)
+      .then((response) => response.json().then((data) => setUserData(data)))
       .catch((error) => console.error(error));
   }, [apiURL, user]);
 
@@ -38,13 +35,12 @@ export function ProfilView() {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
-    fetch(
-      `${apiURL}/users/favoris`,
-      requestOptions
-    ).then((response) => response.json()
-      .then((data) => {
-        setFavoris(data);
-      }))
+    fetch(`${apiURL}/users/favoris`, requestOptions)
+      .then((response) =>
+        response.json().then((data) => {
+          setFavoris(data);
+        })
+      )
       .catch((error) => console.error(error));
   }, [apiURL, user]);
 
