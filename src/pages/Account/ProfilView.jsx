@@ -79,7 +79,7 @@ export function ProfilView() {
         </div>
       </div>
       <div className="profile-favorites">
-        <h2 className="profile-favorites-title">Favoris</h2>
+        <h2 className="profile-favorites-title">Mes Favoris</h2>
         <div className="profile-favorites-list">
           {favoris.map((fav) => fav.livre && (
             <NavLink to={`/book/${fav.id_livre}`} key={fav.id_livre}>
