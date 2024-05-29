@@ -24,13 +24,9 @@ export function AdventureSelection() {
     };
     fetch(`${API_URL}/users/aventures/livres/${bookId}`, requestOptions)
       .then((response) =>
-        response.json().then((data) => {
-          setAdventures(data);
-        })
+        response.json().then((data) => setAdventures(data))
       )
-      .catch(() => {
-        setAdventures([]);
-      });
+      .catch(() => setAdventures([]));
   }, [user, bookId, setAdventures, API_URL]);
 
   useEffect(() => {
@@ -43,13 +39,9 @@ export function AdventureSelection() {
     };
     fetch(`${API_URL}/livres/${bookId}`, requestOptions)
       .then((response) =>
-        response.json().then((data) => {
-          setBook(data);
-        })
+        response.json().then((data) => setBook(data))
       )
-      .catch(() => {
-        navigate('/');
-      });
+      .catch(() => navigate('/'));
   }, [bookId, user, setBook, API_URL, navigate]);
 
   function handleSearch(e) {
@@ -82,9 +74,7 @@ export function AdventureSelection() {
         }
       }).then((response) => {
         if (response.ok) {
-          response.json().then((data) => {
-            setAdventures(data);
-          });
+          response.json().then((data) => setAdventures(data));
         } else {
           console.error('Error fetching adventures');
         }
@@ -115,15 +105,27 @@ export function AdventureSelection() {
       .then(() => {
         fetch(`${API_URL}/users/aventures/livres/${bookId}`, requestOptionsGet)
           .then((response) =>
-            response.json().then((data) => {
-              setAdventures(data);
-            })
+            response.json().then((data) => setAdventures(data))
           )
-          .catch(() => {
-            setAdventures([]);
-          });
+          .catch(() => setAdventures([]));
       });
   }
+
+  const handleDelete = (e, adventure) => {
+    e.stopPropagation();
+    const requestOptions = {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', Authorization: user.token }
+    };
+    const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+    fetch(`${apiURL}/aventures/${adventure.id}`, requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          setAdventures(adventures.filter((adv) => adv.id !== adventure.id));
+        }
+      })
+      .catch((error) => console.error(error));
+  };
 
   function redirect(adventureId) {
     let characterId;
@@ -165,7 +167,7 @@ export function AdventureSelection() {
                   adventure={adventure}
                   book={book}
                   key={index}
-                  handleFavourite={() => {}}
+                  handleDelete={(e, adventure) => handleDelete(e, adventure)}
                 />
               </div>
             ))}

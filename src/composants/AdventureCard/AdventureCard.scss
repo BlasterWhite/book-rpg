@@ -2,12 +2,15 @@ div.adventure-card {
   max-width: 270px;
   min-width: 270px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
   flex-direction: row;
   border-radius: 1rem;
   margin-bottom: 0.5rem;
   overflow: hidden;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
+
   &:hover {
     cursor: pointer;
   }
@@ -20,5 +23,14 @@ div.adventure-card {
     padding: 0.5rem;
     margin: 0;
     z-index: 5;
+  }
+
+  .delete {
+    margin-right: 5px;
+  }
+
+  .delete:hover {
+    opacity: 1;
+    filter: invert(27%) sepia(50%) saturate(6661%) hue-rotate(348deg) brightness(105%) contrast(97%);
   }
 }

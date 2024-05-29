@@ -1,7 +1,9 @@
 import './AdventureCard.scss';
 import PropTypes from 'prop-types';
+import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 
-export function AdventureCard({ adventure, book }) {
+
+export function AdventureCard({ adventure, book, handleDelete }) {
   function redirect() {
     window.location.href = `/book/${book.id}/${adventure.id_personnage}/${adventure.id_section_actuelle}`;
   }
@@ -11,6 +13,7 @@ export function AdventureCard({ adventure, book }) {
       <div className={'adventure-card-content'}>
         <h3>Adventure {adventure.id}</h3>
       </div>
+      <img className={'icon delete'} src={DeleteIcon} alt="Delete" onClick={(e) => handleDelete(e, adventure)} />
     </div>
   );
 }
@@ -23,5 +26,6 @@ AdventureCard.propTypes = {
   }).isRequired,
   book: PropTypes.shape({
     id: PropTypes.number.isRequired
-  }).isRequired
+  }).isRequired,
+  handleDelete: PropTypes.func.isRequired
 };
