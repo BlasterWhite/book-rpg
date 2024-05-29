@@ -1,11 +1,11 @@
 import './Profil.scss';
-import { AuthContext } from '../../composants/AuthContext/AuthContext';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 
 export function ProfilView() {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const [userData, setUserData] = useState({
     prenom: undefined,
     nom: undefined,
