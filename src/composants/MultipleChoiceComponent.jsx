@@ -1,27 +1,54 @@
 import './MultipleChoiceComponent.scss';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 
-export function MultipleChoiceComponent({ sections, handleSectionClicked, characterId }) {
+export function MultipleChoiceComponent({ currentSection, sections, handleSectionClicked, characterId }) {
   const [aventure, setAventure] = useState([]); // [section, setSection
   const { user } = useAuth();
+  const eventIsDispatched = useRef();
 
   useEffect(() => {
     if (!user) return;
+
     const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
     };
+
     fetch(`${API_URL}/personnages/${characterId}/aventure`, requestOptions).then((response) =>
       response
         .json()
         .then((data) => setAventure(data))
         .catch((error) => console.error(error))
     );
-    // on fait une requête put sur l'aventure
   }, [characterId, sections, user]);
+  console.log()
+
+  // on va lancer une fonction uniquement 1 fois
+  useEffect(() => {
+    if (eventIsDispatched.current) return;
+    currentSection.events.forEach((event) => {
+      switch (event.which) {
+        case 'attribute':
+          // attribute
+          console.log('attribute', event)
+          break;
+        case 'weapon':
+          // weapon
+          break;
+        case 'equipment':
+          // equipment
+          break;
+      }
+    });
+    console.log(currentSection.events) // list d'events
+    eventIsDispatched.current = true;
+  }, []);
+
+
   const getNextSection = (id) => {
     handleSectionClicked(id);
 
@@ -65,6 +92,7 @@ export function MultipleChoiceComponent({ sections, handleSectionClicked, charac
 }
 
 MultipleChoiceComponent.propTypes = {
+  currentSection: PropTypes.object.isRequired,
   sections: PropTypes.array.isRequired,
   handleSectionClicked: PropTypes.func.isRequired,
   characterId: PropTypes.string.isRequired

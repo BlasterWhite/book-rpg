@@ -13,6 +13,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
       if (type === 'choix')
         return (
           <MultipleChoiceComponent
+            currentSection={section}
             sections={sections}
             handleSectionClicked={(e) => handleNextSection(e)}
             characterId={characterId}
@@ -21,6 +22,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
       if (type === 'combat')
         return (
           <FightComponent
+            currentSection={section}
             handleNextSection={handleNextSection}
             section={section}
             characterId={characterId}
@@ -29,6 +31,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
       if (type === 'enigme')
         return (
           <EnigmaComponent
+            currentSection={section}
             handleNextSection={handleNextSection}
             section={section}
             characterId={characterId}
@@ -37,6 +40,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
       if (type === 'des')
         return (
           <DiceComponent
+            currentSection={section}
             numberOfDices={2}
             numberOfFaces={6}
             handleNextSection={handleNextSection}
