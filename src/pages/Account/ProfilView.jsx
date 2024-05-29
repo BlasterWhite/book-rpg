@@ -64,6 +64,20 @@ export function ProfilView() {
     );
   }, [apiURL, user]);
 
+  const handleFavourite = (id) => {
+    const newBooks = books.map((book) => {
+      if (book.id === id) {
+        if (book.fav) {
+          book.fav = !book.fav;
+        } else {
+          book.fav = false;
+        }
+      }
+      return book;
+    });
+    setBooks(newBooks);
+  };
+
   return (
     <div className="profile-page">
       <div className="profile-container">
@@ -81,12 +95,12 @@ export function ProfilView() {
       <div className="profile-favorites">
         <h2 className="profile-favorites-title">Mes Favoris</h2>
         <div className="profile-favorites-list">
-          {favoris.map((fav) => fav.livre && (
+          {(favoris.length === 0) && <p>There's nothing here to see for you...</p>}
+          {(favoris.length >= 1) && favoris.map((fav) => fav.livre && (
             <NavLink to={`/book/${fav.id_livre}`} key={fav.id_livre}>
               <BookCard
                 book={fav.livre}
-                handleFavourite={() => {
-                }}
+                handleFavourite={() => handleFavourite(fav.id_livre)}
                 books={books}
                 favourites={favoris}
               />
