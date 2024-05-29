@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import './Navbar.scss';
 import { useAuth } from '@/contexts/AuthContext.jsx';
+import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
 
 export function Navbar() {
   const { user, logout, isLoggedIn } = useAuth();
@@ -10,6 +11,9 @@ export function Navbar() {
       <div className={'nav-item-left'}>
         <NavLink to={'/'}>Home</NavLink>
         <NavLink to={'/book'}>Library</NavLink>
+        <ProtectedRoute permissions={['admin']} redirect={'/login'}>
+          <NavLink to={'/admin'}>Admin</NavLink>
+        </ProtectedRoute>
       </div>
       {!isLoggedIn ? (
         <div className={'nav-item-right'}>
