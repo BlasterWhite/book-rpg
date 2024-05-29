@@ -58,12 +58,23 @@ nav.nav-header {
           font-size: 0.8rem;
         }
       }
+
+      .nav-item-navlink {
+        width: 30px;
+
+        &::after {
+          content: '';
+          display: block;
+          width: 0;
+        }
+      }
     }
   }
 
   button {
     background-color: #f44336;
     color: white;
+    height: 42px;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;

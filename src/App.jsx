@@ -20,6 +20,7 @@ import { AdminWeaponEditView } from '@/pages/Admin/AdminWeaponEditView/AdminWeap
 import { AdminView } from '@/pages/Admin/AdminView.jsx';
 import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
 import { AuthProvider } from '@/contexts/AuthContext.jsx';
+import { ProfilView } from '@/pages/Account/ProfilView.jsx';
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <RegisterView />
+      },
+      {
+        path: 'profil',
+        element: <ProfilView />
       },
       {
         path: 'admin',
