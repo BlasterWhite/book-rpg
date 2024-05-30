@@ -147,7 +147,7 @@ export function AdminBookEditView() {
       <form onSubmit={handleSubmit}>
         <label htmlFor="titre">Title:</label>
         <input type="text" id="titre" name="titre" value={EditBook.titre} onChange={editBook} />
-        <label htmlFor="resume">Resume:</label>
+        <label htmlFor="resume">Summary:</label>
         <textarea id="resume" name="resume" value={EditBook.resume} onChange={editBook} />
         <label htmlFor="image">Image:</label>
         <details>
