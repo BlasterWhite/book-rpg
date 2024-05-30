@@ -46,10 +46,5 @@ export function SingleBook() {
     navigate(`/book/${bookId}/${characterId}/${newSectionId}`);
   };
 
-  return (
-    <>
-      {section.type}
-      {renderSection()}
-    </>
-  );
+  return <>{renderSection()}</>;
 }
