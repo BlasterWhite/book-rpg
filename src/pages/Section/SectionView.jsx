@@ -4,11 +4,12 @@ import { MultipleChoiceComponent } from '@/composants/MultipleChoiceComponent.js
 import { DiceComponent } from '@/composants/DiceComponent/DiceComponent.jsx';
 import { EnigmaComponent } from '../../composants/EnigmaComponent/EnigmaComponent';
 import { FightComponent } from '@/composants/FightComponent/FightComponent.jsx';
+import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
 
 export function SectionView({ section, handleNextSection, characterId }) {
   const { texte, sections, image, type } = section;
 
-  function interracivity() {
+  function interactivity() {
     if (type) {
       if (type === 'choix')
         return (
@@ -61,10 +62,20 @@ export function SectionView({ section, handleNextSection, characterId }) {
   return (
     <div className={'section-view'}>
       <div className={'scenario'}>
-        <p className={'text-scenario'}>{texte}</p>
-        <img src={imageSrc} alt={'Section image'} />
+        <div className={'text-scenario'}>
+          <p>{texte}</p>
+        </div>
+        <div className={'image-scenario'} style={{ backgroundImage: `url('${imageSrc}')` }} />
       </div>
-      {interracivity()}
+      <div className={'interactivity'}>{interactivity()}</div>
+      <ProtectedRoute permissions={['admin']}>
+        <div className={'admin'}>
+          <details>
+            <summary>Debug ADMIN ONLY</summary>
+            <pre>{JSON.stringify(section, null, 2)}</pre>
+          </details>
+        </div>
+      </ProtectedRoute>
     </div>
   );
 }
