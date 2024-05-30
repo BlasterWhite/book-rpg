@@ -85,6 +85,7 @@
     }
 
     .adventure-list {
+      width: 450px;
       display: flex;
       flex-direction: column;
       gap: 1rem;
@@ -93,6 +94,7 @@
     }
 
     .adventure-creation {
+      min-width: 80%;
       padding: 1rem;
       border-radius: 8px;
       border: none;
