@@ -8,10 +8,10 @@ export function MultipleChoiceComponent({ currentSection, sections, handleSectio
   const { user } = useAuth();
   const eventIsDispatched = useRef();
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
+
   useEffect(() => {
     if (!user) return;
-
-    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
     const requestOptions = {
       method: 'GET',
@@ -25,28 +25,24 @@ export function MultipleChoiceComponent({ currentSection, sections, handleSectio
         .catch((error) => console.error(error))
     );
   }, [characterId, sections, user]);
-  console.log()
 
-  // on va lancer une fonction uniquement 1 fois
-  useEffect(() => {
++  useEffect(() => {
     if (eventIsDispatched.current) return;
-    currentSection.events.forEach((event) => {
-      switch (event.which) {
-        case 'attribute':
-          // attribute
-          console.log('attribute', event)
-          break;
-        case 'weapon':
-          // weapon
-          break;
-        case 'equipment':
-          // equipment
-          break;
-      }
-    });
-    console.log(currentSection.events) // list d'events
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: user.token },
+      body: JSON.stringify({ events: currentSection.events })
+    };
+
+    fetch(`${API_URL}/personnages/${characterId}/events`, requestOptions, ).then((response) =>
+      response
+        .json()
+        .catch((error) => console.error(error))
+    );
+
+    currentSection.events;
     eventIsDispatched.current = true;
-  }, []);
+  }, [API_URL, characterId, currentSection.events, user.token]);
 
 
   const getNextSection = (id) => {
