@@ -49,7 +49,6 @@ export function MultipleChoiceComponent({ currentSection, sections, handleSectio
     handleSectionClicked(id);
 
     if (!user) return;
-    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     // on récupère la prochaine sections depuis sections
     const section = sections.find((section) => section.id === id);
     if (!section) return;
