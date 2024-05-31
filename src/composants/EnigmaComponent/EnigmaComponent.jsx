@@ -1,17 +1,19 @@
 import './EnigmaComponent.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 
-export function EnigmaComponent({ handleNextSection, section, characterId }) {
+export function EnigmaComponent({ currentSection, handleNextSection, section, characterId }) {
   const [feedback, setFeedback] = useState('');
   const [search, setSearch] = useState('');
   const [aventure, setAventure] = useState([]);
   const { user } = useAuth();
+  const eventIsDispatched = useRef();
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
   useEffect(() => {
     if (!user) return;
-    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
@@ -25,6 +27,24 @@ export function EnigmaComponent({ handleNextSection, section, characterId }) {
     // on fait une requête put sur l'aventure
   }, [characterId, section, user]);
 
+  useEffect(() => {
+    if (eventIsDispatched.current) return;
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: user.token },
+      body: JSON.stringify({ events: currentSection.events })
+    };
+
+    fetch(`${API_URL}/personnages/${characterId}/events`, requestOptions).then((response) =>
+      response
+        .json()
+        .catch((error) => console.error(error))
+    );
+
+    currentSection.events;
+    eventIsDispatched.current = true;
+  }, [API_URL, characterId, currentSection.events, user.token]);
+
   async function handleResults() {
     const win = section.resultat.condition;
     const winDestination = section.resultat.gagne;
@@ -34,8 +54,8 @@ export function EnigmaComponent({ handleNextSection, section, characterId }) {
 
     try {
       if (!user) return;
-      await fetch(
-        (import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000') + '/levenschtein',
+    // on récupère la prochaine sections depuis sections
+      await fetch(`${API_URL}/levenschtein`,
         {
           method: 'POST',
           headers: {
@@ -64,7 +84,6 @@ export function EnigmaComponent({ handleNextSection, section, characterId }) {
               handleNextSection(finalDestination);
 
               if (!user) return;
-              const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
               // on récupère la prochaine sections depuis sections
               if (!section) return;
               const statut = section.type === 'termine' ? 'termine' : 'en_cours';
@@ -77,7 +96,6 @@ export function EnigmaComponent({ handleNextSection, section, characterId }) {
               fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions).then((response) =>
                 response
                   .json()
-                  .then((data) => console.log(data))
                   .catch((error) => console.error(error))
               );
             }, 2000);
@@ -114,6 +132,7 @@ export function EnigmaComponent({ handleNextSection, section, characterId }) {
 }
 
 EnigmaComponent.propTypes = {
+  currentSection: PropTypes.object.isRequired,
   section: PropTypes.shape({
     id: PropTypes.number.isRequired,
     texte: PropTypes.string.isRequired,

@@ -5,7 +5,8 @@ import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import { useEffect, useState } from 'react';
 
 export function AdventureCard({ adventure, book, deleteFn }) {
-  function redirect() {
+  function redirect(e) {
+    e.stopPropagation();
     window.location.href = `/book/${book.id}/${adventure.id_personnage}/${adventure.id_section_actuelle}`;
   }
 
@@ -32,7 +33,7 @@ export function AdventureCard({ adventure, book, deleteFn }) {
           <img src={DeleteIcon} alt={'delete'} />
         </div>
         {isFinished ? null : (
-          <div className={'adventure-card-button play'} onClick={() => redirect()}>
+          <div className={'adventure-card-button play'} onClick={(e) => redirect(e)}>
             <img src={PlayIcon} alt={'play'} />
           </div>
         )}
