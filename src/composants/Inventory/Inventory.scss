@@ -1,0 +1,112 @@
+@import '@/assets/scss/variables.scss';
+
+.inventory {
+  position: absolute;
+  top: 50%;
+  left: -420px;
+  transform: translateY(-50%);
+  background: #ffffff;
+  width: 420px;
+  height: 520px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0 16px 16px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  transition: left 0.5s;
+
+  &.open {
+    left: 0;
+
+    & .clip > div.icon {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+  }
+
+  & > table {
+    max-width: 100%;
+    overflow: hidden;
+
+    & td {
+      padding: 0;
+      height: fit-content;
+    }
+
+    &.stats {
+      width: 80%;
+
+      & td.icon {
+        height: 24px;
+        width: 24px;
+        padding-right: 8px;
+
+        & div.icon {
+          height: 24px;
+          width: 24px;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+
+    &.items {
+      border-collapse: collapse;
+      border: 3px solid #000000;
+      border-radius: 16px;
+      overflow: hidden;
+      tr {
+        td {
+          padding: 4px;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          border: 3px solid #000000;
+
+          &:first-child {
+            border-radius: 16px 0 0 16px;
+            overflow: hidden;
+          }
+        }
+      }
+
+      & .item {
+        height: 48px;
+        width: 48px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+
+  & > .clip {
+    position: absolute;
+    top: 50%;
+    right: -24px;
+    transform: translateY(-50%);
+    height: 64px;
+    width: 24px;
+    background: #ffffff;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    & > div.icon {
+      height: 12px;
+      width: 12px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(180deg);
+      transition: transform 0.5s;
+    }
+  }
+}

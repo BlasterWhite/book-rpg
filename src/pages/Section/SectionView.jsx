@@ -5,6 +5,7 @@ import { DiceComponent } from '@/composants/DiceComponent/DiceComponent.jsx';
 import { EnigmaComponent } from '../../composants/EnigmaComponent/EnigmaComponent';
 import { FightComponent } from '@/composants/FightComponent/FightComponent.jsx';
 import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
+import { Inventory } from '@/composants/Inventory/Inventory.jsx';
 
 export function SectionView({ section, handleNextSection, characterId }) {
   const { texte, sections, image, type } = section;
@@ -61,6 +62,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
 
   return (
     <div className={'section-view'}>
+      <Inventory characterId={characterId} />
       <div className={'scenario'}>
         <div className={'text-scenario'}>
           <p>{texte}</p>
