@@ -6,9 +6,15 @@ import { EnigmaComponent } from '../../composants/EnigmaComponent/EnigmaComponen
 import { FightComponent } from '@/composants/FightComponent/FightComponent.jsx';
 import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
 import { Inventory } from '@/composants/Inventory/Inventory.jsx';
+import { useState } from 'react';
 
 export function SectionView({ section, handleNextSection, characterId }) {
   const { texte, sections, image, type } = section;
+  const [inventorySeed, setInventorySeed] = useState(0);
+
+  function refreshInventory() {
+    setInventorySeed(Math.random());
+  }
 
   function interactivity() {
     if (type) {
@@ -62,7 +68,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
 
   return (
     <div className={'section-view'}>
-      <Inventory characterId={characterId} />
+      <Inventory characterId={characterId} key={inventorySeed} />
       <div className={'scenario'}>
         <div className={'text-scenario'}>
           <p>{texte}</p>

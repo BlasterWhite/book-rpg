@@ -22,6 +22,7 @@ export function Inventory({ characterId }) {
     { id: 4, label: 'Psyche', value: 10, icon: PsycheIcon, key: 'psychisme' },
     { id: 5, label: 'Endurance', value: 10, icon: EnduranceIcon, key: 'endurance' }
   ]);
+  const [detailedItem, setDetailedItem] = useState({});
   const [characterName, setCharacterName] = useState();
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [hasAnInventory, setHasAnInventory] = useState(false);
@@ -35,34 +36,37 @@ export function Inventory({ characterId }) {
     };
 
     fetch(`${API_URL}/personnages/${characterId}`, requestOptions).then((response) =>
-      response
-        .json()
-        .then((data) => {
-          setItems(data?.armes || []);
-          let statsResult = [];
-          for (let stat of stats) {
-            statsResult.push({ ...stat, value: data[stat.key] });
-          }
-          setStats(statsResult);
-          setHasAnInventory(data?.armes?.length > 0 || stats.length > 0);
-          setCharacterName(data.nom || 'Character');
-        })
-        .catch((error) => console.error(error))
+      response.json().then((data) => {
+        setItems(data?.armes || []);
+        let statsResult = [];
+        for (let stat of stats) {
+          statsResult.push({ ...stat, value: data[stat.key] });
+        }
+        setStats(statsResult);
+        setHasAnInventory(data?.armes?.length > 0 || stats.length > 0);
+        setCharacterName(data.nom || 'Character');
+        setDetailedItem(items[0] || {});
+      })
     );
   }, [user, API_URL, characterId]);
+
+  // Detailed item
+  useEffect(() => {
+    setDetailedItem(items?.[0] || {});
+  }, [items]);
 
   function inventorySlot() {
     let itemsResult = [];
     for (let itemSlot = 0; itemSlot < 5; itemSlot++) {
       itemsResult.push(
-        <td key={itemSlot}>
+        <td key={itemSlot} onClick={() => setDetailedItem(items?.[itemSlot] || { id: itemSlot })}>
           {items[itemSlot] ? (
             <div
-              className={'item'}
+              className={'item' + (detailedItem === items[itemSlot] ? ' selected' : '')}
               style={{ backgroundImage: `url(${items[itemSlot]?.image?.image})` }}
             />
           ) : (
-            <div className={'item'} />
+            <div className={'item' + (detailedItem.id === itemSlot ? ' selected' : '')} />
           )}
         </td>
       );
@@ -99,6 +103,28 @@ export function Inventory({ characterId }) {
               <tr>{inventorySlot()}</tr>
             </tbody>
           </table>
+          {detailedItem !== {} ? (
+            <div className={'item-details'}>
+              <p>
+                <strong>Name: </strong>
+                {detailedItem?.titre || 'unknown'}
+              </p>
+              <p>
+                <strong>Damage: </strong>
+                {detailedItem?.degats || 'unknown'}
+              </p>
+              <p>
+                <strong>Durability: </strong>
+                {detailedItem?.durabilite === -1
+                  ? 'Unlimited'
+                  : detailedItem?.durabilite || 'unknown'}
+              </p>
+              <p>
+                <strong>Description: </strong>
+                {detailedItem?.description || 'unknown'}
+              </p>
+            </div>
+          ) : null}
           <BaseButton text={'close'} onClick={() => setIsInventoryOpen(false)} />
           <div className={'clip'} onClick={() => setIsInventoryOpen(!isInventoryOpen)}>
             <div className={'icon'} style={{ backgroundImage: `url(${TriangleIcon})` }} />
