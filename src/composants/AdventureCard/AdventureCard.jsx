@@ -23,7 +23,7 @@ export function AdventureCard({ adventure, book, deleteFn }) {
     <div className={'adventure-card'}>
       <div className={'adventure-card-left'}>
         <div className={'adventure-card-title'}>
-          Game {dayjs(adventure.updated_at).format('D MMM YYYY')}
+          Adventure {dayjs(adventure.updated_at).format('D MMM YYYY')}
         </div>
         <div className={'adventure-card-description'}>
           {isFinished

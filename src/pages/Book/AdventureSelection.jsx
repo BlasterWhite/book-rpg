@@ -156,7 +156,7 @@ export function AdventureSelection() {
             />
           ))}
           <button className={'adventure-creation'} onClick={createAdventure}>
-            Create a new game
+            Create a new adventure
           </button>
         </div>
       );
@@ -191,12 +191,11 @@ export function AdventureSelection() {
               className="book-image"
               style={{
                 backgroundImage: `url(${book?.image?.image ? book.image.image : 'https://placehold.co/500x500.png'})`
-              }}
-            ></div>
+              }}></div>
           </div>
           <div className={'separator'}>
             <hr />
-            <span>Select your game</span>
+            <span>Select your adventure</span>
             <hr />
           </div>
           <div className={'adventure-selection'}>
