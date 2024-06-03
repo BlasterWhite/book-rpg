@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
 export function AdventureCard({ adventure, book, deleteFn }) {
-  console.log(adventure);
   function redirect(e) {
     e.stopPropagation();
     window.location.href = `/book/${book.id}/${adventure.id_personnage}/${adventure.id_section_actuelle}`;
