@@ -22,7 +22,9 @@ export function Inventory({ characterId }) {
     { id: 4, label: 'Psyche', value: 10, icon: PsycheIcon, key: 'psychisme' },
     { id: 5, label: 'Endurance', value: 10, icon: EnduranceIcon, key: 'endurance' }
   ]);
+  const [characterName, setCharacterName] = useState();
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
+  const [hasAnInventory, setHasAnInventory] = useState(false);
 
   useEffect(() => {
     if (!user || !characterId) return;
@@ -42,6 +44,8 @@ export function Inventory({ characterId }) {
             statsResult.push({ ...stat, value: data[stat.key] });
           }
           setStats(statsResult);
+          setHasAnInventory(data?.armes?.length > 0 || stats.length > 0);
+          setCharacterName(data.nom || 'Character');
         })
         .catch((error) => console.error(error))
     );
@@ -85,19 +89,23 @@ export function Inventory({ characterId }) {
   }
 
   return (
-    <div className={'inventory ' + (isInventoryOpen ? 'open' : '')}>
-      <h3>Inventory</h3>
-      <StatsTable />
-      <table className={'items'}>
-        <tbody>
-          <tr>{inventorySlot()}</tr>
-        </tbody>
-      </table>
-      <BaseButton text={'close'} onClick={() => setIsInventoryOpen(false)} />
-      <div className={'clip'} onClick={() => setIsInventoryOpen(!isInventoryOpen)}>
-        <div className={'icon'} style={{ backgroundImage: `url(${TriangleIcon})` }} />
-      </div>
-    </div>
+    <>
+      {hasAnInventory ? (
+        <div className={'inventory ' + (isInventoryOpen ? 'open' : '')}>
+          <h3>{characterName}</h3>
+          <StatsTable />
+          <table className={'items'}>
+            <tbody>
+              <tr>{inventorySlot()}</tr>
+            </tbody>
+          </table>
+          <BaseButton text={'close'} onClick={() => setIsInventoryOpen(false)} />
+          <div className={'clip'} onClick={() => setIsInventoryOpen(!isInventoryOpen)}>
+            <div className={'icon'} style={{ backgroundImage: `url(${TriangleIcon})` }} />
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }
 
