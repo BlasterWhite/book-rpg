@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import PlayIcon from '@/assets/icons/PlayIcon.svg';
 import DeleteIcon from '@/assets/icons/DeleteIcon.svg';
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 
 export function AdventureCard({ adventure, book, deleteFn }) {
+  console.log(adventure);
   function redirect(e) {
     e.stopPropagation();
     window.location.href = `/book/${book.id}/${adventure.id_personnage}/${adventure.id_section_actuelle}`;
@@ -22,10 +24,12 @@ export function AdventureCard({ adventure, book, deleteFn }) {
     <div className={'adventure-card'}>
       <div className={'adventure-card-left'}>
         <div className={'adventure-card-title'}>
-          Adventure {adventure.id /* TODO: Change to the date of the last update */}
+          Game {dayjs(adventure.updated_at).format('D MMM YYYY')}
         </div>
         <div className={'adventure-card-description'}>
-          {isFinished ? 'Finished' : 'In progress'}
+          {isFinished
+            ? 'Finished'
+            : 'Current section: ' + adventure.section.numero_section + ' - ' + 'In progress'}
         </div>
       </div>
       <div className={'adventure-card-right'} onClick={() => deleteFn(adventure.id)}>

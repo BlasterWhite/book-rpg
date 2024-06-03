@@ -156,7 +156,7 @@ export function AdventureSelection() {
             />
           ))}
           <button className={'adventure-creation'} onClick={createAdventure}>
-            Create a new adventure
+            Create a new game
           </button>
         </div>
       );
@@ -195,7 +195,7 @@ export function AdventureSelection() {
           </div>
           <div className={'separator'}>
             <hr />
-            <span>Select your adventure</span>
+            <span>Select your game</span>
             <hr />
           </div>
           <div className={'adventure-selection'}>
