@@ -1,58 +1,5 @@
 @import '@/assets/scss/variables.scss';
 
-.dice-component-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.dices {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-h2 {
-  height: 40px;
-  margin: 0;
-  opacity: 0;
-}
-
-@keyframes slideLeft {
-  from {
-    transform: translateX(25%);
-  }
-  to {
-    transform: translateX(-10%);
-  }
-}
-
-@keyframes appear {
-  from {
-    opacity: 0;
-    visibility: hidden;
-  }
-  to {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
-button {
-  margin-top: 20px;
-}
-
-.continue {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 20px;
-}
-
 .dice {
   position: relative;
   width: 100px;
@@ -60,6 +7,7 @@ button {
   transform-style: preserve-3d;
   transition: 1s ease;
   margin: 0 40px;
+  cursor: pointer;
 }
 
 @keyframes rolling1 {
@@ -168,25 +116,4 @@ button {
   margin: -35px 0 0 -35px;
   box-shadow: 25px 25px,
               50px 50px;
-}
-
-
-button {
-  font-size: 1.25rem !important;
-  color: $white-text-color !important;
-  background-image: linear-gradient(
-    45deg,
-    $choice-button-background-left,
-    $choice-button-background-right
-  ) !important;
-  border: 0 !important;
-  border-radius: 1rem !important;
-  padding: 1rem !important;
-
-  transition: 0.25s !important;
-
-  &:hover {
-    cursor: pointer !important;
-    box-shadow: rgba(0, 0, 0, 0.25) 4px 4px 8px !important;
-  }
 }

@@ -4,9 +4,18 @@ import { MultipleChoiceComponent } from '@/composants/MultipleChoiceComponent.js
 import { DiceComponent } from '@/composants/DiceComponent/DiceComponent.jsx';
 import { EnigmaComponent } from '../../composants/EnigmaComponent/EnigmaComponent';
 import { FightComponent } from '@/composants/FightComponent/FightComponent.jsx';
+import { useEffect, useState } from 'react';
 
 export function SectionView({ section, handleNextSection, characterId }) {
   const { texte, sections, image, type } = section;
+
+  const [seed, setSeed] = useState(1);
+
+  useEffect(() => {
+    if (type === 'des') {
+      setSeed(Math.random());
+    }
+  }, [type]);
 
   function interracivity() {
     if (type) {
@@ -34,9 +43,9 @@ export function SectionView({ section, handleNextSection, characterId }) {
             characterId={characterId}
           />
         );
-      if (type === 'des')
+      if (type === 'des') {
         return (
-          <DiceComponent
+          <DiceComponent key={seed}
             numberOfDices={2}
             numberOfFaces={6}
             handleNextSection={handleNextSection}
@@ -44,6 +53,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
             characterId={characterId}
           />
         );
+      }
       if (type === 'termine') return <h2>Fin</h2>;
       if (type === 'none') return <h2>None</h2>;
     }
