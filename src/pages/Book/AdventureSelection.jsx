@@ -3,6 +3,8 @@ import './AdventureSelection.scss';
 import { useEffect, useState } from 'react';
 import { AdventureCard } from '@/composants/AdventureCard/AdventureCard.jsx';
 import { useAuth } from '@/contexts/AuthContext.jsx';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function AdventureSelection() {
   const { bookId } = useParams();
@@ -17,7 +19,6 @@ export function AdventureSelection() {
   useEffect(() => {
     // Fetch adventures from the server
     if (!user) return;
-    console.log('fetching adventures');
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
@@ -36,7 +37,6 @@ export function AdventureSelection() {
   useEffect(() => {
     // Fetch book from the server
     if (!user) return;
-    console.log('fetching books');
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
@@ -56,7 +56,7 @@ export function AdventureSelection() {
     try {
       JSON.parse(localStorage.getItem('user')).id;
     } catch (error) {
-      console.log('error');
+      return;
     }
 
     setSearch(e.target.value);
@@ -73,7 +73,6 @@ export function AdventureSelection() {
     if (!e.target.value) {
       if (!user) return;
       // Fetch adventuress from the server
-      console.log('fetching adventures for the search');
       fetch(`${API_URL}/users/aventures`, {
         method: 'GET',
         headers: {
@@ -87,7 +86,7 @@ export function AdventureSelection() {
               setAdventures(data.filter((adventure) => adventure.id_livre === parseInt(bookId)));
           });
         } else {
-          console.error('Error fetching adventures');
+          displayMsg('An error occured while fetching the adventures');
         }
       });
     }
@@ -96,14 +95,13 @@ export function AdventureSelection() {
   function deleteAdventure(adventureId) {
     if (!user) return;
 
-    console.log('deleting adventure', adventureId);
     const requestOptions = {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
     };
     fetch(`${API_URL}/aventures/${adventureId}`, requestOptions).then((response) => {
       if (!response.ok) {
-        console.error('error deleting adventure');
+        displayMsg('An error occured while deleting the adventure');
       } else {
         setAdventures(adventures.filter((adventure) => adventure.id !== adventureId));
       }
@@ -127,7 +125,7 @@ export function AdventureSelection() {
     fetch(`${API_URL}/aventures`, requestOptions)
       .then((response) => {
         if (!response.ok) {
-          console.error('error creating adventure');
+          displayMsg('An error occured while creating the adventure');
         }
       })
       .then(() => {
@@ -141,6 +139,20 @@ export function AdventureSelection() {
             setAdventures([]);
           });
       });
+  }
+
+  function displayMsg(msg) {
+    toast.error(msg, {
+      position: 'bottom-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+      transition: Bounce
+    });
   }
 
   function ShowAdventures() {
@@ -212,6 +224,19 @@ export function AdventureSelection() {
       ) : (
         <h1>Book not found</h1>
       )}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
     </div>
   );
 }
