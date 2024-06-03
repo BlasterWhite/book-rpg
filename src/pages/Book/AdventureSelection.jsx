@@ -191,7 +191,8 @@ export function AdventureSelection() {
               className="book-image"
               style={{
                 backgroundImage: `url(${book?.image?.image ? book.image.image : 'https://placehold.co/500x500.png'})`
-              }}></div>
+              }}
+            ></div>
           </div>
           <div className={'separator'}>
             <hr />
