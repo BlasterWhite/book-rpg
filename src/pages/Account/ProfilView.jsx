@@ -82,28 +82,92 @@ export function ProfilView() {
 
   return (
     <div className={'profile'}>
-      <div className={'profile-container'}>
-        <div className={'profile-container-title'}>
+      <div className={'profile-general-container'}>
+        <div className={'profile-general-container-title'}>
           <img src="src\assets\icons\MediumAccountIcon.svg" alt="Account icon" />
           <h2>My Profile</h2>
         </div>
-        <div className={'profile-container-content'}>
-          <div className={'profile-container-content-account-icon'}>
+        <div className={'profile-general-container-content'}>
+          <div className={'profile-general-container-content-account-icon'}>
             <img src="src\assets\icons\BigAccountIcon.svg" alt="Account icon"/>
           </div>
-          <div className={'role'}>{user?.permission}</div>
-          <div className={'name'}>
-            <span className={'firstname'}>{userData.prenom}</span>
-            <span className={'lastname'}>{userData.nom}</span>
-          </div>
-          <ul>
-            <li>Email: {userData.mail}</li>
-            <li>Member since: {formattedDate()}</li>
-          </ul>
-          <button
-            type={'button'}>
-            Delete my account
-          </button>
+          <div className={'profile-general-container-content-role'}>{user?.permission}</div>
+          <div className={'profile-general-container-content-date'}>Member since: {formattedDate()}</div>
+          <form className={'profile-general-container-content-form'}>
+            <div className={'profile-general-container-content-form-name'}>
+              <div className="profile-general-container-content-form-group">
+                <label htmlFor="firstname" className="profile-general-container-content-form-label">
+                  <img src="src\assets\icons\LittleAccountIcon.svg" alt="" />
+                </label>
+                <input
+                  type="text"
+                  id="firstname"
+                  className="profile-general-container-content-form-input profile-general-container-content-form-input-firstname"
+                  placeholder='First Name'
+                  required
+                />
+              </div>
+              <div className="profile-general-container-content-form-group">
+                <input
+                  type="text"
+                  id="lastname"
+                  className="profile-general-container-content-form-input profile-general-container-content-form-input-lastname"
+                  placeholder='Last Name'
+                  required
+                />
+              </div>
+            </div>
+            <div className="profile-general-container-content-form-group">
+              <label htmlFor="email" className="profile-general-container-content-form-label">
+                <img src="src\assets\icons\LittleEmailIcon.svg" alt="" />
+              </label>
+              <input
+                type="email"
+                id="email"
+                className="profile-general-container-content-form-input"
+                placeholder='Email'
+                required
+              />
+            </div>
+            <div className="profile-general-container-content-form-group">
+              <label htmlFor="password" className="profile-general-container-content-form-label">
+                <img src="src\assets\icons\LittlePasswordIcon.svg" alt="" />
+              </label>
+              <input
+                type="password"
+                id="password"
+                className="profile-general-container-content-form-input"
+                placeholder='Password'
+                required
+              />
+            </div>
+            <div className="profile-general-container-content-form-group">
+              <label htmlFor="confirm-password" className="profile-general-container-content-form-label">
+                <img src="src\assets\icons\LittlePasswordIcon.svg" alt="" />
+              </label>
+              <input
+                type="password"
+                id="confirm-password"
+                className="profile-general-container-content-form-input"
+                placeholder='Confirm password'
+                required
+              />
+            </div>
+            <div className='profile-general-container-content-form-buttons'>
+              <button type="submit" className="profile-general-container-content-form-buttons-update">
+                Update
+              </button>
+              <button type="submit" className="profile-general-container-content-form-buttons-delete">
+                Delete
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div className={'profile-statistics-container'}>
+        <div className={'profile-statistics-container-title'}>
+          <img src="src\assets\icons\MediumStatisticsIcon.svg" alt="Account icon" />
+          <h2>Statistics</h2>
         </div>
       </div>
     </div>
@@ -112,7 +176,7 @@ export function ProfilView() {
 {
 /*
 <div className="profile-page">
-  <div className="profile-container">
+  <div className="profile-general-container">
     <div className="profile-info">
       <img
         src={'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
@@ -142,5 +206,19 @@ export function ProfilView() {
     </div>
   </div>
 </div>
+
+
+<div className={'profile-general-container-content-name'}>
+            <span className={'profile-general-container-content-name-firstname'}>{userData.prenom}</span>
+            <span className={'profile-general-container-content-name-lastname'}>{userData.nom}</span>
+          </div>
+          <ul>
+            <li>Email: {userData.mail}</li>
+            <li>Member since: {formattedDate()}</li>
+          </ul>
+          <button
+            type={'button'}>
+            Delete my account
+          </button>
 */
 }

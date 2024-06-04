@@ -1,11 +1,20 @@
 @import '@/assets/scss/variables.scss';
 
 .profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: var(--max-width);
+  margin: auto;
+  width: 100%;
 
-  &-container {
+  &-general-container {
     background-color: $background-color-container;
     padding: 30px;
     border-radius: 30px;
+    width: 550px;
+    box-sizing: border-box;
 
     &-title {
       display: flex;
@@ -20,7 +29,6 @@
 
       h2 {
         font-size: 16px;
-        color: #333;
         margin: 5px 0;
       }
     }
@@ -30,6 +38,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      padding: 40px;
 
       &-account-icon {
         background-color: $background-color-input;
@@ -43,9 +52,132 @@
           width: 100%;
         }
       }
+
+      &-role {
+        font-size: 14px;
+        font-weight: 600;
+        margin: 5px 0;
+      }
+
+      &-role::first-letter {
+        text-transform: uppercase;
+      }
+
+      &-date {
+        font-size: 14px;
+      }
+
+      &-form {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+
+        &-group {
+          position: relative;
+          margin: 10px 0;
+          width: 100%;
+        }
+
+        &-input {
+          background-color: $background-color-input;
+          border: none;
+          border-radius: 12px;
+          padding: 10px 10px 10px 50px;
+          width: 100%;
+          box-sizing: border-box;
+
+          &-lastname {
+            padding: 10px;
+            margin-left: 10px;
+          }
+
+          &-firstname {
+            margin-right: 10px;
+          }
+
+          &-lastname, &-firstname {
+            width: 160px;
+          }
+        }
+
+        &-label {
+          position: absolute;
+          box-sizing: border-box;
+          top: 5px;
+          left: 10px;
+
+          img {
+            height: 100%;
+          }
+        }
+
+        &-name {
+          display: flex;
+          flex-direction: row;
+        }
+
+        &-buttons {
+          margin-top: 10px;
+
+          &-update, &-delete {
+            width: 160px;
+            height: 36px;
+            cursor: pointer;
+          }
+
+          &-update {
+            margin-right: 10px;
+            background-color: $background-color-input;
+            border: 2px solid $mail-submit-background-color;
+            border-radius: 12px;
+            color: $mail-submit-background-color;
+          }
+
+          &-delete {
+            margin-left: 10px;
+            background-color: $mail-submit-background-color;
+            border: 2px solid $mail-submit-background-color;
+            border-radius: 12px;
+            color: #fff;
+          }
+        }
+      }
     }
   }
 
+  &-statistics-container {
+    background-color: $background-color-container;
+    padding: 30px;
+    border-radius: 30px;
+    width: 550px;
+    box-sizing: border-box;
+
+    &-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      img {
+        width: 36px;
+        height: 36px;
+        margin-right: 5px;
+      }
+
+      h2 {
+        font-size: 16px;
+        margin: 5px 0;
+      }
+    }
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+    
+  }
 }
 
 
