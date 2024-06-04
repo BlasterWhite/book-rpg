@@ -5,13 +5,13 @@ import { useAuth } from '@/contexts/AuthContext.jsx';
 import { Dice } from '../Dice/Dice';
 
 export function DiceComponent({
-                                currentSection,
-                                numberOfDices = 2,
-                                numberOfFaces = 6,
-                                handleNextSection,
-                                section,
-                                characterId
-                              }) {
+  currentSection,
+  numberOfDices = 2,
+  numberOfFaces = 6,
+  handleNextSection,
+  section,
+  characterId
+}) {
   const isMounted = useRef(false);
   const [feedback, setFeedback] = useState('');
   const [aventure, setAventure] = useState([]);
@@ -61,21 +61,11 @@ export function DiceComponent({
     };
 
     fetch(`${API_URL}/personnages/${characterId}/events`, requestOptions).then((response) =>
-      response
-        .json()
-        .catch((error) => console.error(error))
+      response.json().catch((error) => console.error(error))
     );
-
-    currentSection.events;
     eventIsDispatched.current = true;
   }, [API_URL, characterId, currentSection.events, user.token]);
 
-  function handleResults(results) {
-    const win = section.resultat.condition?.['1'];
-    const winDestination = section.resultat.gagne;
-    const loseDestination = section.resultat.perd;
-    const resultSum = results.reduce((acc, curr) => acc + curr, 0);
-    let finalDestination = null;
   const [diceResults, setDiceResults] = useState(Array(numberOfDices).fill(null));
   const [finalDestination, setFinalDestination] = useState(null);
   const [resetDice, setResetDice] = useState(false);
@@ -96,7 +86,7 @@ export function DiceComponent({
   };
 
   const handleDiceResult = (index, result) => {
-    setDiceResults(prevResults => {
+    setDiceResults((prevResults) => {
       const newResults = [...prevResults];
       newResults[index] = result;
       return newResults;
@@ -105,8 +95,7 @@ export function DiceComponent({
 
   useEffect(() => {
     setResetDice(false);
-    if (diceResults.every(result => result !== null)) {
-
+    if (diceResults.every((result) => result !== null)) {
       const win = section.resultat.condition?.['1'];
       const winDestination = section.resultat.gagne;
       const loseDestination = section.resultat.perd;
@@ -114,14 +103,10 @@ export function DiceComponent({
       const total = diceResults.reduce((acc, result) => acc + result, 0);
 
       if (win && win.length > 0 && win.includes(total)) {
-        setFeedback(
-          `You have made ${total}, you’ve won`
-        );
+        setFeedback(`You have made ${total}, you’ve won`);
         setFinalDestination(winDestination);
       } else {
-        setFeedback(
-          `You have made ${total}, you’ve lost`
-        );
+        setFeedback(`You have made ${total}, you’ve lost`);
         setFinalDestination(loseDestination);
       }
 
@@ -131,12 +116,11 @@ export function DiceComponent({
         continueButtonRef.current[0].style.visibility = 'visible';
         continueButtonRef.current[0].style.animation = 'appear 2s ease forwards';
       }, 1000);
-
     }
   }, [diceResults, section, setFinalDestination]);
 
   const continueToNextSection = () => {
-    if(finalDestination !== null) {
+    if (finalDestination !== null) {
       handleNextSection(finalDestination);
 
       if (!user) return;
@@ -150,9 +134,7 @@ export function DiceComponent({
       };
       const newAventureID = Number.parseInt(aventure.id);
       fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions).then((response) =>
-        response
-          .json()
-          .catch((error) => console.error(error))
+        response.json().catch((error) => console.error(error))
       );
       resetComponent();
     }
@@ -160,15 +142,22 @@ export function DiceComponent({
 
   return (
     <div className={'dice-component-container'}>
-      <div ref={(el) => dicesContainerRef.current[0] = el} className={'dices'}>
-        {
-          dices.current.map((dice, index) => (
-            <Dice key={index} onDiceResult={(result) => handleDiceResult(index, result)} resetDice={resetDice} />
-          ))
-        }
-        <h2 ref={(el) => feedbackRef.current[0] = el}>{feedback}</h2>
+      <div ref={(el) => (dicesContainerRef.current[0] = el)} className={'dices'}>
+        {dices.current.map((dice, index) => (
+          <Dice
+            key={index}
+            onDiceResult={(result) => handleDiceResult(index, result)}
+            resetDice={resetDice}
+          />
+        ))}
+        <h2 ref={(el) => (feedbackRef.current[0] = el)}>{feedback}</h2>
       </div>
-      <button className='continue' ref={(el) => continueButtonRef.current[0] = el} onClick={() => continueToNextSection()}>Continue</button>
+      <button
+        className="continue"
+        ref={(el) => (continueButtonRef.current[0] = el)}
+        onClick={() => continueToNextSection()}>
+        Continue
+      </button>
     </div>
   );
 }
