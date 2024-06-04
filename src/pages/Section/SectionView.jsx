@@ -5,6 +5,7 @@ import { DiceComponent } from '@/composants/DiceComponent/DiceComponent.jsx';
 import { EnigmaComponent } from '../../composants/EnigmaComponent/EnigmaComponent';
 import { FightComponent } from '@/composants/FightComponent/FightComponent.jsx';
 import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
+import { TextPagination } from '@/composants/TextPagination/TextPagination.jsx';
 
 export function SectionView({ section, handleNextSection, characterId }) {
   const { texte, sections, image, type } = section;
@@ -63,7 +64,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
     <div className={'section-view'}>
       <div className={'scenario'}>
         <div className={'text-scenario'}>
-          <p>{texte}</p>
+          <TextPagination text={texte} />
         </div>
         <div className={'image-scenario'} style={{ backgroundImage: `url('${imageSrc}')` }} />
       </div>
