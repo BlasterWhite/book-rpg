@@ -103,7 +103,7 @@ export function Inventory({ characterId }) {
               <tr>{inventorySlot()}</tr>
             </tbody>
           </table>
-          {detailedItem !== {} ? (
+          {detailedItem?.titre ? (
             <div className={'item-details'}>
               <p>
                 <strong>Name: </strong>
