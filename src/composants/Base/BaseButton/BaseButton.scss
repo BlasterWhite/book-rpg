@@ -2,8 +2,10 @@
 
 .base-button {
   display: flex;
-  padding: 4px 12px;
-  border-radius: 16px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  text-transform: capitalize;
   font-size: 1.2rem;
   font-weight: normal;
   justify-content: center;
@@ -11,7 +13,8 @@
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: $primary-color;
+  background: rgb(78,49,255);
+  background: linear-gradient(45deg, rgba(78,49,255,1) 0%, rgba(175,4,255,1) 100%);
   color: $white-text-color;
 
   &:hover {

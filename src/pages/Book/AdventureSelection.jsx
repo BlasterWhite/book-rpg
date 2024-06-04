@@ -3,6 +3,8 @@ import './AdventureSelection.scss';
 import { useEffect, useState } from 'react';
 import { AdventureCard } from '@/composants/AdventureCard/AdventureCard.jsx';
 import { useAuth } from '@/contexts/AuthContext.jsx';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function AdventureSelection() {
   const { bookId } = useParams();
@@ -17,7 +19,6 @@ export function AdventureSelection() {
   useEffect(() => {
     // Fetch adventures from the server
     if (!user) return;
-    console.log('fetching adventures');
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
@@ -36,7 +37,6 @@ export function AdventureSelection() {
   useEffect(() => {
     // Fetch book from the server
     if (!user) return;
-    console.log('fetching books');
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
@@ -56,7 +56,7 @@ export function AdventureSelection() {
     try {
       JSON.parse(localStorage.getItem('user')).id;
     } catch (error) {
-      console.log('error');
+      return;
     }
 
     setSearch(e.target.value);
@@ -73,7 +73,6 @@ export function AdventureSelection() {
     if (!e.target.value) {
       if (!user) return;
       // Fetch adventuress from the server
-      console.log('fetching adventures for the search');
       fetch(`${API_URL}/users/aventures`, {
         method: 'GET',
         headers: {
@@ -83,13 +82,30 @@ export function AdventureSelection() {
       }).then((response) => {
         if (response.ok) {
           response.json().then((data) => {
-            setAdventures(data);
+            if (data && data.length > 0)
+              setAdventures(data.filter((adventure) => adventure.id_livre === parseInt(bookId)));
           });
         } else {
-          console.error('Error fetching adventures');
+          displayMsg('An error occured while fetching the adventures');
         }
       });
     }
+  }
+
+  function deleteAdventure(adventureId) {
+    if (!user) return;
+
+    const requestOptions = {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
+    };
+    fetch(`${API_URL}/aventures/${adventureId}`, requestOptions).then((response) => {
+      if (!response.ok) {
+        displayMsg('An error occured while deleting the adventure');
+      } else {
+        setAdventures(adventures.filter((adventure) => adventure.id !== adventureId));
+      }
+    });
   }
 
   function createAdventure() {
@@ -109,7 +125,7 @@ export function AdventureSelection() {
     fetch(`${API_URL}/aventures`, requestOptions)
       .then((response) => {
         if (!response.ok) {
-          console.error('error creating adventure');
+          displayMsg('An error occured while creating the adventure');
         }
       })
       .then(() => {
@@ -125,97 +141,102 @@ export function AdventureSelection() {
       });
   }
 
-  function redirect(adventureId) {
-    let characterId;
-    let currentSection;
-    const requestOptions = {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json', Authorization: `${user.token}` }
-    };
-    fetch(`${API_URL}/aventures/${adventureId}`, requestOptions).then((response) => {
-      if (!response.ok) {
-        console.error('error fetching adventure');
-        return null;
-      } else {
-        response
-          .json()
-          .then((data) => {
-            characterId = data.id_personnage;
-            currentSection = data.id_section_actuelle;
-          })
-          .then(() => {
-            if (!characterId || !currentSection) {
-              return null;
-            }
-            window.location.href = `/book/${bookId}/${characterId}/${currentSection}`;
-          });
-      }
+  function displayMsg(msg) {
+    toast.error(msg, {
+      position: 'bottom-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+      transition: Bounce
     });
-    return null;
   }
 
   function ShowAdventures() {
-    if (adventures && adventures.length !== 0) {
+    if (adventures && adventures?.length && adventures?.length > 0) {
       return (
-        <div>
-          <div className={'adventure-selection-adventures'}>
-            {adventures?.map((adventure, index) => (
-              <div onClick={() => redirect(adventure.id)} key={index}>
-                <AdventureCard
-                  adventure={adventure}
-                  book={book}
-                  key={index}
-                  handleFavourite={() => {}}
-                />
-              </div>
-            ))}
-          </div>
-          <h3> Or create a new adventure! </h3>
-          <button onClick={createAdventure}>Create a new adventure</button>
+        <div className={'adventure-list'}>
+          {adventures?.map((adventure, index) => (
+            <AdventureCard
+              adventure={adventure}
+              book={book}
+              key={index}
+              deleteFn={deleteAdventure}
+            />
+          ))}
+          <button className={'adventure-creation'} onClick={createAdventure}>
+            Create a new adventure
+          </button>
         </div>
       );
     } else {
       return (
         <div>
-          <h1> There&apos;s no adventure yet. Start a new one! </h1>
-          <button onClick={createAdventure}>Create a new adventure!</button>
+          <button className={'adventure-creation'} onClick={createAdventure}>
+            Begin the adventure!
+          </button>
         </div>
       );
     }
   }
 
   return (
-    <div>
+    <div className={'adventure-selection'}>
       <NavLink to={`/book/`}>← Back to Books</NavLink>
       {book ? (
-        <div className="display-book">
-          <div className="book-information">
-            <h1>{book?.titre ? book.titre : 'Book not found'}</h1>
-            <p>{book.resume}</p>
+        <>
+          <div className="book-display">
+            <div className="book-information">
+              <h1>{book?.titre ? book.titre : 'Book not found'}</h1>
+              <p>
+                {book?.resume ? (
+                  book.resume
+                ) : (
+                  <span className={'comment'}>No summary for this book</span>
+                )}
+              </p>
+            </div>
+            <div
+              className="book-image"
+              style={{
+                backgroundImage: `url(${book?.image?.image ? book.image.image : 'https://placehold.co/500x500.png'})`
+              }}></div>
           </div>
-          <div className="image-book">
-            <img
-              src={book?.image?.image ? book.image.image : 'https://placehold.co/500x500.png'}
-              alt={'Livre image'}
-            />
+          <div className={'separator'}>
+            <hr />
+            <span>Select your adventure</span>
+            <hr />
           </div>
-        </div>
+          <div className={'adventure-selection'}>
+            {adventures && adventures?.length && adventures?.length > 5 ? (
+              <form className={'adventure-filter'}>
+                <input type="text" placeholder="Search an adventure" onChange={handleSearch} />
+              </form>
+            ) : null}
+            <div className={'adventure-list'}>
+              <ShowAdventures />
+            </div>
+          </div>
+        </>
       ) : (
         <h1>Book not found</h1>
       )}
-
-      <h3>Adventure Selection</h3>
-      <div className={'adventure-selection'}>
-        <header className={'adventure-selection-header'}>
-          <h1>Adventures</h1>
-          <form>
-            <input type="text" placeholder="Search an adventure" onChange={handleSearch} />
-          </form>
-        </header>
-        <div className={'adventure-selection-content'}>
-          <ShowAdventures />
-        </div>
-      </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
     </div>
   );
 }

@@ -4,15 +4,24 @@ import { MultipleChoiceComponent } from '@/composants/MultipleChoiceComponent.js
 import { DiceComponent } from '@/composants/DiceComponent/DiceComponent.jsx';
 import { EnigmaComponent } from '../../composants/EnigmaComponent/EnigmaComponent';
 import { FightComponent } from '@/composants/FightComponent/FightComponent.jsx';
+import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
+import { Inventory } from '@/composants/Inventory/Inventory.jsx';
+import { useState } from 'react';
 
 export function SectionView({ section, handleNextSection, characterId }) {
   const { texte, sections, image, type } = section;
+  const [inventorySeed, setInventorySeed] = useState(0);
 
-  function interracivity() {
+  function refreshInventory() {
+    setInventorySeed(Math.random());
+  }
+
+  function interactivity() {
     if (type) {
       if (type === 'choix')
         return (
           <MultipleChoiceComponent
+            currentSection={section}
             sections={sections}
             handleSectionClicked={(e) => handleNextSection(e)}
             characterId={characterId}
@@ -21,6 +30,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
       if (type === 'combat')
         return (
           <FightComponent
+            currentSection={section}
             handleNextSection={handleNextSection}
             section={section}
             characterId={characterId}
@@ -29,6 +39,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
       if (type === 'enigme')
         return (
           <EnigmaComponent
+            currentSection={section}
             handleNextSection={handleNextSection}
             section={section}
             characterId={characterId}
@@ -37,6 +48,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
       if (type === 'des')
         return (
           <DiceComponent
+            currentSection={section}
             numberOfDices={2}
             numberOfFaces={6}
             handleNextSection={handleNextSection}
@@ -56,11 +68,22 @@ export function SectionView({ section, handleNextSection, characterId }) {
 
   return (
     <div className={'section-view'}>
+      <Inventory characterId={characterId} key={inventorySeed} />
       <div className={'scenario'}>
-        <p className={'text-scenario'}>{texte}</p>
-        <img src={imageSrc} alt={'Section image'} />
+        <div className={'text-scenario'}>
+          <p>{texte}</p>
+        </div>
+        <div className={'image-scenario'} style={{ backgroundImage: `url('${imageSrc}')` }} />
       </div>
-      {interracivity()}
+      <div className={'interactivity'}>{interactivity()}</div>
+      <ProtectedRoute permissions={['admin']}>
+        <div className={'admin'}>
+          <details>
+            <summary>Debug ADMIN ONLY</summary>
+            <pre>{JSON.stringify(section, null, 2)}</pre>
+          </details>
+        </div>
+      </ProtectedRoute>
     </div>
   );
 }

@@ -1,19 +1,21 @@
 import './FightComponent.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 
-export function FightComponent({ handleNextSection, section, characterId }) {
+export function FightComponent({ currentSection, handleNextSection, section, characterId }) {
   const [personnage, setPersonnage] = useState({});
   const [aventure, setAventure] = useState({});
   const { user } = useAuth();
+  const eventIsDispatched = useRef();
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
   useEffect(() => {
     if (!user) return;
 
-    const API_URL = `${import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000'}/personnages/${characterId}`;
-    fetch(API_URL, {
+    fetch(`${API_URL}/personnages/${characterId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -22,9 +24,7 @@ export function FightComponent({ handleNextSection, section, characterId }) {
     }).then((response) =>
       response
         .json()
-        .then((data) => {
-          setPersonnage(data);
-        })
+        .then((data) => setPersonnage(data))
         .catch((error) => console.log(error))
         .catch((error) => console.log(error))
     );
@@ -33,7 +33,6 @@ export function FightComponent({ handleNextSection, section, characterId }) {
   useEffect(() => {
     if (!user) return;
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', Authorization: user.token }
@@ -41,22 +40,35 @@ export function FightComponent({ handleNextSection, section, characterId }) {
     fetch(`${API_URL}/personnages/${characterId}/aventure`, requestOptions).then((response) =>
       response
         .json()
-        .then((data) => {
-          console.log(data);
-          setAventure(data);
-        })
+        .then((data) => setAventure(data))
         .catch((error) => console.error(error))
     );
-    // on fait une requête put sur l'aventure
   }, [characterId, user]);
+
+  useEffect(() => {
+    if (eventIsDispatched.current) return;
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: user.token },
+      body: JSON.stringify({ events: currentSection.events })
+    };
+
+    fetch(`${API_URL}/personnages/${characterId}/events`, requestOptions).then((response) =>
+      response
+        .json()
+        .catch((error) => console.error(error))
+    );
+
+    currentSection.events;
+    eventIsDispatched.current = true;
+  }, [API_URL, characterId, currentSection.events, user.token]);
 
   const handleClick = (id) => {
     handleNextSection(id);
 
     if (!user) return;
-    const API_URL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
-    // on récupère la prochaine sections depuis sections
     if (!section) return;
+
     const statut = section.type === 'termine' ? 'termine' : 'en_cours';
     const requestOptions = {
       method: 'PUT',
@@ -67,7 +79,6 @@ export function FightComponent({ handleNextSection, section, characterId }) {
     fetch(`${API_URL}/aventures/${newAventureID}`, requestOptions).then((response) =>
       response
         .json()
-        .then((data) => console.log(data))
         .catch((error) => console.error(error))
     );
   };
@@ -105,6 +116,7 @@ export function FightComponent({ handleNextSection, section, characterId }) {
 }
 
 FightComponent.propTypes = {
+  currentSection: PropTypes.object.isRequired,
   section: PropTypes.shape({
     id: PropTypes.number.isRequired,
     texte: PropTypes.string.isRequired,
