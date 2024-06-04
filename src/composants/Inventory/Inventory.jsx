@@ -1,12 +1,6 @@
 import './Inventory.scss';
 import { BaseButton } from '@/composants/Base/BaseButton/BaseButton.jsx';
 import { useEffect, useState } from 'react';
-import StrengthIcon from '@/assets/icons/strength.svg';
-import HardinessIcon from '@/assets/icons/hardiness.svg';
-import DexterityIcon from '@/assets/icons/dexterity.svg';
-import PsycheIcon from '@/assets/icons/psyche.svg';
-import EnduranceIcon from '@/assets/icons/endurance.svg';
-import TriangleIcon from '@/assets/icons/triangle.svg';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 import PropTypes from 'prop-types';
 
@@ -16,11 +10,11 @@ export function Inventory({ characterId }) {
 
   const [items, setItems] = useState([]);
   const [stats, setStats] = useState([
-    { id: 1, label: 'Strength', value: 10, icon: StrengthIcon, key: 'force' },
-    { id: 2, label: 'Hardiness', value: 10, icon: HardinessIcon, key: 'resistance' },
-    { id: 3, label: 'Dexterity', value: 10, icon: DexterityIcon, key: 'dexterite' },
-    { id: 4, label: 'Psyche', value: 10, icon: PsycheIcon, key: 'psychisme' },
-    { id: 5, label: 'Endurance', value: 10, icon: EnduranceIcon, key: 'endurance' }
+    { id: 1, label: 'Strength', value: 10, icon: '/icons/strength.svg', key: 'force' },
+    { id: 2, label: 'Hardiness', value: 10, icon: '/icons/hardiness.svg', key: 'resistance' },
+    { id: 3, label: 'Dexterity', value: 10, icon: '/icons/dexterity.svg', key: 'dexterite' },
+    { id: 4, label: 'Psyche', value: 10, icon: '/icons/psyche.svg', key: 'psychisme' },
+    { id: 5, label: 'Endurance', value: 10, icon: '/icons/endurance.svg', key: 'endurance' }
   ]);
   const [detailedItem, setDetailedItem] = useState({});
   const [characterName, setCharacterName] = useState();
@@ -125,9 +119,8 @@ export function Inventory({ characterId }) {
               </p>
             </div>
           ) : null}
-          <BaseButton text={'close'} onClick={() => setIsInventoryOpen(false)} />
           <div className={'clip'} onClick={() => setIsInventoryOpen(!isInventoryOpen)}>
-            <div className={'icon'} style={{ backgroundImage: `url(${TriangleIcon})` }} />
+            <div className={'icon'} style={{ backgroundImage: `url('/icons/triangle.svg')` }} />
           </div>
         </div>
       ) : null}
