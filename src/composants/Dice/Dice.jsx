@@ -21,7 +21,7 @@ export function Dice({ onDiceResult, resetDice }) {
 
       const diceResult = Math.floor(Math.random() * 6) + 1;
 
-      diceRef.current[0].style.animation = 'rolling1 3s';
+      diceRef.current[0].style.animation = 'rolling 3s';
 
       setTimeout(() => {
 
@@ -61,19 +61,16 @@ export function Dice({ onDiceResult, resetDice }) {
   }
 
   return (
-      <div className={'container'}>
-          <div ref={(el) => (diceRef.current[0] = el)} onClick={throwDice} className={'dice'}>
-              <div className={'face front'}></div>
-              <div className={'face back'}></div>
-              <div className={'face top'}></div>
-              <div className={'face bottom'}></div>
-              <div className={'face right'}></div>
-              <div className={'face left'}></div>
-          </div>
+      <div ref={(el) => (diceRef.current[0] = el)} onClick={throwDice} className={'element-dice'}>
+          <div className={'element-dice-face element-dice-front'}></div>
+          <div className={'element-dice-face element-dice-back'}></div>
+          <div className={'element-dice-face element-dice-top'}></div>
+          <div className={'element-dice-face element-dice-bottom'}></div>
+          <div className={'element-dice-face element-dice-right'}></div>
+          <div className={'element-dice-face element-dice-left'}></div>
       </div>
   );
 }
-
 
 Dice.propTypes = {
   onDiceResult: PropTypes.func,
