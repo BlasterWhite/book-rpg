@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { SectionView } from '@/pages/Section/SectionView.jsx';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext.jsx';
+import { CharacterSelection } from '@/pages/Book/CharacterSelection.jsx';
 
 export function SingleBook() {
   const { sectionId, bookId, characterId } = useParams();
@@ -12,24 +13,33 @@ export function SingleBook() {
   const { user } = useAuth();
 
   const [section, SetSection] = useState({});
+  const [character, SetCharacter] = useState({});
 
   useEffect(() => {
     if (!user) return;
     fetch(`${apiURL}/livres/${bookId}/sections/${sectionId}`, {
       headers: { Authorization: user.token }
-    }).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          SetSection(data);
-        });
-      } else {
-        console.error('Error fetching sections');
-      }
-    });
+    }).then((response) => response.json()
+      .then((data) => SetSection(data)))
+      .catch((error) => console.error(error));
   }, [bookId, sectionId, apiURL, user]);
 
+  useEffect(() => {
+    if (!user) return;
+    fetch(`${apiURL}/personnages/${characterId}`, {
+      headers: { Authorization: user.token }
+    }).then((response) => response.json()
+      .then((data) => SetCharacter(data)))
+      .catch((error) => console.error(error));
+  }, [characterId, apiURL, user]);
+
   function renderSection() {
-    if (section && section.id) {
+    if (section && section.id && character && character.id) {
+      if (!character.initialized) {
+        return (
+          <CharacterSelection character={character} />
+        );
+      }
       return (
         <SectionView
           characterId={characterId}
@@ -45,6 +55,5 @@ export function SingleBook() {
   const handleSectionClicked = (newSectionId) => {
     navigate(`/book/${bookId}/${characterId}/${newSectionId}`);
   };
-
   return <>{renderSection()}</>;
 }
