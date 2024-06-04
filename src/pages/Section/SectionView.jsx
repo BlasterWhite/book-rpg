@@ -7,6 +7,7 @@ import { FightComponent } from '@/composants/FightComponent/FightComponent.jsx';
 import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
 import { Inventory } from '@/composants/Inventory/Inventory.jsx';
 import { useState } from 'react';
+import { TextPagination } from '@/composants/TextPagination/TextPagination.jsx';
 
 export function SectionView({ section, handleNextSection, characterId }) {
   const { texte, sections, image, type } = section;
@@ -71,7 +72,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
       <Inventory characterId={characterId} key={inventorySeed} />
       <div className={'scenario'}>
         <div className={'text-scenario'}>
-          <p>{texte}</p>
+          <TextPagination text={texte} />
         </div>
         <div className={'image-scenario'} style={{ backgroundImage: `url('${imageSrc}')` }} />
       </div>

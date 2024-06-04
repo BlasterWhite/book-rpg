@@ -5,6 +5,7 @@ import { AdventureCard } from '@/composants/AdventureCard/AdventureCard.jsx';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { TextPagination } from '@/composants/TextPagination/TextPagination.jsx';
 
 export function AdventureSelection() {
   const { bookId } = useParams();
@@ -191,13 +192,7 @@ export function AdventureSelection() {
           <div className="book-display">
             <div className="book-information">
               <h1>{book?.titre ? book.titre : 'Book not found'}</h1>
-              <p>
-                {book?.resume ? (
-                  book.resume
-                ) : (
-                  <span className={'comment'}>No summary for this book</span>
-                )}
-              </p>
+              <TextPagination text={book?.resume ? book.resume : 'No summary for this book'} />
             </div>
             <div
               className="book-image"
