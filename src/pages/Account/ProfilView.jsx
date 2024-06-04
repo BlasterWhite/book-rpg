@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext.jsx';
+import { DateTime } from 'luxon';
 
 export function ProfilView() {
   const { user } = useAuth();
@@ -74,37 +75,72 @@ export function ProfilView() {
     setBooks(newBooks);
   };
 
-  return (
-    <div className="profile-page">
-      <div className="profile-container">
-        <div className="profile-info">
-          <img
-            src={'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-            alt="User Avatar" className="profile-avatar" />
-          <div className="profile-details">
-            <h2 className="profile-name">{userData.nom} {userData.prenom}</h2>
-            <span className="profile-email">{userData.mail}</span>
-            <span className="profile-join-date">Member since {userData.creation_date || '29/07/2003'}</span>
-          </div>
-        </div>
-      </div>
-      <div className="profile-favorites">
-        <h2 className="profile-favorites-title">Mes Favoris</h2>
-        <div className="profile-favorites-list">
-          {(favoris.length === 0) && <p>There's nothing here to see for you...</p>}
-          {(favoris.length >= 1) && favoris.map((fav) => fav.livre && (
-            <NavLink to={`/book/${fav.id_livre}`} key={fav.id_livre}>
-              <BookCard
-                book={fav.livre}
-                handleFavourite={() => handleFavourite(fav.id_livre)}
-                books={books}
-                favourites={favoris}
-              />
-            </NavLink>
+  const formattedDate = () => {
+    const dt = new DateTime(userData.creation_date)
+    return dt.toLocaleString(DateTime.DATE_MED);
+  };
 
-          ))}
+  return (
+    <div className={'profile'}>
+      <div className={'profile-container'}>
+        <div className={'profile-container-title'}>
+          <img src="src\assets\icons\MediumAccountIcon.svg" alt="Account icon" />
+          <h2>My Profile</h2>
+        </div>
+        <div className={'profile-container-content'}>
+          <div className={'profile-container-content-account-icon'}>
+            <img src="src\assets\icons\BigAccountIcon.svg" alt="Account icon"/>
+          </div>
+          <div className={'role'}>{user?.permission}</div>
+          <div className={'name'}>
+            <span className={'firstname'}>{userData.prenom}</span>
+            <span className={'lastname'}>{userData.nom}</span>
+          </div>
+          <ul>
+            <li>Email: {userData.mail}</li>
+            <li>Member since: {formattedDate()}</li>
+          </ul>
+          <button
+            type={'button'}>
+            Delete my account
+          </button>
         </div>
       </div>
     </div>
   );
+}
+{
+/*
+<div className="profile-page">
+  <div className="profile-container">
+    <div className="profile-info">
+      <img
+        src={'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+        alt="User Avatar" className="profile-avatar" />
+      <div className="profile-details">
+        <h2 className="profile-name">{userData.nom} {userData.prenom}</h2>
+        <span className="profile-email">{userData.mail}</span>
+        <span className="profile-join-date">Member since {userData.creation_date || '29/07/2003'}</span>
+      </div>
+    </div>
+  </div>
+  <div className="profile-favorites">
+    <h2 className="profile-favorites-title">Mes Favoris</h2>
+    <div className="profile-favorites-list">
+      {(favoris.length === 0) && <p>There's nothing here to see for you...</p>}
+      {(favoris.length >= 1) && favoris.map((fav) => fav.livre && (
+        <NavLink to={`/book/${fav.id_livre}`} key={fav.id_livre}>
+          <BookCard
+            book={fav.livre}
+            handleFavourite={() => handleFavourite(fav.id_livre)}
+            books={books}
+            favourites={favoris}
+          />
+        </NavLink>
+
+      ))}
+    </div>
+  </div>
+</div>
+*/
 }
