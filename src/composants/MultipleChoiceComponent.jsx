@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 
-export function MultipleChoiceComponent({ currentSection, sections, handleSectionClicked, characterId }) {
+export function MultipleChoiceComponent({
+  currentSection,
+  sections,
+  handleSectionClicked,
+  characterId
+}) {
   const [aventure, setAventure] = useState([]); // [section, setSection
   const { user } = useAuth();
   const eventIsDispatched = useRef();
@@ -26,7 +31,7 @@ export function MultipleChoiceComponent({ currentSection, sections, handleSectio
     );
   }, [characterId, sections, user]);
 
-+  useEffect(() => {
+  useEffect(() => {
     if (eventIsDispatched.current) return;
     const requestOptions = {
       method: 'PUT',
@@ -34,16 +39,13 @@ export function MultipleChoiceComponent({ currentSection, sections, handleSectio
       body: JSON.stringify({ events: currentSection.events })
     };
 
-    fetch(`${API_URL}/personnages/${characterId}/events`, requestOptions, ).then((response) =>
-      response
-        .json()
-        .catch((error) => console.error(error))
+    fetch(`${API_URL}/personnages/${characterId}/events`, requestOptions).then((response) =>
+      response.json().catch((error) => console.error(error))
     );
 
     currentSection.events;
     eventIsDispatched.current = true;
   }, [API_URL, characterId, currentSection.events, user.token]);
-
 
   const getNextSection = (id) => {
     handleSectionClicked(id);
@@ -75,9 +77,8 @@ export function MultipleChoiceComponent({ currentSection, sections, handleSectio
               type={'button'}
               onClick={() =>
                 getNextSection(choice?.association_liaison_section?.id_section_destination)
-              }
-            >
-              Aller à la section {choice.numero_section}
+              }>
+              Go to section {choice.numero_section}
             </button>
           </div>
         );

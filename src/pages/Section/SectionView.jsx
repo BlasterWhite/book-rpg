@@ -5,10 +5,17 @@ import { DiceComponent } from '@/composants/DiceComponent/DiceComponent.jsx';
 import { EnigmaComponent } from '../../composants/EnigmaComponent/EnigmaComponent';
 import { FightComponent } from '@/composants/FightComponent/FightComponent.jsx';
 import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
+import { Inventory } from '@/composants/Inventory/Inventory.jsx';
+import { useState } from 'react';
 import { TextPagination } from '@/composants/TextPagination/TextPagination.jsx';
 
 export function SectionView({ section, handleNextSection, characterId }) {
   const { texte, sections, image, type } = section;
+  const [inventorySeed, setInventorySeed] = useState(0);
+
+  function refreshInventory() {
+    setInventorySeed(Math.random());
+  }
 
   function interactivity() {
     if (type) {
@@ -62,6 +69,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
 
   return (
     <div className={'section-view'}>
+      <Inventory characterId={characterId} key={inventorySeed} />
       <div className={'scenario'}>
         <div className={'text-scenario'}>
           <TextPagination text={texte} />
