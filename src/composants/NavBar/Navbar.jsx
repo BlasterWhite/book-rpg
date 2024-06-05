@@ -1,10 +1,42 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './Navbar.scss';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
+import { useState } from 'react';
+import { usePopper } from 'react-popper';
+import { createPortal } from 'react-dom';
+
+function Portal({ children }) {
+  return createPortal(children, document.body);
+}
 
 export function Navbar() {
   const { user, logout, isLoggedIn } = useAuth();
+
+  const [referenceElement, setReferenceElement] = useState();
+  const [popperElement, setPopperElement] = useState();
+
+  const [isOpen, setIsOpen] = useState(true);
+
+  window.addEventListener('click', function (event) {
+    if (referenceElement && !referenceElement.contains(event.target)) {
+      setIsOpen(false);
+    }
+  });
+
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    placement: 'bottom'
+  });
+
+  const navigate = useNavigate();
+
+  function goToProfile() {
+    navigate('/profile');
+  }
+
+  function toggleMenu() {
+    setIsOpen(!isOpen);
+  }
 
   return (
     <nav className={'nav-header'}>
@@ -34,12 +66,27 @@ export function Navbar() {
               'Unknown user'
             )}
           </span>
-          <NavLink className={'nav-item-navlink'} to={'/profil'}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-              <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
-            </svg>
-          </NavLink>
-          <button onClick={logout}>Logout</button>
+          <div className={'more-options'} ref={setReferenceElement} onClick={toggleMenu}>
+            <img src={'/icons/more.svg'} alt={'More options'} />
+          </div>
+          <Portal>
+            <div
+              ref={setPopperElement}
+              style={styles.popper}
+              {...attributes.popper}
+              className={'popper-menu ' + (isOpen ? 'open' : 'close')}>
+              <div className={'content'}>
+                <button onClick={goToProfile}>
+                  Profile
+                  <img src={'/icons/profile.svg'} alt={'Profile'} />
+                </button>
+                <button onClick={logout}>
+                  Logout
+                  <img src={'/icons/logout.svg'} alt={'Logout'} />
+                </button>
+              </div>
+            </div>
+          </Portal>
         </div>
       )}
     </nav>

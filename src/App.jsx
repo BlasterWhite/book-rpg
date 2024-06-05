@@ -79,8 +79,12 @@ const router = createBrowserRouter([
         element: <RegisterView />
       },
       {
-        path: 'profil',
-        element: <ProfilView />
+        path: 'profile',
+        element: (
+          <ProtectedRoute permissions={['user', 'admin']} redirect={'/login'}>
+            <ProfilView />
+          </ProtectedRoute>
+        )
       },
       {
         path: 'admin',
