@@ -15,8 +15,12 @@ div.footer-background {
   }
 
   &.open {
+    .clip {
+      background-color: $footer-top-background-color;
+    }
     & .clip > div.icon {
-      transform: translate(-50%, -50%) rotate(0deg);
+      transform: translate(-50%, -50%) rotate(180deg);
+      filter: invert(1);
     }
   }
 
@@ -108,7 +112,7 @@ div.footer-background {
       position: relative;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) rotate(180deg);
+      transform: translate(-50%, -50%);
       transition: transform 0.5s;
     }
   }
