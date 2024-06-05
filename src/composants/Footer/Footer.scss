@@ -14,6 +14,16 @@ div.footer-background {
     justify-content: space-between;
   }
 
+  &.open {
+    .clip {
+      background-color: $footer-top-background-color;
+    }
+    & .clip > div.icon {
+      transform: translate(-50%, -50%) rotate(180deg);
+      filter: invert(1);
+    }
+  }
+
   .footer-item {
     flex-grow: 1;
   }
@@ -76,6 +86,33 @@ div.footer-background {
     a {
       display: flex;
       align-items: center;
+    }
+  }
+
+  & > .clip {
+    position: absolute;
+    transform: translateY(-50%);
+    left: 94%;
+    height: 24px;
+    width: 64px;
+    background: #dcdcdc;
+    border-radius: 8px 8px 0 0;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    & > div.icon {
+      height: 12px;
+      width: 12px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.5s;
     }
   }
 }
