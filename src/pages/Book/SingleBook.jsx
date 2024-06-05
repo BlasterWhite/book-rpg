@@ -14,6 +14,7 @@ export function SingleBook() {
 
   const [section, SetSection] = useState({});
   const [character, SetCharacter] = useState({});
+  const [characterInitialized, SetCharacterInitialized] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -33,11 +34,17 @@ export function SingleBook() {
       .catch((error) => console.error(error));
   }, [characterId, apiURL, user]);
 
+  useEffect(() => {
+    if (character.initialized) {
+      SetCharacterInitialized(true);
+    }
+  }, [character.initialized]);
+
   function renderSection() {
     if (section && section.id && character && character.id) {
-      if (!character.initialized) {
+      if (!characterInitialized) {
         return (
-          <CharacterSelection character={character} />
+          <CharacterSelection character={character} updateCharacterHandler={() => SetCharacterInitialized(true)}/>
         );
       }
       return (

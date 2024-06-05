@@ -1,0 +1,47 @@
+@import '@/assets/scss/variables';
+
+.character-selection {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+
+  &-all {
+    margin-bottom: 40px;
+  }
+
+  &-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+
+    span {
+      width: 200px;
+      margin-right: 10px;
+      font-size: 1.5rem;
+
+    }
+  }
+
+  button {
+    min-width: 80%;
+    padding: 1rem;
+    border-radius: 8px;
+    color: #fff;
+    background-color: #0e0f49;
+    border: 1px solid #0e0f49;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #8f8fbe;
+    border: 1px solid #0e0f49;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  }
+}
