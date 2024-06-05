@@ -3,11 +3,48 @@
 .profile {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
+  gap: 40px;
   max-width: var(--max-width);
   margin: auto;
   width: 100%;
+
+  &-background-popup-delete {
+    position: fixed;
+    top: 0px;
+    background-color: rgba(0,0,0,0.2);
+    width: 100%;
+    height: 100vh;
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-popup-delete {
+    background-color: $background-color-container;
+    border-radius: 16px;
+    padding: 20px 30px;
+    width: 550px;
+
+    &-title {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+
+    &-text {
+      margin: 10px 20px;
+    }
+
+    &-buttons {
+      float: right;
+      margin: 10px 20px;
+      display: flex;
+      flex-direction: row;
+    }
+  }
 
   &-general-container {
     background-color: $background-color-container;
@@ -80,7 +117,7 @@
 
         &-input {
           background-color: $background-color-input;
-          border: none;
+          border: 2px solid $background-color-input;
           border-radius: 12px;
           padding: 10px 10px 10px 50px;
           width: 100%;
@@ -97,6 +134,10 @@
 
           &-lastname, &-firstname {
             width: 160px;
+          }
+
+          &:focus {
+            border: 2px solid $mail-submit-background-color;
           }
         }
 
@@ -174,9 +215,77 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      gap: 12px;
       padding: 40px;
+
+      &-element {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 480px;
+        height: 100px;
+        background-color: $background-color-input;
+        border-radius: 50px;
+
+        &-image {
+          background-color: $background-color-image-statistics;
+          border-radius: 50%;
+          width: 90px;
+          height: 90px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 5px;
+
+          img {
+            width: 64px;
+            height: 64px;
+          }
+        }
+
+        &-text {
+          margin: 5px;
+
+          &-data {
+            font-weight: 700;
+          }
+        }
+      }
     }
     
+  }
+
+  &-favorites-container {
+    background-color: $background-color-container;
+    padding: 30px;
+    border-radius: 30px;
+    width: 1000%;
+    box-sizing: border-box;
+
+    &-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      img {
+        width: 36px;
+        height: 36px;
+        margin-right: 5px;
+      }
+
+      h2 {
+        font-size: 16px;
+        margin: 5px 0;
+      }
+    }
+
+    &-content {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 15px;
+    }
   }
 }
 
