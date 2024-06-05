@@ -166,7 +166,7 @@ function Root() {
         <Outlet />
       </main>
       <footer>
-        <Footer />
+        <Footer isFoldable={true} folded={true} />
       </footer>
     </>
   );
