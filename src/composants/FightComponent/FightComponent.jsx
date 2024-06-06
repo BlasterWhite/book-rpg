@@ -163,7 +163,7 @@ export function FightComponent({ currentSection, handleNextSection, section, cha
     return (
       <>
         <p>
-          Enemy attack is doing {damage} damage{damage > 0 ? 's' : ''}
+          Enemy attack is doing {damage} damage{damage > 1 ? 's' : ''}
         </p>
         <BaseButton text={'Next'} onClick={() => setCombatState('end')} />
       </>
