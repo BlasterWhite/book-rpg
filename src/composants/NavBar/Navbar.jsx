@@ -16,10 +16,10 @@ export function Navbar() {
   const [referenceElement, setReferenceElement] = useState();
   const [popperElement, setPopperElement] = useState();
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   window.addEventListener('click', function (event) {
-    if (referenceElement && !referenceElement.contains(event.target)) {
+    if (isOpen && referenceElement && !referenceElement.contains(event.target)) {
       setIsOpen(false);
     }
   });
@@ -34,7 +34,8 @@ export function Navbar() {
     navigate('/profile');
   }
 
-  function toggleMenu() {
+  function toggleMenu(e) {
+    e.stopPropagation();
     setIsOpen(!isOpen);
   }
 

@@ -24,7 +24,8 @@ export function HomeView() {
         .json()
         .then((data) => {
           const booksWithFav = data.map((book) => {
-            book.fav = favourites.some((fav) => fav.id_livre === book.id);
+            if (!favourites.length > 0) return book;
+            book.fav = favourites?.some((fav) => fav.id_livre === book.id);
             return book;
           });
           setBooks(booksWithFav);
@@ -74,7 +75,7 @@ export function HomeView() {
 
   useEffect(() => {
     if (!apiURL) return console.error('No API URL provided', apiURL);
-    if (!user) return;
+    if (!user || !user.token) return;
     fetch(`${apiURL}/users/favoris/`, {
       method: 'GET',
       headers: {
@@ -84,7 +85,8 @@ export function HomeView() {
       response
         .json()
         .then((data) => {
-          setFavourites(data);
+          if (data.error) setFavourites([]);
+          else setFavourites(data);
         })
         .catch((error) => console.error('Error fetching books', error))
     );
