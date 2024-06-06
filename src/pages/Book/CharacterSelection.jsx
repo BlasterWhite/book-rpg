@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 export function CharacterSelection({ character, updateCharacterHandler }) {
   const { user } = useAuth();
+  const [name, setName] = useState("");
   const [characterStats, setCharacterStats] = useState([0, 0, 0, 0, 0]);
 
   useEffect(() => {
@@ -63,6 +64,17 @@ export function CharacterSelection({ character, updateCharacterHandler }) {
     <div className="character-selection">
       <h1>Character Statistique Génération </h1>
       <div className={'character-selection-all'}>
+        <form className="character-selection-form" onSubmit={handleDiceResult}>
+          <input
+            className="character-selection-form-input"
+            type="text"
+            id="name"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </form>
         {characterStats.map((stat, index) => (
           <div className={'character-selection-container'} key={index}>
             <span><span className={'character-selection-attributs'}>{getAttributFromIndex(index)}</span> : {stat}</span>
@@ -81,7 +93,7 @@ export function CharacterSelection({ character, updateCharacterHandler }) {
             endurance: characterStats[2],
             psychisme: characterStats[3],
             resistance: characterStats[4],
-            initialized: true
+            initialized: true, nom: name
           })
         };
         fetch(`${API_URL}/personnages/${character.id}`, requestOptions).then((response) => {
