@@ -21,7 +21,7 @@ import { AdminView } from '@/pages/Admin/AdminView.jsx';
 import { ProtectedRoute } from '@/pages/ProtectedRoute.jsx';
 import { AuthProvider } from '@/contexts/AuthContext.jsx';
 import { ProfilView } from '@/pages/Account/ProfilView.jsx';
-import { AdminEnemyListView } from '@/pages/Admin/AdminEnemiesListView/AdminEnemyListView.jsx';
+import { AdminEnemyListView } from '@/pages/Admin/AdminEnemyListView/AdminEnemyListView.jsx';
 import { AdminEnenyEditView } from '@/pages/Admin/AdminEnemyEditView/AdminEnenyEditView.jsx';
 
 const router = createBrowserRouter([

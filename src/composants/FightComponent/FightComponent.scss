@@ -1,11 +1,79 @@
 @import '@/assets/scss/variables.scss';
 
 .fight-component-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 
-.fight-component-text {
-  margin-bottom: 1rem;
+  & .fight-component-content {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    gap: 2rem;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 10px;
+
+      &.fight-component-right {
+        & .fighter {
+          width: 100%;
+          text-align: right;
+          flex-direction: row-reverse;
+        }
+      }
+
+      & .fighter {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        width: 100%;
+
+        & .fighter-image {
+          width: 150px;
+          height: 150px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          border-radius: 8px;
+
+        }
+
+        & .fighter-stats {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          width: 100%;
+
+          p {
+            margin: 0;
+          }
+
+          progress {
+            width: 100%;
+            height: 10px;
+            border-radius: 10px;
+            background-color: #bbbbbb;
+            transition: 0.3s ease-in-out;
+
+            &::-webkit-progress-bar {
+              background-color: #f4f4f4;
+              border-radius: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
