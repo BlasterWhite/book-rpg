@@ -81,7 +81,7 @@ export function RegisterView({ isConnected }) {
       <div className="register-page-left-panel">
         <h1>Start your own <span>adventure</span></h1>
         <div className="register-page-illustration">
-          <img alt="Login placeholder" src="/src/assets/images/loginPlaceholder.webp" />
+          <img alt="Login placeholder" src="/icons/login_register/loginPlaceholder.webp" />
         </div>
       </div>
       <div className="register-page-right-panel">
@@ -90,7 +90,7 @@ export function RegisterView({ isConnected }) {
           <div className="register-page-form-names-group">
             <div className="register-page-form-input-group">
               <label htmlFor="lastname" className="register-page-form-label">
-                <img alt="Lock icon" src="/src/assets/icons/login_register/Account.webp" />
+                <img alt="Account icon" src="/icons/login_register/Account.webp" />
               </label>
               <input
                 type="text"
@@ -118,7 +118,7 @@ export function RegisterView({ isConnected }) {
           </div>
           <div className="register-page-form-input-group">
             <label htmlFor="email" className="register-page-form-label">
-              <img alt="Lock icon" src="/src/assets/icons/login_register/Email.webp" />
+              <img alt="Email icon" src="/icons/login_register/Email.webp" />
             </label>
             <input
               type="email"
@@ -132,7 +132,7 @@ export function RegisterView({ isConnected }) {
           </div>
           <div className="register-page-form-input-group">
             <label htmlFor="password" className="register-page-form-label">
-              <img alt="Lock icon" src="/src/assets/icons/login_register/Lock.webp" />
+              <img alt="Lock icon" src="/icons/login_register/Lock.webp" />
             </label>
             <input
               type="password"
@@ -146,7 +146,7 @@ export function RegisterView({ isConnected }) {
           </div>
           <div className="register-page-form-input-group">
             <label htmlFor="confirmPassword" className="register-page-form-label">
-              <img alt="Lock icon" src="/src/assets/icons/login_register/Lock.webp" />
+              <img alt="Lock icon" src="/icons/login_register/Lock.webp" />
             </label>
             <input
               type="password"
