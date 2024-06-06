@@ -1,71 +1,138 @@
-.login-form {
-  max-width: 500px;
-  margin: 0 auto;
+@import '@/assets/scss/variables.scss';
 
-  .form-group {
+.login-page {
+  display: flex;
+  height: 70vh;
+  background: $login-background;
+  border-radius: 30px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+  .login-page-left-panel, .login-page-right-panel {
+    flex: 1;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 15px;
-
-    .form-label {
-      font-weight: bold;
-      margin-right: 25px;
-      width: 50%;
-    }
-
-    .form-input {
-      width: 300px;
-      padding: 8px;
-      border: none;
-      border-bottom: 1px solid #ccc;
-      border-radius: 0;
-
-      &:focus {
-        outline: none;
-        border-color: #6c5ce7;
-      }
-
-      &.error {
-        border-color: #ff0000;
-      }
-    }
+    padding: 2rem;
   }
 
-  .form-error {
-    color: #ff0000;
-    margin: 15px;
-    font-weight: bold;
+  &-left-panel {
+    background-image: linear-gradient(45deg, $login-bottom-left-side-background-color, $login-top-left-side-background-color);
+    color: $white-text-color;
     text-align: center;
-  }
+    border-radius: 30px 0 0 30px;
 
-  .form-last-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
+    h1 {
+      font-size: 3rem;
+      margin: 1rem;
 
-    .login-link {
-      text-decoration: none;
-      font-size: 14px;
-
-      &:hover {
-        text-decoration: underline;
+      span {
+        background: -webkit-linear-gradient(45deg, $login-adventure-first-color, $login-adventure-second-color);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
     }
 
-    .submit-button {
-      width: min-content;
-      padding: 10px 20px;
-      background: linear-gradient(#4e31ff, #af04ff);
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-left: auto;
-
-      &:hover {
-        background: linear-gradient(#4e31ff, #af04ff);
+    .login-page-illustration {
+      img {
+        width: 100%;
+        max-width: 400px;
       }
     }
   }
+
+  .login-page-right-panel {
+    background-color: #f8f8ff;
+    border-radius: 0 20px 20px 0;
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: $login-accent-color;
+    }
+
+    .login-page-form {
+      width: 100%;
+      max-width: 300px;
+      display: flex;
+      flex-direction: column;
+
+      .login-page-input-group {
+        display: flex;
+        margin-bottom: 1rem;
+        position: relative;
+
+        label {
+          position: absolute;
+          top: 5px;
+          left: 10px;
+
+          img {
+            width: 24px;
+          }
+        }
+
+        .login-page-input {
+          width: 85%;
+          padding: 10px 10px 10px 40px;
+          border-radius: 12px;
+          border: none;
+          background: $login-light-purple-color !important;
+
+          &::placeholder {
+            color: $login-dark-purple-color;
+          }
+        }
+      }
+
+      .login-page-actions {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 5px;
+        margin-bottom: 1rem;
+        font-size: 0.75rem;
+
+        a {
+          color: $black-text-color;
+          text-decoration: none;
+          font-weight: normal;
+
+          &:hover {
+            text-decoration-thickness: 0.5px;
+            text-decoration: underline;
+          }
+        }
+      }
+
+      button {
+        display: flex;
+        align-self: center;
+        background: linear-gradient(45deg, $login-bottom-left-side-background-color, $login-top-left-side-background-color);
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        width: min-content;
+
+        &:hover {
+          background-color: #5b00d6;
+        }
+
+        &:focus {
+          box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        }
+      }
+
+      .form-error {
+        color: #ff0000;
+        margin: 15px;
+        font-weight: bold;
+        text-align: center;
+
+      }
+    }
+  }
+
 }
