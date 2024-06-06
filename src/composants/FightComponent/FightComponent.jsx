@@ -162,7 +162,9 @@ export function FightComponent({ currentSection, handleNextSection, section, cha
     attack(damage, 'player');
     return (
       <>
-        <p>Enemy attack is doing {damage} damage</p>
+        <p>
+          Enemy attack is doing {damage} damage{damage > 0 ? 's' : ''}
+        </p>
         <BaseButton text={'Next'} onClick={() => setCombatState('end')} />
       </>
     );
@@ -205,6 +207,9 @@ export function FightComponent({ currentSection, handleNextSection, section, cha
               Your attack is doing{' '}
               {(isMagicCombat.current ? personnage.force : personnage.psychisme) + attackBonus}{' '}
               damage
+              {(isMagicCombat.current ? personnage.force : personnage.psychisme) + attackBonus > 1
+                ? 's'
+                : ''}
             </p>
             <BaseButton text={'Next'} onClick={() => setCombatState('enemyAttack')} />
           </>
