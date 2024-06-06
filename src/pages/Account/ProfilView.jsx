@@ -4,9 +4,11 @@ import { BookCard } from '@/composants/BookCard/BookCard.jsx';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 import { DateTime } from 'luxon';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function ProfilView() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [userData, setUserData] = useState({
     prenom: undefined,
     nom: undefined,
@@ -24,6 +26,7 @@ export function ProfilView() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessageForm, setErrorMessageForm] = useState('');
 
   const apiURL = import.meta.env.VITE_API_URL || 'http://193.168.146.103:3000';
 
@@ -106,19 +109,141 @@ export function ProfilView() {
 
   const updateProfile = () => {
     setClickOnUpdate(true);
-  }
+  };
 
   const saveProfile = () => {
-    setClickOnUpdate(false);
+    handleUpdateUser().then((updateFormIsValid) => {
+      if(!updateFormIsValid) {
+        return;
+      }
+      toast.success('Profile updated', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        transition: Bounce
+      });
+      setClickOnUpdate(false);
+    })
+
+  };
+
+  const handleUpdateUser = async () => {
+    const classError = 'profile-general-container-content-form-input-error';
+    setErrorMessageForm('');
+    
+    const firstnameInput = document.getElementById('firstname');
+    const lastnameInput = document.getElementById('lastname');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+    
+    firstnameInput.classList.remove(classError);
+    lastnameInput.classList.remove(classError);
+    emailInput.classList.remove(classError);
+    passwordInput.classList.remove(classError);
+    confirmPasswordInput.classList.remove(classError);
+
+    if(firstname === '') {
+      firstnameInput.classList.add(classError);
+      setErrorMessageForm('Firstname must not be empty');
+      return false;
+    }
+
+    if(lastname === '') {
+      lastnameInput.classList.add(classError);
+      setErrorMessageForm('Lastname must not be empty');
+      return false;
+    }
+
+    if(email === '') {
+      emailInput.classList.add(classError);
+      setErrorMessageForm('Email must not be empty');
+      return false;
+    }
+
+    if(password !== '' || confirmPassword !== '') {
+      if (password !== confirmPassword) {
+        passwordInput.classList.add(classError);
+        confirmPasswordInput.classList.add(classError);
+        setErrorMessageForm('Passwords are not the same');
+        return false;
+      }
+      
+      const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>+-_/~])(?=.*[a-zA-Z]).{8,}$/;
+      if (!regex.test(password)) {
+        passwordInput.classList.add(classError);
+        confirmPasswordInput.classList.add(classError);
+        setErrorMessageForm('Password must contain at least 8 characters including a letter, a number and a special character');
+        return false;
+      }
+    }
+
+    const formData = {
+      mail: email,
+      nom: lastname,
+      prenom: firstname,
+      password: password
+    };
+    
+    return await fetch(`${apiURL}/users/${user.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      },
+      body: JSON.stringify(formData)
+    }).then((response) => {
+      if (response.ok) {
+        console.log('ok');
+        return true;
+      } else {
+        console.error('Error updating profile');
+        return false;
+      }
+    });
+
+  };
+
+  const openDeletePopup = () => {
+    setClickOnDelete(true);
   }
 
   const deleteProfile = () => {
-    setClickOnDelete(true);
+    handleDeleteUser().then((deleteIsValid) => {
+      if(!deleteIsValid) {
+        return;
+      }
+      
+      window.location.href = '/';
+      logout();
+    });
+  };
+
+  const handleDeleteUser = async () => {
+    return await fetch(`${apiURL}/users/${user.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
+      if (response.ok) {
+        return true;
+      } else {
+        console.error('Error deleting profile');
+        return false;
+      }
+    });
   }
 
   const cancelDeleteProfile = () => {
     setClickOnDelete(false);
-  }
+  };
 
   const changeFirstname = (firstname) => {
     setFirstname(firstname);
@@ -152,6 +277,11 @@ export function ProfilView() {
     userAdventureData.map((adventure) => {
       if(adventure.statut === 'termine') percentage++;
     });
+
+    if(userAdventureData.length == 0) {
+      return 0;
+    }
+
     return Math.floor((percentage/userAdventureData.length)*100);
   };
   
@@ -164,7 +294,7 @@ export function ProfilView() {
     return finishedBooks.length;
   }
 
-  const mostFavoriteBooks = () => {
+  const mostFavoriteBook = () => {
     if(!userAdventureData || !books) return;
     let mostFavoriteBooksId = [];
     let mostFavoriteBooksTitle = [];
@@ -179,8 +309,10 @@ export function ProfilView() {
     books.map((book) => {
       if(maxKeys.includes((book.id).toString())) mostFavoriteBooksTitle.push(book.titre);
     });
-
-    return mostFavoriteBooksTitle[0];
+    if(mostFavoriteBooksTitle.length > 0) {
+      return mostFavoriteBooksTitle[0];
+    }
+    return '';
   }
 
   return (
@@ -191,7 +323,7 @@ export function ProfilView() {
           <div className={'profile-popup-delete-text'}>Are you sure you want to delete your account, once deleted all your data will be lost forever.</div>
           <div className={'profile-popup-delete-buttons'}>
             <button onClick={() => cancelDeleteProfile()} className="profile-popup-delete-buttons-cancel">Cancel</button>
-            <button onClick={() => cancelDeleteProfile()} className="profile-popup-delete-buttons-confirm">Confirm</button>
+            <button onClick={() => deleteProfile()} className="profile-popup-delete-buttons-confirm">Confirm</button>
           </div>
         </div>
       </div>}
@@ -282,6 +414,9 @@ export function ProfilView() {
                 onChange={(e) => changeConfirmPassword(e.target.value)}
               />
             </div>}
+            <div className='profile-general-container-content-form-error'>
+              {errorMessageForm}
+            </div>
           </form>
           <div className='profile-general-container-content-form-buttons'>
             {!clickOnUpdate && <button type="submit" onClick={() => updateProfile()} className="profile-general-container-content-form-buttons-update">
@@ -292,7 +427,7 @@ export function ProfilView() {
               Save
             </button>
             }
-            <button type="submit" onClick={() => deleteProfile()} className="profile-general-container-content-form-buttons-delete">
+            <button type="submit" onClick={() => openDeletePopup()} className="profile-general-container-content-form-buttons-delete">
               Delete
             </button>
           </div>
@@ -332,9 +467,12 @@ export function ProfilView() {
             <div className={'profile-statistics-container-content-element-image'}>
               <img src="src\assets\icons\MediumFavoriteIcon.svg" alt="Favorite icon"/>
             </div>
-            <div className='profile-statistics-container-content-element-text'>
-              Most favorite books: <span className={'profile-statistics-container-content-element-text-data'}>{mostFavoriteBooks()}</span>
-            </div>
+            {mostFavoriteBook() == '' && <div className='profile-statistics-container-content-element-text'>
+              You have not a favorite book
+            </div>}
+            {mostFavoriteBook() != '' && <div className='profile-statistics-container-content-element-text'>
+              Most favorite book: <span className={'profile-statistics-container-content-element-text-data'}>{mostFavoriteBook()}</span>
+            </div>}
           </div>
         </div>
       </div>
@@ -344,7 +482,7 @@ export function ProfilView() {
           <h2>My favorites</h2>
         </div>
         <div className="profile-favorites-container-content">
-          {(favoris.length === 0) && <p>There's nothing here to see for you...</p>}
+          {(favoris.length === 0) && <p>You have no favorites</p>}
           {(favoris.length >= 1) && favoris.map((fav) => fav.livre && (
             <NavLink to={`/book/${fav.id_livre}`} key={fav.id_livre}>
               <BookCard
@@ -358,6 +496,19 @@ export function ProfilView() {
           ))}
         </div>
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
     </div>
   );
 }

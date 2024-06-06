@@ -43,6 +43,43 @@
       margin: 10px 20px;
       display: flex;
       flex-direction: row;
+      gap: 16px;
+
+      &-cancel {
+        font-size: 1.25rem;
+        color: $mail-submit-background-color;
+        background-color: rgba(0, 0, 0, 0);
+        border: 1px solid $mail-submit-background-color;
+        border-radius: 1rem;
+        padding: 5px 20px;
+
+        transition: 0.25s;
+
+        &:hover {
+          cursor: pointer;
+          box-shadow: rgba(0, 0, 0, 0.25) 4px 4px 8px;
+        }
+      }
+
+      &-confirm {
+        font-size: 1.25rem;
+        color: $white-text-color;
+        background-image: linear-gradient(
+          45deg,
+          $choice-button-background-left,
+          $choice-button-background-right
+        );
+        border: 0;
+        border-radius: 1rem;
+        padding: 5px 20px;
+
+        transition: 0.25s;
+
+        &:hover {
+          cursor: pointer;
+          box-shadow: rgba(0, 0, 0, 0.25) 4px 4px 8px;
+        }
+      }
     }
   }
 
@@ -139,6 +176,10 @@
           &:focus {
             border: 2px solid $mail-submit-background-color;
           }
+
+          &-error {
+            border: 2px solid #ff0000;
+          }
         }
 
         &-label {
@@ -155,6 +196,12 @@
         &-name {
           display: flex;
           flex-direction: row;
+        }
+
+        &-error {
+          font-size: 16px;
+          color: #ff0000;
+          width: 340px;
         }
 
         &-buttons {
