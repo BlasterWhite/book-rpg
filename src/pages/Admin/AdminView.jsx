@@ -9,6 +9,7 @@ export function AdminView() {
         <NavLink to={'/admin/book'}>Book management</NavLink>
         <NavLink to={'/admin/weapon'}>Weapons management</NavLink>
         <NavLink to={'/admin/equipment'}>Equipment management</NavLink>
+        <NavLink to={'/admin/enemy'}>Equipment enemy</NavLink>
       </div>
     </div>
   );
