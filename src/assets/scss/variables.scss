@@ -22,6 +22,16 @@
   // Sizes
   --max-width: 1140px;
   --text-color: #333;
+
+  // Login
+  --login-background: #f9f5ff;
+  --login-top-left-side-background-color: #Ae00ff;
+  --login-bottom-left-side-background-color: #4e31ff;
+  --login-accent-color: #9747ff;
+  --login-light-purple-color: #efe3ff;
+  --login-dark-purple-color: #b0a1c4;
+  --login-adventure-first-color: #00c2ff;
+  --login-adventure-second-color: #00FFFF;
 }
 
 // General
@@ -46,3 +56,13 @@ $choice-button-background-right: var(--choice-button-background-right);
 
 // Sizes
 $max-width: var(--max-width);
+
+// Login
+$login-background: var(--login-background);
+$login-top-left-side-background-color: var(--login-top-left-side-background-color);
+$login-bottom-left-side-background-color: var(--login-bottom-left-side-background-color);
+$login-accent-color: var(--login-accent-color);
+$login-light-purple-color: var(--login-light-purple-color);
+$login-dark-purple-color: var(--login-dark-purple-color);
+$login-adventure-first-color: var(--login-adventure-first-color);
+$login-adventure-second-color: var(--login-adventure-second-color);

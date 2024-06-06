@@ -77,82 +77,97 @@ export function RegisterView({ isConnected }) {
   };
 
   return (
-    <form className="registration-form" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="lastname" className="form-label">
-          Lastname :
-        </label>
-        <input
-          type="text"
-          id="lastname"
-          value={lastname}
-          onChange={(e) => handleChange(e, setName)}
-          className="form-input"
-          required
-        />
+    <div className="register-page">
+      <div className="register-page-left-panel">
+        <h1>Start your own <span>adventure</span></h1>
+        <div className="register-page-illustration">
+          <img alt="Login placeholder" src="/src/assets/images/loginPlaceholder.webp" />
+        </div>
       </div>
-      <div className="form-group">
-        <label htmlFor="firstname" className="form-label">
-          Firstname :
-        </label>
-        <input
-          type="text"
-          id="firstname"
-          value={firstname}
-          onChange={(e) => handleChange(e, setFirstname)}
-          className="form-input"
-          required
-        />
+      <div className="register-page-right-panel">
+        <h2>Create your account</h2>
+        <form className="register-page-form" onSubmit={handleSubmit}>
+          <div className="register-page-form-names-group">
+            <div className="register-page-form-input-group">
+              <label htmlFor="lastname" className="register-page-form-label">
+                <img alt="Lock icon" src="/src/assets/icons/login_register/Account.webp" />
+              </label>
+              <input
+                type="text"
+                id="lastname"
+                value={lastname}
+                onChange={(e) => handleChange(e, setName)}
+                className="register-page-form-input"
+                placeholder="Last name"
+                required
+              />
+            </div>
+            <div className="register-page-form-input-group">
+              <label htmlFor="firstname" className="register-page-form-label">
+              </label>
+              <input
+                type="text"
+                id="firstname"
+                value={firstname}
+                onChange={(e) => handleChange(e, setFirstname)}
+                className="register-page-form-input register-page-form-input-first-name"
+                placeholder="First name"
+                required
+              />
+            </div>
+          </div>
+          <div className="register-page-form-input-group">
+            <label htmlFor="email" className="register-page-form-label">
+              <img alt="Lock icon" src="/src/assets/icons/login_register/Email.webp" />
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => handleChange(e, setEmail)}
+              className="register-page-form-input"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div className="register-page-form-input-group">
+            <label htmlFor="password" className="register-page-form-label">
+              <img alt="Lock icon" src="/src/assets/icons/login_register/Lock.webp" />
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => handleChange(e, setPassword)}
+              className="register-page-form-input"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <div className="register-page-form-input-group">
+            <label htmlFor="confirmPassword" className="register-page-form-label">
+              <img alt="Lock icon" src="/src/assets/icons/login_register/Lock.webp" />
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => handleChange(e, setConfirmPassword)}
+              className="register-page-form-input"
+              placeholder="Confirm password"
+              required
+            />
+          </div>
+          <div className="register-page-form-actions">
+            <a href="/login">Already have an account ?</a>
+          </div>
+          <button type="submit" className="register-page-form-submit-button">
+            Register
+          </button>
+          <div className="form-error"></div>
+        </form>
       </div>
-      <div className="form-group">
-        <label htmlFor="email" className="form-label">
-          Email :
-        </label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => handleChange(e, setEmail)}
-          className="form-input"
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="password" className="form-label">
-          Password :
-        </label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => handleChange(e, setPassword)}
-          className="form-input"
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="confirmPassword" className="form-label">
-          Confirm password :
-        </label>
-        <input
-          type="password"
-          id="confirmPassword"
-          value={confirmPassword}
-          onChange={(e) => handleChange(e, setConfirmPassword)}
-          className="form-input"
-          required
-        />
-      </div>
-      <div className="form-error"></div>
-      <div className="form-last-row">
-        <span className="login-link">
-          <a href="/login">You already have an account ?</a>
-        </span>
-        <button type="submit" className="submit-button">
-          Register
-        </button>
-      </div>
-    </form>
+    </div>
   );
 }
 

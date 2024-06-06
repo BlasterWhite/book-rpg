@@ -44,42 +44,54 @@ export function LoginView() {
   };
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="email" className="form-label">
-          Email :
-        </label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="form-input"
-          required
-        />
+    <div className="login-page">
+      <div className="login-page-left-panel">
+        <h1>Start your own <span>adventure</span></h1>
+        <div className="login-page-illustration">
+          <img alt="Login placeholder" src="/src/assets/images/loginPlaceholder.webp" />
+        </div>
       </div>
-      <div className="form-group">
-        <label htmlFor="password" className="form-label">
-          Password :
-        </label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="form-input"
-          required
-        />
+      <div className="login-page-right-panel">
+        <h2>Login your account</h2>
+        <form className="login-page-form" onSubmit={handleSubmit}>
+          <div className="login-page-input-group">
+            <label htmlFor="email" className="login-page-form-label">
+              <img alt="Lock icon" src="/src/assets/icons/login_register/Account.webp" />
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="login-page-input"
+              required
+            />
+          </div>
+          <div className="login-page-input-group">
+            <label htmlFor="password" className="login-page-form-label">
+              <img alt="Lock icon" src="/src/assets/icons/login_register/Lock.webp" />
+            </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="login-page-input"
+              required
+            />
+          </div>
+          <div className="login-page-actions">
+            <a href="/register">Create an account</a>
+            <a href="">Forgot password</a>
+          </div>
+          <button type="submit" className="login-page-submit-button">
+            Login
+          </button>
+          <div className="form-error"></div>
+        </form>
       </div>
-      <div className="form-error"></div>
-      <div className="form-last-row">
-        <span className="login-link">
-          <a href="/register">You don&apos;t have an account yet ?</a>
-        </span>
-        <button type="submit" className="submit-button">
-          Login
-        </button>
-      </div>
-    </form>
+    </div>
   );
 }
