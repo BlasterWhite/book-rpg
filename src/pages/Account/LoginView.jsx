@@ -48,7 +48,7 @@ export function LoginView() {
       <div className="login-page-left-panel">
         <h1>Start your own <span>adventure</span></h1>
         <div className="login-page-illustration">
-          <img alt="Login placeholder" src="/src/assets/images/loginPlaceholder.webp" />
+          <img alt="Login placeholder" src="/icons/login_register/loginPlaceholder.webp" />
         </div>
       </div>
       <div className="login-page-right-panel">
@@ -56,7 +56,7 @@ export function LoginView() {
         <form className="login-page-form" onSubmit={handleSubmit}>
           <div className="login-page-input-group">
             <label htmlFor="email" className="login-page-form-label">
-              <img alt="Lock icon" src="/src/assets/icons/login_register/Account.webp" />
+              <img alt="Account icon" src="/icons/login_register/Account.webp" />
             </label>
             <input
               type="email"
@@ -70,7 +70,7 @@ export function LoginView() {
           </div>
           <div className="login-page-input-group">
             <label htmlFor="password" className="login-page-form-label">
-              <img alt="Lock icon" src="/src/assets/icons/login_register/Lock.webp" />
+              <img alt="Lock icon" src="/icons/login_register/Lock.webp" />
             </label>
             <input
               type="password"
