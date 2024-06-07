@@ -113,9 +113,7 @@ export function ProfilView() {
 
   const saveProfile = () => {
     handleUpdateUser().then((updateFormIsValid) => {
-      if(!updateFormIsValid) {
-        return;
-      }
+      if(!updateFormIsValid) return;
       toast.success('Profile updated', {
         position: 'bottom-right',
         autoClose: 5000,
@@ -148,23 +146,9 @@ export function ProfilView() {
     passwordInput.classList.remove(classError);
     confirmPasswordInput.classList.remove(classError);
 
-    if(firstname === '') {
-      firstnameInput.classList.add(classError);
-      setErrorMessageForm('Firstname must not be empty');
-      return false;
-    }
-
-    if(lastname === '') {
-      lastnameInput.classList.add(classError);
-      setErrorMessageForm('Lastname must not be empty');
-      return false;
-    }
-
-    if(email === '') {
-      emailInput.classList.add(classError);
-      setErrorMessageForm('Email must not be empty');
-      return false;
-    }
+    handleInputEmptyError('Firstname', firstnameInput, classError);
+    handleInputEmptyError('Lastname', lastnameInput, classError);
+    handleInputEmptyError('Email', emailInput, classError);
 
     if(password !== '' || confirmPassword !== '') {
       if (password !== confirmPassword) {
@@ -197,17 +181,18 @@ export function ProfilView() {
         Authorization: user.token
       },
       body: JSON.stringify(formData)
-    }).then((response) => {
-      if (response.ok) {
-        console.log('ok');
-        return true;
-      } else {
-        console.error('Error updating profile');
-        return false;
-      }
+    }).then(() => {
+      return true;
+    }).catch(() => {
+      return false;
     });
 
   };
+
+  const handleInputEmptyError = (type, input, classError) => {
+    input.classList.add(classError);
+    setErrorMessageForm(`${type} must not be empty`);
+  };    
 
   const openDeletePopup = () => {
     setClickOnDelete(true);
@@ -215,9 +200,7 @@ export function ProfilView() {
 
   const deleteProfile = () => {
     handleDeleteUser().then((deleteIsValid) => {
-      if(!deleteIsValid) {
-        return;
-      }
+      if(!deleteIsValid) return;
       
       window.location.href = '/';
       logout();
@@ -271,10 +254,9 @@ export function ProfilView() {
   }
 
   const adventurePercentageCompleted = () => {
-    //console.log(userAdventureData);
     if(!userAdventureData) return 0;
     let percentage = 0;
-    userAdventureData.map((adventure) => {
+    userAdventureData.forEach((adventure) => {
       if(adventure.statut === 'termine') percentage++;
     });
 
@@ -288,31 +270,43 @@ export function ProfilView() {
   const booksFinished = () => {
     if(!userAdventureData) return 0;
     let finishedBooks = [];
-    userAdventureData.map((adventure) => {
+    userAdventureData.forEach((adventure) => {
       if(adventure.statut === 'termine' && !finishedBooks.includes(adventure.id_livre)) finishedBooks.push(adventure.id_livre);
-    });
+    })
     return finishedBooks.length;
   }
 
   const mostFavoriteBook = () => {
-    if(!userAdventureData || !books) return;
-    let mostFavoriteBooksId = [];
-    let mostFavoriteBooksTitle = [];
-    userAdventureData.map((adventure) => {
-      if(mostFavoriteBooksId[adventure.id_livre] === undefined) mostFavoriteBooksId[adventure.id_livre] = 1
-      else mostFavoriteBooksId[adventure.id_livre]++
+    if (!userAdventureData || !books) return;
+
+    let bookCounts = {};
+
+    userAdventureData.forEach((adventure) => {
+      if (!bookCounts[adventure.id_livre]) {
+        bookCounts[adventure.id_livre] = 1;
+      } else {
+        bookCounts[adventure.id_livre]++;
+      }
     });
 
-    const maxValue = Math.max(...Object.values(mostFavoriteBooksId));
-    const maxKeys = Object.keys(mostFavoriteBooksId).filter(key => mostFavoriteBooksId[key] === maxValue);
-
-    books.map((book) => {
-      if(maxKeys.includes((book.id).toString())) mostFavoriteBooksTitle.push(book.titre);
-    });
-    if(mostFavoriteBooksTitle.length > 0) {
-      return mostFavoriteBooksTitle[0];
+    let maxCount = 0;
+    let mostFavoriteBookId = null;
+    for (const [id, count] of Object.entries(bookCounts)) {
+      if (count > maxCount) {
+        maxCount = count;
+        mostFavoriteBookId = id;
+      }
     }
-    return '';
+
+    let mostFavoriteBookTitle = '';
+    books.some((book) => {
+      if (book.id.toString() === mostFavoriteBookId) {
+        mostFavoriteBookTitle = book.titre;
+        return true;
+      }
+    });
+
+    return mostFavoriteBookTitle;
   }
 
   return (
