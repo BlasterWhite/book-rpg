@@ -129,7 +129,6 @@ export function FightComponent({ currentSection, handleNextSection, section, cha
   }
 
   function attack(damage, target) {
-    setAttackBonus(0);
     if (target === 'player') {
       setPlayerHealth(playerHealth - damage);
       if (playerHealth - damage < 0) {
