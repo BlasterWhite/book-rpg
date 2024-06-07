@@ -266,7 +266,7 @@ export function AdminSectionEditView() {
       section.type = EditSection.type;
       section.id_image = EditSection.id_image;
       section.resultat = {
-        condition: combat_type?.personnage?.id,
+        condition: combat_type,
         type_condition: 'id',
         gagne: parseInt(win),
         perd: parseInt(lose)
@@ -637,7 +637,7 @@ export function AdminSectionEditView() {
                   value={combat_type}
                   onChange={(e) => setCombatType(e.target.value)}>
                   {enemies.map((enemy) => (
-                    <option key={enemy?.personnage?.id} value={enemy}>
+                    <option key={enemy?.personnage?.id} value={enemy.personnage.id}>
                       {enemy?.personnage?.id} | {enemy?.personnage?.nom}
                     </option>
                   ))}
