@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { BookCard } from '@/composants/BookCard/BookCard.jsx';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext.jsx';
-import { DateTime } from 'luxon';
+import dayjs from 'dayjs';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -103,8 +103,8 @@ export function ProfilView() {
   };
 
   const formattedDate = () => {
-    const dt = new DateTime(userData.creation_date)
-    return dt.toLocaleString(DateTime.DATE_MED);
+    const day = dayjs(userData.creation_date);
+    return day.format('MMMM DD, YYYY');
   };
 
   const updateProfile = () => {
