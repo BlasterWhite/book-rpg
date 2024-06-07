@@ -323,12 +323,12 @@ export function ProfilView() {
       </div>}
       <div className={'profile-general-container'}>
         <div className={'profile-general-container-title'}>
-          <img src="src\assets\icons\MediumAccountIcon.svg" alt="Account icon" />
+          <img src="icons\MediumAccountIcon.svg" alt="Account icon" />
           <h2>My Profile</h2>
         </div>
         <div className={'profile-general-container-content'}>
           <div className={'profile-general-container-content-account-icon'}>
-            <img src="src\assets\icons\BigAccountIcon.svg" alt="Account icon"/>
+            <img src="icons\BigAccountIcon.svg" alt="Account icon"/>
           </div>
           <div className={'profile-general-container-content-role'}>{user?.permission}</div>
           <div className={'profile-general-container-content-date'}>Member since: {formattedDate()}</div>
@@ -336,7 +336,7 @@ export function ProfilView() {
             <div className={'profile-general-container-content-form-name'}>
               <div className="profile-general-container-content-form-group">
                 <label htmlFor="firstname" className="profile-general-container-content-form-label">
-                  <img src="src\assets\icons\LittleAccountIcon.svg" alt="Icon account" />
+                  <img src="icons\LittleAccountIcon.svg" alt="Icon account" />
                 </label>
                 <input
                   type="text"
@@ -364,7 +364,7 @@ export function ProfilView() {
             </div>
             <div className="profile-general-container-content-form-group">
               <label htmlFor="email" className="profile-general-container-content-form-label">
-                <img src="src\assets\icons\LittleEmailIcon.svg" alt="Icon email" />
+                <img src="icons\LittleEmailIcon.svg" alt="Icon email" />
               </label>
               <input
                 type="email"
@@ -380,7 +380,7 @@ export function ProfilView() {
             </div>
             {clickOnUpdate && <div className="profile-general-container-content-form-group">
               <label htmlFor="password" className="profile-general-container-content-form-label">
-                <img src="src\assets\icons\LittlePasswordIcon.svg" alt="Icon password" />
+                <img src="icons\LittlePasswordIcon.svg" alt="Icon password" />
               </label>
               <input
                 type="password"
@@ -395,7 +395,7 @@ export function ProfilView() {
             </div>}
             {clickOnUpdate && <div className="profile-general-container-content-form-group">
               <label htmlFor="confirm-password" className="profile-general-container-content-form-label">
-                <img src="src\assets\icons\LittlePasswordIcon.svg" alt="Icon password" />
+                <img src="icons\LittlePasswordIcon.svg" alt="Icon password" />
               </label>
               <input
                 type="password"
@@ -429,13 +429,13 @@ export function ProfilView() {
       </div>
       <div className={'profile-statistics-container'}>
         <div className={'profile-statistics-container-title'}>
-          <img src="src\assets\icons\MediumStatisticsIcon.svg" alt="Statistic icon" />
+          <img src="icons\MediumStatisticsIcon.svg" alt="Statistic icon" />
           <h2>Statistics</h2>
         </div>
         <div className={'profile-statistics-container-content'}>
           <div className={'profile-statistics-container-content-element'}>
             <div className={'profile-statistics-container-content-element-image'}>
-              <img src="src\assets\icons\MediumMapIcon.svg" alt="Map icon"/>
+              <img src="icons\MediumMapIcon.svg" alt="Map icon"/>
             </div>
             <div className='profile-statistics-container-content-element-text'>
               Total adventure: <span className={'profile-statistics-container-content-element-text-data'}>{totalAdventure()}</span>
@@ -443,7 +443,7 @@ export function ProfilView() {
           </div>
           <div className={'profile-statistics-container-content-element'}>
             <div className={'profile-statistics-container-content-element-image'}>
-              <img src="src\assets\icons\MediumPercentIcon.svg" alt="Percent icon"/>
+              <img src="icons\MediumPercentIcon.svg" alt="Percent icon"/>
             </div>
             <div className='profile-statistics-container-content-element-text'>
               Adventure percentage completed: <span className={'profile-statistics-container-content-element-text-data'}>{adventurePercentageCompleted()}%</span>
@@ -451,7 +451,7 @@ export function ProfilView() {
           </div>
           <div className={'profile-statistics-container-content-element'}>
             <div className={'profile-statistics-container-content-element-image'}>
-              <img src="src\assets\icons\MediumBookIcon.svg" alt="Book icon"/>
+              <img src="icons\MediumBookIcon.svg" alt="Book icon"/>
             </div>
             <div className='profile-statistics-container-content-element-text'>
               Books finished: <span className={'profile-statistics-container-content-element-text-data'}>{booksFinished()}</span>
@@ -459,7 +459,7 @@ export function ProfilView() {
           </div>
           <div className={'profile-statistics-container-content-element'}>
             <div className={'profile-statistics-container-content-element-image'}>
-              <img src="src\assets\icons\MediumFavoriteIcon.svg" alt="Favorite icon"/>
+              <img src="icons\MediumFavoriteIcon.svg" alt="Favorite icon"/>
             </div>
             {mostFavoriteBook() == '' && <div className='profile-statistics-container-content-element-text'>
               You have not a favorite book
@@ -472,7 +472,7 @@ export function ProfilView() {
       </div>
       <div className={'profile-favorites-container'}>
         <div className={'profile-favorites-container-title'}>
-          <img src="src\assets\icons\LittleFavoriteIcon.svg" alt="Favorite icon" />
+          <img src="icons\LittleFavoriteIcon.svg" alt="Favorite icon" />
           <h2>My favorites</h2>
         </div>
         <div className="profile-favorites-container-content">
