@@ -125,9 +125,9 @@ export function AdminEnemyListView() {
       id_section: 327,
       personnage: {
         nom: 'Enemy',
-        description: '',
-        occupation: '',
-        apparence: '',
+        description: 'this is your enemy !',
+        occupation: 'none',
+        apparence: 'none',
         dexterite: 1,
         endurance: 1,
         psychisme: 1,

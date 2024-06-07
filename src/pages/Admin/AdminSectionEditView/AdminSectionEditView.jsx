@@ -33,6 +33,26 @@ export function AdminSectionEditView() {
 
   const [EditSection, setEditSection] = useState({});
 
+  const [enemies, setEnemies] = useState([]);
+  useEffect(() => {
+    if (!user) return;
+    fetch(`${apiURL}/enemies`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          setEnemies(data);
+        });
+      } else {
+        console.error('Error fetching equipment');
+      }
+    });
+  }, [apiURL, user]);
+
   useEffect(() => {
     if (!user) return;
     fetch(`${apiURL}/livres/${bookId}/sections/${sectionId}`, {
@@ -62,15 +82,18 @@ export function AdminSectionEditView() {
           }
 
           if (data.type === 'combat') {
-            setCombatLevel(parseInt(data.resultat.type_condition));
-            setCombatType(data.resultat.condition);
+            setCombatType(
+              enemies?.find((enemy) => enemy.personnage.id === data.resultat.condition) ||
+                enemies?.[0] ||
+                ''
+            );
           }
         });
       } else {
         console.error('Error fetching sections');
       }
     });
-  }, [bookId, sectionId, apiURL, user]);
+  }, [bookId, sectionId, apiURL, user, enemies]);
 
   // weapons
   const [weapons, setWeapons] = useState([]);
@@ -163,15 +186,10 @@ export function AdminSectionEditView() {
   const [solution, setSolution] = useState('');
   const [win, setWin] = useState('');
   const [lose, setLose] = useState('');
-  const [combat_level, setCombatLevel] = useState(0);
-  const [combat_type, setCombatType] = useState('force');
+  const [combat_type, setCombatType] = useState();
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    console.log('Win', win);
-    console.log('Lose', lose);
-    console.log('Sections', sections);
 
     let section = {};
 
@@ -241,6 +259,7 @@ export function AdminSectionEditView() {
     }
 
     if (EditSection.type === 'combat') {
+      console.log('Combat type', combat_type);
       section.resultat = EditSection.resultat;
       section.destinations = [parseInt(win), parseInt(lose)];
       section.numero_section = EditSection.numero_section;
@@ -248,8 +267,8 @@ export function AdminSectionEditView() {
       section.type = EditSection.type;
       section.id_image = EditSection.id_image;
       section.resultat = {
-        condition: combat_type,
-        type_condition: combat_level,
+        condition: combat_type?.personnage?.id,
+        type_condition: 'id',
         gagne: parseInt(win),
         perd: parseInt(lose)
       };
@@ -346,7 +365,6 @@ export function AdminSectionEditView() {
   }
 
   function setEventsFromFetch(fetchedEvents) {
-    console.log(fetchedEvents);
     if (!fetchedEvents) return;
 
     let newEvents = [];
@@ -619,26 +637,17 @@ export function AdminSectionEditView() {
           {EditSection.type === 'combat' && (
             <div className={'fight-content'}>
               <div>
-                <label htmlFor={'skill'}>Skill: </label>
+                <label htmlFor={'skill'}>Enemy: </label>
                 <select
                   name="skill"
                   value={combat_type}
                   onChange={(e) => setCombatType(e.target.value)}>
-                  <option value="force">Force</option>
-                  <option value="dexterite">Dextérité</option>
-                  <option value="endurance">Endurance</option>
-                  <option value="psychisme">Psychisme</option>
-                  <option value="resistance">Resistance</option>
+                  {enemies.map((enemy) => (
+                    <option key={enemy?.personnage?.id} value={enemy}>
+                      {enemy?.personnage?.id} | {enemy?.personnage?.nom}
+                    </option>
+                  ))}
                 </select>
-              </div>
-              <div>
-                <label htmlFor={'difficulty'}>Level: </label>
-                <input
-                  type="number"
-                  name="level"
-                  value={combat_level}
-                  onChange={(e) => setCombatLevel(parseInt(e.target.value))}
-                />
               </div>
               <div>
                 <label htmlFor={'win'}>Win destination: </label>
