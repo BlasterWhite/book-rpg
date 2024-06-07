@@ -9,6 +9,9 @@
   --danger-color: #fc2a2a;
   --success-color: #1cf95a;
   --warning-color: #ffe600;
+  --background-color-container: #f9f5ff;
+  --background-color-input: #efe3ff;
+  --background-color-image-statistics: #d9c2ff;
 
   // Footer
   --footer-top-background-color: #333333;
@@ -44,6 +47,9 @@ $accent-color: var(--accent-color);
 $danger-color: var(--danger-color);
 $success-color: var(--success-color);
 $warning-color: var(--warning-color);
+$background-color-container: var(--background-color-container);
+$background-color-input: var(--background-color-input);
+$background-color-image-statistics: var(--background-color-image-statistics);
 
 // Footer
 $footer-top-background-color: var(--footer-top-background-color);
