@@ -83,8 +83,8 @@ export function AdminSectionEditView() {
 
           if (data.type === 'combat') {
             setCombatType(
-              enemies?.find((enemy) => enemy.personnage.id === data.resultat.condition) ||
-                enemies?.[0] ||
+              enemies?.find((enemy) => enemy.personnage.id === data.resultat.condition)?.personnage?.id ||
+                enemies?.[0]?.personnage?.id ||
                 ''
             );
           }

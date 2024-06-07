@@ -174,7 +174,7 @@ export function AdminEnemyListView() {
           .map((enemy, index) => (
             <div key={index} className={'enemy'}>
               <div className={'enemy-info'}>
-                <p className={'enemy-title'}>{enemy.personnage.nom}</p>
+                <p className={'enemy-title'}>{enemy?.personnage?.nom}</p>
                 <p className={'enemy-id'}>
                   ID: {enemy.id} | Section ID: {enemy.id_section}
                 </p>

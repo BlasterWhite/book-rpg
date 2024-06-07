@@ -31,6 +31,7 @@ export function SectionView({ section, handleNextSection, characterId }) {
       if (type === 'combat')
         return (
           <FightComponent
+            key={Math.random()}
             currentSection={section}
             handleNextSection={handleNextSection}
             section={section}

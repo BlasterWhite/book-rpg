@@ -9,7 +9,7 @@ export function AdminEnenyEditView() {
   const { enemyId } = useParams();
 
   const [enemy, setEnemy] = useState({
-    id_section: 327,
+    id_section: null,
     personnage: {
       nom: 'Enemy',
       description: '',

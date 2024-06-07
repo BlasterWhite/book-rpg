@@ -117,12 +117,12 @@ export function FightComponent({ currentSection, handleNextSection, section, cha
   function handleAttackRoll(bonus) {
     setAttackBonus(bonus);
 
-    const coef = dexerityBonus > 3 ? personnage.dexterite / 100 : 0;
+    const coef = dexerityBonus > 3 ? (personnage.dexterite / 100) : 0;
 
     if (isMagicCombat.current) {
-      setAttackBonus(Math.ceil((bonus + personnage.psychisme) * (1 + coef)) - personnage.psychisme);
+      setAttackBonus(Math.ceil((bonus + (personnage.psychisme < 0 ? 0 : personnage.psychisme)) * (1 + coef)) - (personnage.psychisme < 0 ? 0 : personnage.psychisme));
     } else {
-      setAttackBonus(Math.ceil((bonus + personnage.force) * (1 + coef)) - personnage.force);
+      setAttackBonus(Math.ceil((bonus + (personnage.force < 0 ? 0 : personnage.force)) * (1 + coef)) - (personnage.force < 0 ? 0 : personnage.force));
     }
 
     setCombatState('attack');
