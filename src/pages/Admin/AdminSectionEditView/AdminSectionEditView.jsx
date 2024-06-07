@@ -259,7 +259,6 @@ export function AdminSectionEditView() {
     }
 
     if (EditSection.type === 'combat') {
-      console.log('Combat type', combat_type);
       section.resultat = EditSection.resultat;
       section.destinations = [parseInt(win), parseInt(lose)];
       section.numero_section = EditSection.numero_section;
@@ -296,13 +295,8 @@ export function AdminSectionEditView() {
         Authorization: user.token
       },
       body: JSON.stringify(section)
-    }).then((response) => {
-      if (response.ok) {
-        console.log('Section updated');
-        // navigate('/admin');
-      } else {
-        console.error('Error updating section');
-      }
+    }).catch((error) => {
+      console.error('Error updating section', error);
     });
   }
 
