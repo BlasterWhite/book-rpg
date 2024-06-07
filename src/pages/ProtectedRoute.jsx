@@ -1,4 +1,5 @@
 import { Navigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export function ProtectedRoute({ children, redirect, permissions = ['admin'] }) {
   const user = localStorage.getItem('user');
@@ -17,3 +18,9 @@ export function ProtectedRoute({ children, redirect, permissions = ['admin'] }) 
     return redirect ? <Navigate to={redirect} /> : null;
   }
 }
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node,
+  redirect: PropTypes.string,
+  permissions: PropTypes.arrayOf(PropTypes.string)
+};
